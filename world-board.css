@@ -1,0 +1,13 @@
+/* LUCK MACHINE / BUILD 1.8.0 — shared archive presentation, no console changes. */
+.world-status{
+ color:#dce1c5;
+ font:700 12px/1.5 'IBM Plex Mono','Courier New',monospace;
+ letter-spacing:.02em;margin:6px 0 12px;
+}
+.world-status[data-offline="true"]{color:#efb77b}
+#worldScoreList .lb{width:100%}
+#worldScoreList .lb td:nth-child(2){font-weight:700;letter-spacing:.08em}
+#worldScoreList .lb td:last-child{color:#f2c779;font-variant-numeric:tabular-nums}
+#worldScoreList p{color:#d8d9c0;line-height:1.5}
+#dialogFoot .smallbutton[disabled]{opacity:.5;cursor:wait}
+@media(max-width:700px){.world-status{font-size:12px}}
