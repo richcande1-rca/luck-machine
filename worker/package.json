@@ -1,0 +1,15 @@
+{
+  "name": "luck-machine-board-worker",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:init:remote": "wrangler d1 execute luck_machine_board --remote --file=./schema.sql",
+    "db:init:local": "wrangler d1 execute luck_machine_board --local --file=./schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
