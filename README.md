@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.7.0 — Operator Visibility.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.7.1 — Screen-Fit Correction.**
 
 ## Play
 
@@ -22,11 +22,15 @@ Keyboard: **Space / Enter** = roll, **1–5** = hold corresponding die, **B** = 
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
 
+## Screen-Fit Correction (v1.7.1)
+
+Restores the original **all-on-one-screen desktop requirement**. The forced minimum scaling introduced in 1.7.0 caused scrolling at normal Chromebook display heights; it has been removed. The full panel now fits the viewport, with tighter outer body padding and the same improved legibility styles. Scoring, dice, audio, radio and records are unchanged.
+
 ## Operator Visibility (v1.7.0)
 
 A deliberate legibility pass: bigger, higher-contrast **paytable categories**, payout numerals, radio labels, meter/channel descriptions, status-panel headers, dice HOLD indicators, decision instructions, challenge status, keyboard shortcut hints, and menu buttons. Long category names use the same period-looking condensed stencil family rather than relying on tiny monospace type.
 
-The chassis is still the same olive-drab steel with its existing instrumentation and five square illuminated dice. Spacing and borders are slightly compressed to recover screen height for lettering rather than enlarging the case. On large screens, automatic viewport fit now has a **90% minimum scale**, preferring a small amount of vertical scrolling on very short windows to unreadably small text. Mobile and tablet screens continue natural scrolling. The bottom build plate now clearly reads **BUILD 1.7.0**.
+The chassis is still the same olive-drab steel with its existing instrumentation and five square illuminated dice. Spacing and borders are slightly compressed to recover screen height for lettering rather than enlarging the case. Build 1.7.1 removes the 90% minimum scale that caused unwanted scrolling. On desktop, the entire cabinet once again scales to the available window height, with reclaimed page margins to preserve as much readable text size as possible. Mobile and tablet screens continue natural scrolling. The bottom build plate now clearly reads **BUILD 1.7.0**.
 
 **Purely visual release:** no changes to RNG, 20-turn rules, category values, face bonuses, CALL IT!, sound or radio behavior, or leaderboard storage.
 
