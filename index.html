@@ -544,7 +544,7 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
 <link rel="stylesheet" href="./legibility.css?v=1.5">
 <link rel="stylesheet" href="./scoring.css?v=1.6.0">
 <link rel="stylesheet" href="./operator.css?v=1.7.1">
-<link rel="stylesheet" href="./world-board.css?v=1.8.0">
+<link rel="stylesheet" href="./world-board.css?v=1.8.1">
 </head>
 <body>
 <div class="fit-stage"><main class="console" aria-label="Luck Machine dice game console">
@@ -612,7 +612,7 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
     <div class="footleft"><button class="smallbutton" id="newBtn">NEW SESSION</button><button class="smallbutton" id="scoresBtn">TOP 10</button><button class="smallbutton" id="rulesBtn">MANUAL</button><button class="smallbutton" id="soundBtn" aria-pressed="true">SOUND: ON</button></div>
     <div class="footright"><span class="alertbar"><b>ПРИКАЗ №07:</b> РИСК — ДЕЛО ОПЕРАТОРА</span></div>
   </div>
-  <div class="build-plate" aria-label="Current game build"><span class="build-series">5Д–20 · СЕРИЯ 1984</span><strong>BUILD 1.8.0</strong></div>
+  <div class="build-plate" aria-label="Current game build"><span class="build-series">5Д–20 · СЕРИЯ 1984</span><strong>BUILD 1.8.1</strong></div>
 </main></div>
 <div class="shade" id="overlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><span class="overline" id="dialogOverline">MINISTRY BULLETIN</span><h2 id="dialogTitle"></h2><div id="dialogContent"></div><div class="dialogfoot" id="dialogFoot"></div></section></div>
 <script src="./audio.js?v=1.7.2"></script>
@@ -691,51 +691,114 @@ function validPlayerInitials(){
  if(!name){const target=$('submitStatus');if(target)target.textContent='Enter 1–5 letters or digits.';return null}
  return name;
 }
-function promptInitials(worldQualified,online){
- openDialog('СЕАНС ЗАВЕРШЁН / GAME OVER','SCORE: '+fmt(state.total),
-  '<p>'+(worldQualified?'WORLD TOP 10 QUALIFIER · Submit your initials to the shared archive.':online?'Your score qualifies for the local archive only.':'WORLD BOARD OFFLINE · You may save this score locally. No online posting will occur.')+'</p>'+
-  '<label class="label" for="initials">OPERATOR INITIALS (1–5)</label><p><input id="initials" class="initials" maxlength="5" spellcheck="false" autocomplete="off" value="RCA" aria-label="Operator initials" /></p>'+
-  '<p id="submitStatus" class="world-status" aria-live="polite"></p>',
-  worldQualified?
-    [{text:'POST WORLD SCORE',fn:submitWorldScore},{text:'SAVE LOCALLY',fn:saveScore},{text:'CANCEL',fn:showScores}]:
-    [{text:'SAVE LOCALLY',fn:saveScore},{text:'WORLD TOP 10',fn:showScores}]);
- $('initials')?.select();
- $('initials')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();worldQualified?submitWorldScore():saveScore()}});
+function setEndGameButtons(options){
+ const foot=$('dialogFoot');foot.replaceChildren();
+ options.forEach(({text:label,fn})=>{
+  const btn=document.createElement('button');btn.type='button';btn.className='smallbutton';
+  btn.textContent=label;btn.addEventListener('click',fn);foot.appendChild(btn);
+ });
 }
-async function endGame(){
- openDialog('СЕАНС ЗАВЕРШЁН / GAME OVER','FINAL SCORE: '+fmt(state.total),'<p>CHECKING THE WORLD ARCHIVE...</p>',[{text:'LOCAL TOP 10',fn:showLocalScores}]);
- let online=false,qualifiesWorld=false;
- if(state.total>0){
-  try{const board=await window.LMWorldBoard.refresh();online=true;qualifiesWorld=window.LMWorldBoard.qualifies(state.total,board)}
-  catch{online=false}
+function endGameButtons({canPost=false,canSave=false}={}){
+ const options=[];
+ if(canPost)options.push({text:'POST WORLD SCORE',fn:submitWorldScore});
+ if(canSave)options.push({text:'SAVE LOCALLY',fn:saveScore});
+ options.push({text:'REFRESH',fn:refreshEndGameBoard});
+ options.push({text:'NEW SESSION',fn:()=>newGame(true)});
+ options.push({text:'CLOSE',fn:closeDialog});
+ setEndGameButtons(options);
+}
+function showEndGameBoard(){
+ // Display the final score and world rankings in the SAME dialog.
+ // Never leave the player on a separate score-entry screen.
+ openDialog('СЕАНС ЗАВЕРШЁН / GAME OVER','WORLD TOP 10',
+  '<div id="endgameBoard" class="endgame-board" data-final-score="'+state.total+'">'+
+  '<div class="endgame-score"><span>FINAL SCORE / ИТОГ</span><strong>'+fmt(state.total)+'</strong></div>'+
+  '<p id="worldStatus" class="world-status" aria-live="polite">CONTACTING CENTRAL ARCHIVE...</p>'+
+  '<div id="worldScoreList">'+scoreTable([])+'</div>'+
+  '<div id="endgameEntry" class="endgame-entry" hidden>'+
+  '<label class="label" for="initials">OPERATOR INITIALS (1–5)</label>'+
+  '<input id="initials" class="initials" maxlength="5" spellcheck="false" autocomplete="off" value="RCA" aria-label="Operator initials" />'+
+  '<p id="submitStatus" class="world-status" aria-live="polite"></p></div></div>',
+  []);
+ endGameButtons();
+ refreshEndGameBoard();
+}
+async function refreshEndGameBoard(){
+ const panel=$('endgameBoard');
+ if(!panel||postingWorldScore)return;
+ const status=$('worldStatus'),list=$('worldScoreList'),entry=$('endgameEntry');
+ const finalScore=Number(panel.dataset.finalScore);
+ status.textContent='CONTACTING CENTRAL ARCHIVE...';status.dataset.offline='false';
+ endGameButtons();
+ let available=false,qualifiesWorld=false;
+ try{
+  const rows=await window.LMWorldBoard.refresh();
+  if($('endgameBoard')!==panel||!state.finished)return;
+  available=true;
+  status.textContent='LIVE WORLDWIDE TOP 10 · FACE-VALUE RULES';
+  list.innerHTML=scoreTable(rows);
+  qualifiesWorld=!postedThisSession&&window.LMWorldBoard.qualifies(finalScore,rows);
+ }catch(error){
+  if($('endgameBoard')!==panel||!state.finished)return;
+  status.textContent='WORLD BOARD OFFLINE · SHOWING LOCAL TOP 10';
+  status.dataset.offline='true';
+  list.innerHTML=scoreTable(state.board);
  }
- if(qualifiesWorld||localQualifies()){promptInitials(qualifiesWorld,online);return}
- openDialog('СЕАНС ЗАВЕРШЁН / GAME OVER','FINAL SCORE: '+fmt(state.total),
-  '<p>'+(online?'Not among the worldwide Top 10.':'World board offline. Local scores remain available.')+'</p>',
-  [{text:'WORLD TOP 10',fn:showScores},{text:'LOCAL TOP 10',fn:showLocalScores},{text:'NEW SESSION',fn:()=>newGame(true)}]);
+ // The qualification form lives immediately beneath the standings.
+ const canSave=!postedThisSession&&localQualifies();
+ const needsEntry=qualifiesWorld||canSave;
+ entry.hidden=!needsEntry;
+ $('submitStatus').textContent=needsEntry?
+   qualifiesWorld?'WORLD TOP 10 QUALIFIED · ENTER INITIALS TO POST':'LOCAL ARCHIVE QUALIFIED · ENTER INITIALS TO SAVE':'';
+ if(needsEntry){
+  const input=$('initials');
+  input.onkeydown=e=>{
+   if(e.key==='Enter'){e.preventDefault();qualifiesWorld?submitWorldScore():saveScore()}
+  };
+  input.select();
+ }
+ endGameButtons({canPost:qualifiesWorld,canSave});
 }
+function endGame(){showEndGameBoard()}
 async function submitWorldScore(){
  if(postedThisSession||postingWorldScore)return;
+ const panel=$('endgameBoard');
+ if(!panel)return;
  const name=validPlayerInitials();if(!name)return;
+ const finalScore=Number(panel.dataset.finalScore);
  postingWorldScore=true;
  const status=$('submitStatus');
  if(status)status.textContent='TRANSMITTING TO WORLD ARCHIVE...';
- const submitButton=[...$('dialogFoot').querySelectorAll('button')].find(x=>x.textContent==='POST WORLD SCORE');
- if(submitButton)submitButton.disabled=true;
+ [...$('dialogFoot').querySelectorAll('button')].forEach(btn=>btn.disabled=true);
  try{
-  await window.LMWorldBoard.submit(name,state.total);
-  postedThisSession=true;addLocalScore(name);
-  showScores();
+  const rows=await window.LMWorldBoard.submit(name,finalScore);
+  postedThisSession=true;
+  if(state.finished&&state.total===finalScore)addLocalScore(name);
+  if($('endgameBoard')!==panel)return;
+  $('worldScoreList').innerHTML=scoreTable(rows);
+  $('worldStatus').textContent='SCORE POSTED TO WORLD TOP 10';
+  $('worldStatus').dataset.offline='false';
+  $('endgameEntry').hidden=true;
+  endGameButtons();
  }catch(error){
-  if(status)status.textContent='WORLD POST FAILED: '+(error.message||'Connection unavailable')+'. You may retry or save locally.';
-  if(submitButton)submitButton.disabled=false;
+  if($('endgameBoard')!==panel)return;
+  if(status)status.textContent='WORLD POST FAILED: '+(error.message||'Connection unavailable')+'. Retry or save locally.';
+  [...$('dialogFoot').querySelectorAll('button')].forEach(btn=>btn.disabled=false);
  }finally{postingWorldScore=false}
 }
 function saveScore(){
  if(postingWorldScore){const status=$('submitStatus');if(status)status.textContent='WORLD SUBMISSION STILL IN PROGRESS.';return}
+ const panel=$('endgameBoard');
+ if(!panel)return;
  const name=validPlayerInitials();if(!name)return;
- addLocalScore(name);
- showLocalScores();
+ const finalScore=Number(panel.dataset.finalScore);
+ if(state.finished&&state.total===finalScore)addLocalScore(name);
+ $('endgameEntry').hidden=true;
+ if($('worldStatus').dataset.offline==='true')$('worldScoreList').innerHTML=scoreTable(state.board);
+ $('submitStatus').textContent='';
+ $('worldStatus').textContent=$('worldStatus').dataset.offline==='true'?
+  'SCORE SAVED LOCALLY · WORLD BOARD OFFLINE':'SCORE SAVED LOCALLY · WORLD TOP 10 SHOWN ABOVE';
+ endGameButtons();
 }
 function buildPaytable(){$('paytable').innerHTML=categories.map(c=>`<tr data-key="${c[0]}"><td>${c[1]}</td><td>${scoreRange(c[0])}</td></tr>`).join('')+'<tr data-key="none"><td>NO COMBINATION</td><td>0</td></tr>'}
 $('rollBtn').addEventListener('click',performRoll);$('bankBtn').addEventListener('click',bank);$('callBtn').addEventListener('click',showCall);$('newBtn').addEventListener('click',()=>newGame());$('scoresBtn').addEventListener('click',showScores);$('rulesBtn').addEventListener('click',showRules);$('soundBtn').addEventListener('click',()=>{state.sound=!state.sound;$('soundBtn').textContent='SOUND: '+(state.sound?'ON':'OFF');$('soundBtn').setAttribute('aria-pressed',String(state.sound));sfx('setEnabled',state.sound)});
