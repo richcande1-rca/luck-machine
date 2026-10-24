@@ -1,12 +1,12 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 0.8 — Extended Animation on Every Roll.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 0.9 — Military Hardware Restoration.**
 
 ## Play
 
 [Open LUCK MACHINE](https://richcande1-rca.github.io/luck-machine/) (requires GitHub Pages to be enabled in repository settings).
 
-Or download `index.html` and `audio.js` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
+Or download `index.html`, `audio.js`, and `hardware.css` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
 
 ## Rules
 
@@ -18,9 +18,13 @@ Or download `index.html` and `audio.js` together in the same folder and open `in
 
 Keyboard: **Space / Enter** = roll, **1–5** = hold corresponding die, **B** = bank, **C** = call.
 
-## Version 0.8
+## Version 0.9
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
+
+## Military Hardware Restoration
+
+The upright red star now sits on a stamped, riveted equipment plate. Version 0.9 adds weathered olive-drab enamel, cold-war-style milled bezels and screw heads, Bakelite-like radio knob texture, old incandescent-glass-style indicators, heavier mechanical-button treatments, and Cyrillic factory inspection markings. The visual changes are isolated in `hardware.css` and a small header stamp; the dice mechanics, 20-turn rules, sounds, leaderboard, and viewport-fitting logic remain unchanged.
 
 ## Sound
 
