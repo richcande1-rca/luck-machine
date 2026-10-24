@@ -1,7 +1,7 @@
 /* LUCK MACHINE / 5D-20: fictional field-console sound system. Web Audio only. */
 (()=>{'use strict';
   let context=null,master=null,noiseBuffer=null,enabled=true,used=false,lastAction=0;
-  const volume=.64;
+  const volume=.78; // modest +22% master output; preserve effect mix
   function ensure(){
     if(!enabled)return null;
     try{
