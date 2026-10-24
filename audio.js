@@ -60,6 +60,7 @@
       }
       if(enabled){tone(440,.055,.025,'triangle');tone(620,.075,.024,'triangle',.075)}
     },
+    tune(channel){relay(0,.43);staticBurst(.028,.075,.015,1600);tone(240+channel*46,.11,.023,'sine',.035,330+channel*33);tone(510+channel*34,.045,.013,'triangle',.14)},
     rollStart(){relay(0,.9);relay(.12,.55);tone(104,.29,.030,'sawtooth',.025,155);tone(360,.095,.021,'square',.13,285)},
     rollTick(){staticBurst(0,.016,.009,2100);tone(200,.016,.012,'square')},
     dieStop(position){relay(0,.73);tone(350+position*75,.105,.026,'triangle',.022,275+position*45)},
