@@ -1,12 +1,12 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.6.0 — Face-Value Scoring.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.7.0 — Operator Visibility.**
 
 ## Play
 
 [Open LUCK MACHINE](https://richcande1-rca.github.io/luck-machine/) (requires GitHub Pages to be enabled in repository settings).
 
-Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.css`, `telemetry.js`, `legibility.css`, `scoring.js`, and `scoring.css` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
+Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.css`, `telemetry.js`, `legibility.css`, `scoring.js`, `scoring.css`, and `operator.css` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
 
 ## Rules
 
@@ -21,6 +21,14 @@ Keyboard: **Space / Enter** = roll, **1–5** = hold corresponding die, **B** = 
 ## Version 0.9
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
+
+## Operator Visibility (v1.7.0)
+
+A deliberate legibility pass: bigger, higher-contrast **paytable categories**, payout numerals, radio labels, meter/channel descriptions, status-panel headers, dice HOLD indicators, decision instructions, challenge status, keyboard shortcut hints, and menu buttons. Long category names use the same period-looking condensed stencil family rather than relying on tiny monospace type.
+
+The chassis is still the same olive-drab steel with its existing instrumentation and five square illuminated dice. Spacing and borders are slightly compressed to recover screen height for lettering rather than enlarging the case. On large screens, automatic viewport fit now has a **90% minimum scale**, preferring a small amount of vertical scrolling on very short windows to unreadably small text. Mobile and tablet screens continue natural scrolling. The bottom build plate now clearly reads **BUILD 1.7.0**.
+
+**Purely visual release:** no changes to RNG, 20-turn rules, category values, face bonuses, CALL IT!, sound or radio behavior, or leaderboard storage.
 
 ## Face-Value Scoring and Build Plate (v1.6.0)
 
