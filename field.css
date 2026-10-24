@@ -18,17 +18,6 @@ body{padding-top:14px;background:radial-gradient(ellipse 70% 75% at 50% -5%,#434
  repeating-linear-gradient(12deg,transparent 0 91px,#d1c4a519 92px,transparent 94px 177px),
  repeating-linear-gradient(132deg,transparent 0 126px,#080e096e 127px,transparent 129px 191px),
  radial-gradient(ellipse 14% 23% at 0 70%,#77492d7a,transparent 100%)}
-.field-corner{position:absolute;z-index:3;pointer-events:none;width:70px;height:36px;
- background:linear-gradient(135deg,#747f6b,#455044 43%,#283629);
- border:2px solid #1d281e;box-shadow:inset 0 1px #b5b39685,inset 0 -2px #1b2519,0 2px 3px #0408049c}
-.field-corner::before,.field-corner::after{content:'';position:absolute;width:9px;height:9px;border-radius:50%;top:9px;
- background:linear-gradient(40deg,transparent 43%,#161e17 45% 55%,transparent 57%),radial-gradient(circle at 33% 26%,#c5c5ab,#767f69 45%,#2a3229 75%);
- border:1px solid #192319;box-shadow:0 0 0 1px #8e947e71,0 1px 2px #0009}
-.field-corner::before{left:9px}.field-corner::after{right:9px}
-.field-corner.tl{top:-7px;left:-8px;border-left:4px solid #8b927a}
-.field-corner.tr{top:-7px;right:-8px;border-right:4px solid #8b927a}
-.field-corner.bl{bottom:-7px;left:-8px;border-left:4px solid #8b927a}
-.field-corner.br{bottom:-7px;right:-8px;border-right:4px solid #8b927a}
 /* Uneven paint, inset faceplates, satin finish rather than shiny piping */
 header{margin-top:0;padding:11px 16px;border:3px solid #252e25;border-top-color:#727c69;border-radius:1px;
  background:linear-gradient(120deg,#8e947930,transparent 30%,#0f180f3b 90%),linear-gradient(#555f4e,#39463a);
@@ -55,18 +44,107 @@ header{margin-top:0;padding:11px 16px;border:3px solid #252e25;border-top-color:
 .controlstrip{border:3px solid #263627;border-top-color:#8b9581;background:linear-gradient(#475442,#28382c);box-shadow:inset 0 0 0 2px #1b291d,0 2px 4px #0009}
 .metalbutton{border:2px solid #4e5f4e;border-bottom:4px solid #16241b;border-radius:0;box-shadow:inset 0 1px #d0c7aa66,0 2px 3px #000c}
 .smallbutton{border-radius:0;border:2px solid #404f3e;border-top-color:#80907a;border-bottom:3px solid #192719;background:linear-gradient(#4b5c4c,#26362c)}
-.field-label{position:absolute;z-index:4;left:76px;top:5px;pointer-events:none;color:#aaaf8b;font-size:8px;letter-spacing:.2em;opacity:.75}
 @media(min-width:1051px){
  .console{max-width:1050px}
  header{grid-template-columns:minmax(320px,1.5fr) minmax(180px,.75fr) minmax(200px,.8fr);gap:8px}
  .brand{gap:8px}.brand h1{font-size:clamp(32px,3vw,40px);white-space:nowrap}
 }
-@media(max-width:1050px){.field-label{display:none}}
+
 @media(max-width:700px){
  body{padding:6px 4px 14px}.console{border-width:7px;padding:7px;border-radius:1px}
- .field-corner{width:39px;height:23px;border-width:1px}
- .field-corner::before,.field-corner::after{width:5px;height:5px;top:8px}
- .field-corner::before{left:5px}.field-corner::after{right:5px}
  header{padding:9px 8px}.remote-rack{border-width:3px}.dicebay{border-width:3px}
  .die{border-width:2px}.controlgrid .module{border-width:3px}.readout{border-width:2px}
 }
+
+
+/* V1.3 / 1980s FIELD EQUIPMENT FACE: functional-looking details only.
+   Reference aesthetic: cast metal, stippled military enamel, recessed gauges,
+   Bakelite selector knobs and connector sockets rather than costume brackets. */
+.console{
+  border:9px solid #263129;border-radius:2px;
+  outline:1px solid #66715b;outline-offset:-7px;
+  background:
+    radial-gradient(circle at 2px 3px,#d7ddba0e 0 1px,transparent 1.5px) 0 0/13px 17px,
+    radial-gradient(circle at 6px 10px,#06100a28 0 .8px,transparent 1.5px) 0 0/17px 21px,
+    linear-gradient(103deg,transparent 0 9%,#c4ad7c13 9.3%,transparent 10% 75%,#141b1354 96%),
+    linear-gradient(115deg,#5c6451 0%,#4a5548 18%,#3e4c40 68%,#4a5648 100%);
+  box-shadow:inset 0 0 0 2px #69745f,inset 0 0 0 5px #121c14,
+    inset 0 0 34px #0a110b92,0 7px 0 #18251b,0 15px 0 #0e180f,0 22px 38px #000a;
+}
+.console::before{
+ opacity:.27;
+ background:repeating-linear-gradient(95deg,transparent 0 115px,#d4d4b410 116px,transparent 117px 230px),
+ radial-gradient(ellipse 19% 12% at 1% 99%,#82422555,transparent 92%),
+ radial-gradient(ellipse 13% 9% at 98% 1%,#92522a55,transparent 98%);
+}
+/* Cabinet seams and simple countersunk fasteners are retained, no attached plates. */
+.screw{width:13px;height:13px;border:1px solid #18261a;box-shadow:0 0 0 1px #596858,inset 1px 1px 2px #cecfab90,0 1px 2px #0009}
+.screw::after{width:8px;left:1px;top:4px}
+header{
+ border:2px solid #29372b;border-top-color:#7b8773;
+ background:radial-gradient(circle at 7px 11px,#ebddb108 0 1px,transparent 1.6px) 0 0/18px 15px,
+ linear-gradient(#596251,#424f41 48%,#354339);
+ box-shadow:inset 0 1px 0 #a8ae8c6e,inset 0 0 0 1px #1c2a20,0 2px 3px #050b06a3;
+}
+.brand .star{filter:none;transform:none!important;box-shadow:inset 0 1px #929e8499,0 1px 2px #0007;background:linear-gradient(#697865,#394739);border:2px solid #243225}
+.brand h1{color:#ded8bf;text-shadow:1px 2px #121a11}
+.header-stamp{transform:none;border-color:#b38d7373;opacity:.56;letter-spacing:.04em}
+.serial{border-left:1px solid #a0a79148;border-right:1px solid #a0a79148;background:#222e2825}
+.status{border:2px solid #1b2b20;background:linear-gradient(#303e30,#18271d);box-shadow:inset 0 1px 4px #0008}
+.remote-rack{
+ border:3px solid #26372a;border-top-color:#82917b;
+ background:linear-gradient(#505c4b,#354336);
+ box-shadow:inset 0 0 0 1px #101e14,0 2px 3px #0008;
+}
+.radio-apparatus,.auth-block{
+ border:2px solid #26372b;border-top-color:#87927b;
+ background:linear-gradient(#626d59,#3e4d40 70%,#354236);
+ box-shadow:inset 0 1px #c0bc9b70,0 2px 4px #0008;
+}
+.radio-label{color:#e5d9b4;text-shadow:0 1px #1a281a}
+.radio-face{
+ border:3px solid #293627;border-top-color:#19231b;
+ background:repeating-linear-gradient(90deg,transparent 0 16px,#37413622 17px,transparent 18px),
+ linear-gradient(180deg,#a7a88d,#d0c9a6 45%,#9f9d81 100%);
+ box-shadow:inset 0 1px 3px #0009,0 0 0 1px #859080,0 2px 2px #0007;
+}
+.gain-knob{
+ border:2px solid #283626;position:relative;
+ background:repeating-conic-gradient(#18221b 0 15deg,#455443 16deg 24deg,#1d291d 25deg 35deg);
+ box-shadow:inset 0 0 0 5px #202b22,inset 0 0 0 7px #707b66,0 0 0 2px #687762,0 2px 3px #000a;
+}
+.gain-knob::before{
+ content:'';position:absolute;top:0;left:calc(50% - 2px);width:4px;height:8px;
+ border-radius:1px;background:#e6d7aa;box-shadow:0 0 2px #f5d6a769;
+}
+.field-socket{
+ position:relative;display:block;flex:none;margin-left:auto;width:27px;height:27px;
+ border:3px solid #697761;border-radius:50%;
+ background:radial-gradient(circle at 50% 50%,#0d1811 0 53%,#293b2c 56% 70%,#9b9e83 74% 85%,#374a37 88%);
+ box-shadow:inset 1px 2px 3px #000d,0 0 0 1px #17261b,0 1px 2px #070c08b3;
+}
+.field-socket i{
+ display:block;position:absolute;width:4px;height:4px;border-radius:50%;
+ background:radial-gradient(circle at 25% 25%,#b7ae8d,#5d6858 80%);
+ border:1px solid #111f15;top:6px;left:9px;
+}
+.field-socket i:nth-child(2){top:13px;left:4px}
+.field-socket i:nth-child(3){top:13px;left:13px}
+.auth-plate{border:2px solid #777d69;box-shadow:inset 0 1px #e6deb68c,0 2px 2px #0009;
+ background:linear-gradient(110deg,#bcb697,#858b77 94%);}
+.auth-lights .tiny-led{border:2px solid #304130;box-shadow:0 0 0 1px #858c74,inset 0 1px #fcdda071,0 0 3px #e3b65f88}
+.inventory-strip{
+ border:1px solid #26352a;border-top:1px solid #8e9983;
+ background:linear-gradient(#505c49,#344334);box-shadow:inset 0 1px #b2b49646;
+}
+.readout{border:2px solid #344536;border-top-color:#899783;box-shadow:inset 0 0 0 2px #132216,inset 0 2px 8px #0009,0 0 0 1px #7e8b78,0 1px 3px #0008}
+.dicebay{border:4px solid #263a2c;border-top-color:#899a87;box-shadow:inset 0 0 0 2px #17281b,inset 0 4px 11px #000b,0 2px 3px #0009}
+.die{border:2px solid #465f4d;border-top-color:#8da38c;box-shadow:inset 0 0 0 3px #0e1c13,0 2px 3px #000c}
+.controlgrid .module{
+ border:3px solid #26372a;border-top-color:#84927d;
+ box-shadow:inset 0 0 0 1px #162418,inset 0 1px #a8b08a40,0 2px 3px #0009;
+}
+.module:not(.decision){background:linear-gradient(160deg,#4e5e4b,#354539 59%,#2b392f)}
+.controlstrip{border:2px solid #293a2b;border-top-color:#83927e;background:linear-gradient(#505f4d,#364839);box-shadow:inset 0 1px #c2b99667,0 2px 3px #0009}
+.smallbutton{background:linear-gradient(#545e50,#344436 40%,#223225);border-color:#3e5543;color:#e5dec2;box-shadow:inset 0 1px #bdc0a36e,0 2px 2px #0008}
+@media(max-width:700px){.console{border-width:6px}.radio-apparatus{display:none}.dicebay{border-width:3px}.controlgrid .module{border-width:2px}}
