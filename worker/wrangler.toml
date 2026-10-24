@@ -1,0 +1,10 @@
+name = "luck-machine-board"
+main = "src/index.js"
+compatibility_date = "2026-10-24"
+# A dedicated D1 database is required. Create it with:
+# npx wrangler d1 create luck_machine_board
+# Then copy its database_id into the field below before deploying.
+[[d1_databases]]
+binding = "DB"
+database_name = "luck_machine_board"
+database_id = "REPLACE_WITH_YOUR_LUCK_MACHINE_D1_ID"
