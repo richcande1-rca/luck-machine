@@ -703,6 +703,7 @@ function promptInitials(worldQualified,online){
  $('initials')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();worldQualified?submitWorldScore():saveScore()}});
 }
 async function endGame(){
+ openDialog('СЕАНС ЗАВЕРШЁН / GAME OVER','FINAL SCORE: '+fmt(state.total),'<p>CHECKING THE WORLD ARCHIVE...</p>',[{text:'LOCAL TOP 10',fn:showLocalScores}]);
  let online=false,qualifiesWorld=false;
  if(state.total>0){
   try{const board=await window.LMWorldBoard.refresh();online=true;qualifiesWorld=window.LMWorldBoard.qualifies(state.total,board)}
@@ -731,6 +732,7 @@ async function submitWorldScore(){
  }finally{postingWorldScore=false}
 }
 function saveScore(){
+ if(postingWorldScore){const status=$('submitStatus');if(status)status.textContent='WORLD SUBMISSION STILL IN PROGRESS.';return}
  const name=validPlayerInitials();if(!name)return;
  addLocalScore(name);
  showLocalScores();
