@@ -539,6 +539,7 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
 
 </style>
 <link rel="stylesheet" href="./hardware.css?v=0.9">
+<link rel="stylesheet" href="./handle.css?v=1.0">
 </head>
 <body>
 <div class="fit-stage"><main class="console" aria-label="Luck Machine dice game console">
@@ -549,7 +550,7 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
     <div class="status bezel led"><div class="statusline"><span class="statuslabel"><i class="lamp"></i>SYSTEM ONLINE</span><span id="systemState">READY</span></div><div class="statusline"><span class="statuslabel"><i class="lamp orange"></i>SCORING UNIT</span><span>OPERATIONAL</span></div></div>
   </header>
 
-<div class="transport-mount" aria-hidden="true"><div class="case-latch left-latch"><span></span></div><div class="transport-title"><b>ПЕРЕНОСНОЙ КОМАНДНЫЙ ПУНКТ</b><span>PORTABLE REMOTE COMMAND TERMINAL • 1984</span></div><div class="carry-handle"><span></span></div><div class="case-latch right-latch"><span></span></div></div>
+<div class="transport-mount" aria-hidden="true"><div class="case-latch left-latch"><span></span></div><div class="transport-title"><b>ПЕРЕНОСНОЙ КОМАНДНЫЙ ПУНКТ</b><span>PORTABLE REMOTE COMMAND TERMINAL • 1984</span></div><div class="carry-handle" aria-hidden="true"><span class="handle-arm arm-left"></span><span class="handle-arm arm-right"></span><span class="handle-grip"></span><span class="handle-mount mount-left"></span><span class="handle-mount mount-right"></span></div><div class="case-latch right-latch"><span></span></div></div>
 <section class="remote-rack" aria-label="Fictional remote radio telemetry display">
  <div class="radio-apparatus" aria-hidden="true">
    <div class="radio-label">RADIO TRANSMITTER / РАДИОКАНАЛ</div>
@@ -608,7 +609,7 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
   </div>
   <div class="controlstrip">
     <div class="footleft"><button class="smallbutton" id="newBtn">NEW SESSION</button><button class="smallbutton" id="scoresBtn">TOP 10</button><button class="smallbutton" id="rulesBtn">MANUAL</button><button class="smallbutton" id="soundBtn" aria-pressed="true">SOUND: ON</button></div>
-    <div class="footright"><span class="alertbar"><b>NOTICE:</b> CHANCE IS A DUTY · OPERATOR RESPONSIBLE FOR ALL RISK</span><span class="signature">LM · BUILD 0.9 · MILITARY HARDWARE</span></div>
+    <div class="footright"><span class="alertbar"><b>NOTICE:</b> CHANCE IS A DUTY · OPERATOR RESPONSIBLE FOR ALL RISK</span><span class="signature">LM · BUILD 1.0 · FOLDING HANDLE</span></div>
   </div>
 </main></div>
 <div class="shade" id="overlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><span class="overline" id="dialogOverline">MINISTRY BULLETIN</span><h2 id="dialogTitle"></h2><div id="dialogContent"></div><div class="dialogfoot" id="dialogFoot"></div></section></div>
@@ -671,7 +672,7 @@ loadBoard();makeDice();buildPaytable();update();
     consoleElement.style.width=Math.min(1180,availableWidth)+'px';
     const w=consoleElement.offsetWidth;
     const h=consoleElement.offsetHeight;
-    const availableHeight=Math.max(300,window.innerHeight-32);
+    const availableHeight=Math.max(300,window.innerHeight-70);
     const factor=Math.min(1,availableWidth/w,availableHeight/h);
     stage.style.width=(w*factor)+'px';
     stage.style.height=(h*factor)+'px';
