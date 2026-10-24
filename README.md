@@ -1,12 +1,12 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.3 — Field-Radio Restoration.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.4 — Active Instrumentation.**
 
 ## Play
 
 [Open LUCK MACHINE](https://richcande1-rca.github.io/luck-machine/) (requires GitHub Pages to be enabled in repository settings).
 
-Or download `index.html`, `audio.js`, `hardware.css`, and `field.css` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
+Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.css`, and `telemetry.js` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
 
 ## Rules
 
@@ -21,6 +21,14 @@ Keyboard: **Space / Enter** = roll, **1–5** = hold corresponding die, **B** = 
 ## Version 0.9
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
+
+## Active Instrumentation (v1.4)
+
+The analog signal meter and five radio-link strength bars now react to rolls, dice stopping, holds, wagers, banked scores, and successful or unsuccessful called hands. The pointer drifts subtly at idle and swings more during activity.
+
+The black radio selector is a real input rather than a decorative knob. Click or tap it to cycle among nine simulated radio channels, drag horizontally to tune, or focus it and use arrow keys (Home/End select the endpoints). The channel number, simulated link status, and strength display update. Selector movements make restrained radio-static and tuning tones when SOUND is on.
+
+All radio and transmission details are **fictional visual/sound feedback**. Channels do not operate external equipment and do not alter dice odds, scoring, or leaderboard results. The existing visual layout and twenty-turn game are unchanged. People who prefer reduced motion receive mostly stationary instrument readouts.
 
 ## Field-Radio Restoration (v1.3)
 
