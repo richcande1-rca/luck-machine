@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.8.0 — World Top 10 Integration (backend deployment required).**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.8.1 — Automatic Game-Over World Top 10.**
 
 ## Play
 
@@ -21,6 +21,12 @@ Keyboard: **Space / Enter** = roll, **1–5** = hold corresponding die, **B** = 
 ## Version 0.9
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
+
+## Automatic Game-Over World Top 10 (v1.8.1)
+
+After the 20th BANK, the game-over sound plays and the **World Top 10** dialog opens automatically. The operator's final score appears above the live worldwide rankings, regardless of whether the final score qualifies. When qualified, an initials input and **POST WORLD SCORE** button appear **in the same dialog**; there is no separate name-entry screen. On a successful post, the rankings update in place and the dialog confirms the transmission. The player can also choose to save locally without posting.
+
+If the world API is unavailable, the very same dialog identifies that condition explicitly, shows the locally stored Top 10, and offers local saving when the score qualifies. Old fixed-payout legacy records remain accessible through the usual TOP 10 screens. The game-over dialog is compact to avoid scrolling at ordinary desktop heights. Dice behavior, sound, category scoring, the twenty-turn limit, and the main cabinet layout are unchanged.
 
 ## World Top 10 (v1.8.0)
 
