@@ -1,4 +1,4 @@
-/* LUCK MACHINE 5Д–20 · BUILD 1.7.0
+/* LUCK MACHINE 5Д–20 · BUILD 1.7.1
    OPERATOR VISIBILITY: larger actionable lettering with compact steelwork.
    The authentic olive-drab paint, faceplates, dice and controls are unchanged. */
 :root {--operator-ivory:#eee7cb;--operator-khaki:#d5d9ba;--operator-amber:#f3c77e}
@@ -75,6 +75,8 @@ header{padding:8px 13px;margin-top:0}
 .alertbar{font-size:11px;color:#e0dbb9;letter-spacing:0}
 .build-plate{margin-top:4px;padding:3px 8px 2px;min-height:22px}
 .build-plate strong{font-size:16px}
+/* Desktop: give letters room by reclaiming wasted page margins, not by forcing scrolling. */
+@media(min-width:1051px){body{padding-top:8px;padding-bottom:12px}}
 /* Portrait and tablet widths scroll naturally, without whole-panel scaling. */
 @media(max-width:1050px){
  .console{padding:8px}
