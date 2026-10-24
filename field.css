@@ -1,0 +1,94 @@
+/* LUCK MACHINE 5D-20 / FIELD CHASSIS REFIT
+   Matte Soviet-style field equipment, not a diplomatic briefcase.
+   Visual hardware only — scoring and active controls are unchanged. */
+:root{--field-olive:#4c5547;--field-shadow:#1b251e;--field-wear:#ab9e7b}
+body{padding-top:14px;background:radial-gradient(ellipse 70% 75% at 50% -5%,#434b3d 0%,#202921 61%,#0a110c 100%)}
+.console{
+ max-width:1050px;padding:12px;border:11px solid #242d24;border-radius:3px;
+ outline:2px solid #707765;outline-offset:-8px;
+ background:
+ radial-gradient(ellipse 16% 10% at 0% 0%,#8e57365e 0%,transparent 94%),
+ radial-gradient(ellipse 15% 14% at 100% 100%,#87503542 0%,transparent 94%),
+ repeating-linear-gradient(178deg,transparent 0 37px,#050b0733 38px 39px,transparent 40px 115px),
+ repeating-linear-gradient(92deg,transparent 0 137px,#d6d5b009 138px 139px,transparent 140px 200px),
+ linear-gradient(118deg,#535d4e 0%,#444e42 29%,#3e4a3e 71%,#525a49 100%);
+ box-shadow:inset 0 0 0 2px #77806b,inset 0 0 0 5px #171f19,inset 0 0 27px #0d1510bc,0 8px 0 #151d16,0 15px 0 #0b110d,0 28px 45px #000b;
+}
+.console::before{opacity:.38;background:
+ repeating-linear-gradient(12deg,transparent 0 91px,#d1c4a519 92px,transparent 94px 177px),
+ repeating-linear-gradient(132deg,transparent 0 126px,#080e096e 127px,transparent 129px 191px),
+ radial-gradient(ellipse 14% 23% at 0 70%,#77492d7a,transparent 100%)}
+.field-corner{position:absolute;z-index:3;pointer-events:none;width:70px;height:36px;
+ background:linear-gradient(135deg,#747f6b,#455044 43%,#283629);
+ border:2px solid #1d281e;box-shadow:inset 0 1px #b5b39685,inset 0 -2px #1b2519,0 2px 3px #0408049c}
+.field-corner::before,.field-corner::after{content:'';position:absolute;width:9px;height:9px;border-radius:50%;top:9px;
+ background:linear-gradient(40deg,transparent 43%,#161e17 45% 55%,transparent 57%),radial-gradient(circle at 33% 26%,#c5c5ab,#767f69 45%,#2a3229 75%);
+ border:1px solid #192319;box-shadow:0 0 0 1px #8e947e71,0 1px 2px #0009}
+.field-corner::before{left:9px}.field-corner::after{right:9px}
+.field-corner.tl{top:-7px;left:-8px;border-left:4px solid #8b927a}
+.field-corner.tr{top:-7px;right:-8px;border-right:4px solid #8b927a}
+.field-corner.bl{bottom:-7px;left:-8px;border-left:4px solid #8b927a}
+.field-corner.br{bottom:-7px;right:-8px;border-right:4px solid #8b927a}
+/* Side-mounted metal grab handles and bolted hinges */
+.field-transport{position:absolute;inset:0;pointer-events:none;z-index:6}
+.field-grip{position:absolute;top:130px;width:40px;height:176px;filter:drop-shadow(0 4px 3px #000c)}
+.field-grip.left{left:-52px}.field-grip.right{right:-52px}
+.field-grip .spine{position:absolute;top:20px;bottom:20px;left:6px;right:6px;
+ border:6px solid #252e24;border-left-color:#7e8770;border-top-color:#9b9c85;border-right-color:#1c251b;
+ border-radius:9px;background:#151d16;box-shadow:inset 0 0 5px #000,0 0 0 2px #3a4739,2px 3px 4px #0009}
+.field-grip .spine::before{content:'';position:absolute;inset:11px 5px;border-radius:6px;
+ background:repeating-linear-gradient(0deg,#171f17 0 8px,#454c3e 9px 13px);border:1px solid #596351}
+.field-grip .mount{position:absolute;left:-1px;right:-1px;height:28px;border:3px solid #202a20;
+ background:linear-gradient(170deg,#a3a48a,#606a55 35%,#353f32 75%,#242f26);
+ box-shadow:inset 0 2px 0 #c1bea083,0 2px 4px #0009}
+.field-grip .mount.top{top:0}.field-grip .mount.bottom{bottom:0}
+.field-grip .mount::before,.field-grip .mount::after{content:'';position:absolute;top:7px;width:8px;height:8px;border-radius:50%;
+ border:1px solid #1e291d;background:radial-gradient(circle at 32% 24%,#d8ceaf,#6b755f 45%,#252e23 75%)}
+.field-grip .mount::before{left:3px}.field-grip .mount::after{right:3px}
+/* Uneven paint, inset faceplates, satin finish rather than shiny piping */
+header{margin-top:0;padding:11px 16px;border:3px solid #252e25;border-top-color:#727c69;border-radius:1px;
+ background:linear-gradient(120deg,#8e947930,transparent 30%,#0f180f3b 90%),linear-gradient(#555f4e,#39463a);
+ box-shadow:inset 0 0 0 2px #121b15,inset 0 2px 0 #b0b29666,0 3px 3px #000a}
+.brand h1{color:#dddac4;letter-spacing:.09em;text-shadow:2px 2px #101811}
+.brand .star{transform:none!important;background:linear-gradient(145deg,#6a7462,#3c493b);border-radius:1px;border:3px solid #242f24;color:#af4230}
+.serial{border-color:#87927c44}.serial strong{color:#d3b77b}
+.status{background:linear-gradient(#313e32,#18271c);border:3px solid #1d2b22;box-shadow:inset 0 1px 4px #0009,0 0 0 1px #7786707a}
+.remote-rack{border:4px solid #202e23;border-top:4px solid #7f8973;box-shadow:inset 0 0 0 2px #65715e,0 3px 4px #000a;
+ background:linear-gradient(#525d4e,#334235);gap:7px}
+.radio-apparatus,.auth-block{border:3px solid #273629;border-top-color:#87917c;background:linear-gradient(#4e594a,#303b31);box-shadow:inset 0 0 0 1px #121f15,0 2px 3px #000b}
+.uplink-module{border:4px solid #202d23;outline:1px solid #7f8b76;box-shadow:inset 0 0 0 1px #5b6b59,0 2px 4px #000d}
+.radio-face{border:3px solid #303c30;border-top-color:#1a261a;background:linear-gradient(#aeab8b,#c6c1a0 58%,#858973)}
+.auth-plate{border:3px solid #6e715e;background:linear-gradient(135deg,#b8b298,#8c927c);box-shadow:inset 0 1px #e7d9ac,0 2px 3px #000a}
+.inventory-strip{border:2px solid #243226;border-top-color:#8b947f;background:linear-gradient(#424e3e,#27382b);box-shadow:inset 0 1px #aab0954e,0 2px 3px #000a}
+.readout{border:3px solid #293b2d;border-top-color:#657865;box-shadow:inset 0 0 0 2px #0d170f,inset 0 2px 9px #000c,0 0 0 1px #87947a87,0 2px 3px #0008}
+.dicebay{border:5px solid #233227;border-top-color:#85937a;box-shadow:inset 0 0 0 2px #5d6c5b,inset 0 4px 12px #000b,0 2px 5px #0009;background:linear-gradient(#1b291e,#101c15)}
+.die{border:3px solid #3b5949;border-top-color:#849e85;background:linear-gradient(140deg,#364b3e,#101e18 23%,#0b1510 76%,#344638);border-radius:1px}
+.die .face{aspect-ratio:1/1;box-shadow:inset 0 0 2px #91e9c33d,inset 0 0 20px #000a,0 0 3px #4abb8770}
+.controlgrid .module{border:4px solid #2a382b;border-top-color:#7a8a72;box-shadow:inset 0 0 0 2px #172319,inset 0 2px #a2a98b3e,0 2px 4px #000a}
+.module:not(.decision){background:linear-gradient(#4e5c4a,#303d32 42%,#263329)}
+.decision{background:linear-gradient(#1a2a1c,#102016)}
+.statusbox{border:2px solid #324333;border-top-color:#718576}
+.controlstrip{border:3px solid #263627;border-top-color:#8b9581;background:linear-gradient(#475442,#28382c);box-shadow:inset 0 0 0 2px #1b291d,0 2px 4px #0009}
+.metalbutton{border:2px solid #4e5f4e;border-bottom:4px solid #16241b;border-radius:0;box-shadow:inset 0 1px #d0c7aa66,0 2px 3px #000c}
+.smallbutton{border-radius:0;border:2px solid #404f3e;border-top-color:#80907a;border-bottom:3px solid #192719;background:linear-gradient(#4b5c4c,#26362c)}
+.field-label{position:absolute;z-index:4;left:76px;top:5px;pointer-events:none;color:#aaaf8b;font-size:8px;letter-spacing:.2em;opacity:.75}
+@media(min-width:1051px){
+ .console{max-width:1050px}
+ .field-grip{width:48px}
+ .field-grip.left{left:-62px}.field-grip.right{right:-62px}
+ .field-grip .spine{left:4px;right:4px;border-width:6px}
+ .field-grip .spine::before{inset:8px 5px;border-radius:4px;border:1px solid #111a13;
+ background:linear-gradient(90deg,#202920,#384338 18%,#101811 38%,#131d15 65%,#424d40 85%,#1b251d);
+ box-shadow:inset 2px 0 2px #83917b52,inset -2px 0 3px #000e}
+ header{grid-template-columns:minmax(320px,1.5fr) minmax(180px,.75fr) minmax(200px,.8fr);gap:8px}
+ .brand{gap:8px}.brand h1{font-size:clamp(32px,3vw,40px);white-space:nowrap}
+}
+@media(max-width:1050px){.field-grip{display:none}.field-label{display:none}}
+@media(max-width:700px){
+ body{padding:6px 4px 14px}.console{border-width:7px;padding:7px;border-radius:1px}
+ .field-corner{width:39px;height:23px;border-width:1px}
+ .field-corner::before,.field-corner::after{width:5px;height:5px;top:8px}
+ .field-corner::before{left:5px}.field-corner::after{right:5px}
+ header{padding:9px 8px}.remote-rack{border-width:3px}.dicebay{border-width:3px}
+ .die{border-width:2px}.controlgrid .module{border-width:3px}.readout{border-width:2px}
+}
