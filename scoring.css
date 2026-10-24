@@ -15,15 +15,15 @@
   background:linear-gradient(180deg,#25332899,#16261e60);
   border-top:1px solid #75856b7e;
 }
-.build-plate strong{color:#f0cb88;font-size:13px;letter-spacing:.1em}
+.build-plate strong{color:#f0cb88;font-size:16px;letter-spacing:.1em}
 .build-plate .build-series{color:#abb5a1;font-size:10px}
 @media(max-width:1050px){
  .build-plate{margin-top:5px;font-size:12px}
- .build-plate strong{font-size:13px}
+ .build-plate strong{font-size:15px}
 }
 @media(max-width:700px){
  .build-plate{gap:6px}
- .build-plate strong{font-size:12px}
+ .build-plate strong{font-size:15px}
  .payout-breakdown{font-size:10px}
  .paytable td:last-child{font-size:11px}
 }
