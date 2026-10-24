@@ -543,7 +543,7 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
 <link rel="stylesheet" href="./telemetry.css?v=1.4">
 <link rel="stylesheet" href="./legibility.css?v=1.5">
 <link rel="stylesheet" href="./scoring.css?v=1.6.0">
-<link rel="stylesheet" href="./operator.css?v=1.7.0">
+<link rel="stylesheet" href="./operator.css?v=1.7.1">
 </head>
 <body>
 <div class="fit-stage"><main class="console" aria-label="Luck Machine dice game console">
@@ -611,7 +611,7 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
     <div class="footleft"><button class="smallbutton" id="newBtn">NEW SESSION</button><button class="smallbutton" id="scoresBtn">TOP 10</button><button class="smallbutton" id="rulesBtn">MANUAL</button><button class="smallbutton" id="soundBtn" aria-pressed="true">SOUND: ON</button></div>
     <div class="footright"><span class="alertbar"><b>ПРИКАЗ №07:</b> РИСК — ДЕЛО ОПЕРАТОРА</span></div>
   </div>
-  <div class="build-plate" aria-label="Current game build"><span class="build-series">5Д–20 · СЕРИЯ 1984</span><strong>BUILD 1.7.0</strong></div>
+  <div class="build-plate" aria-label="Current game build"><span class="build-series">5Д–20 · СЕРИЯ 1984</span><strong>BUILD 1.7.1</strong></div>
 </main></div>
 <div class="shade" id="overlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><span class="overline" id="dialogOverline">MINISTRY BULLETIN</span><h2 id="dialogTitle"></h2><div id="dialogContent"></div><div class="dialogfoot" id="dialogFoot"></div></section></div>
 <script src="./audio.js"></script>
@@ -678,9 +678,11 @@ loadBoard();makeDice();buildPaytable();update();
     consoleElement.style.width=Math.min(1050,availableWidth)+'px';
     const w=consoleElement.offsetWidth;
     const h=consoleElement.offsetHeight;
-    const availableHeight=Math.max(300,window.innerHeight-70);
-    // Protect legibility: permit vertical scrolling before reducing the entire console below 90%.
-    const factor=Math.max(.90,Math.min(1,availableWidth/w,availableHeight/h));
+    const bodyStyle=getComputedStyle(document.body);
+    const bodyInsets=(parseFloat(bodyStyle.paddingTop)||0)+(parseFloat(bodyStyle.paddingBottom)||0);
+    const availableHeight=Math.max(100,window.innerHeight-bodyInsets-12);
+    // Fit the complete desktop console without forcing vertical scrolling.
+    const factor=Math.min(1,availableWidth/w,availableHeight/h);
     stage.style.width=(w*factor)+'px';
     stage.style.height=(h*factor)+'px';
     consoleElement.style.transformOrigin='top left';
