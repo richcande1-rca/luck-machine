@@ -31,7 +31,7 @@
  const api={
   refresh(){
    if(busy)return busy;
-   busy=request('GET').catch(e=>{online=false;lastError=e.message||'Network unavailable';throw e}).finally(()=>{busy=null});
+   busy=request('GET').catch(e=>{online=false;lastError=e.message||'Network unavailable';window.dispatchEvent(new Event('lm-world-board-updated'));throw e}).finally(()=>{busy=null});
    return busy;
   },
   async submit(initials,score){
