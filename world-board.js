@@ -5,7 +5,7 @@
 (()=>{
  'use strict';
  const ENDPOINT='https://luck-machine-board.rich-gothic.workers.dev/api/board';
- const RULESET='face-v1',LIMIT=10,BUILD='1.8.0';
+ const RULESET='face-v1',LIMIT=10,BUILD='1.8.1';
  let entries=[],online=false,lastError='',busy=null;
  function cleanInitials(value){return String(value||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,5)}
  function scoreQualifies(n,board=entries){
