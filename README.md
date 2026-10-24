@@ -1,12 +1,12 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.5 — Soviet Panel Markings and Legibility.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.6.0 — Face-Value Scoring.**
 
 ## Play
 
 [Open LUCK MACHINE](https://richcande1-rca.github.io/luck-machine/) (requires GitHub Pages to be enabled in repository settings).
 
-Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.css`, `telemetry.js`, and `legibility.css` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
+Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.css`, `telemetry.js`, `legibility.css`, `scoring.js`, and `scoring.css` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
 
 ## Rules
 
@@ -21,6 +21,27 @@ Keyboard: **Space / Enter** = roll, **1–5** = hold corresponding die, **B** = 
 ## Version 0.9
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
+
+## Face-Value Scoring and Build Plate (v1.6.0)
+
+**Pairs of sixes are more valuable than pairs of ones.** The payout is the old category base plus a deterministic bonus from the faces that qualify:
+
+| Category | Old base | Face bonus | New range |
+|---|---:|---|---:|
+| Pair | 100 | 10 × matching face | 110–160 |
+| Two pair | 200 | 10 × sum of both paired faces | 230–310 |
+| Three of a kind | 400 | 20 × matching face | 420–520 |
+| Small straight | 600 | Fixed | 600 |
+| Large straight | 800 | Fixed | 800 |
+| Full house | 1,000 | 20 × tripled face + 10 × paired face | 1,040–1,170 |
+| Four of a kind | 2,000 | 50 × matching face | 2,050–2,300 |
+| Five of a kind | 5,000 | 100 × matching face | 5,100–5,600 |
+
+Higher-ranked hands remain worth more even across extremes. The app shows actual base and face bonuses in the payout readout, accurate payout ranges on the table, and doubles the **actual called category's payout** for successful CALL IT! challenges. For overlapping qualifying combinations, the bonus belongs to the hand being scored: a declared pair pays the pair rule, even if a later roll makes three of a kind. Scoring is deterministic and does not alter dice odds.
+
+The new readable metal-bottom plate displays **BUILD 1.6.0**. The existing olive paint, lights, sounds, telemetry and rolling animation are unchanged.
+
+**Leaderboard fairness:** scores under v1.6 face-value rules go in a new **local** Top 10 (`luck-machine-leaderboard-v2`), so they are not mixed with the fixed-payout competition. Old local records remain preserved in `luck-machine-leaderboard-v1` and are viewable using **TOP 10 → LEGACY SCORES**. A shared online leaderboard is still planned; nothing here uploads scores.
 
 ## Soviet Panel Markings and Legibility (v1.5)
 
