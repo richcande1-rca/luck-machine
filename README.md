@@ -36,15 +36,14 @@ a qualifying online score can be submitted with 1–5-character initials. Failed
 network submissions never silently count as posted: they offer retry/local saving.
 The score window never freezes or stops the dice if the network is unavailable.
 
-**IMPORTANT: BACKEND NOT AUTOMATICALLY DEPLOYED.** The static GitHub Pages frontend
-is ready, but a shared worldwide board requires a separately running Cloudflare
-Worker + dedicated D1 database. See worker/README.md for exact setup. The expected
-API URL after deployment to the existing Cloudflare account is:
+**BACKEND SETUP:** The separate Cloudflare Worker and D1 database were created
+manually through the dashboard. The owner confirmed the API returned an empty,
+valid world Top 10 on October 24, 2026. See worker/README.md for setup and
+configuration. The configured endpoint is:
 
     https://luck-machine-board.rich-gothic.workers.dev/api/board
 
-The frontend will correctly display **WORLD BOARD OFFLINE** until it can verify
-the backend. Do not interpret an offline/empty table as a live scoreboard.
+The frontend displays **WORLD BOARD OFFLINE** whenever the live API cannot be reached. Do not interpret an offline/empty table as a live scoreboard.
 
 Old 1.6+ locally saved scores remain in luck-machine-leaderboard-v2, and older
 fixed-payout records remain in luck-machine-leaderboard-v1. They are not wiped,
