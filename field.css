@@ -1,5 +1,5 @@
 /* LUCK MACHINE 5D-20 / FIELD CHASSIS REFIT
-   Matte Soviet-style field equipment, not a diplomatic briefcase.
+   Matte Soviet-style field equipment, without external transport handles.
    Visual hardware only — scoring and active controls are unchanged. */
 :root{--field-olive:#4c5547;--field-shadow:#1b251e;--field-wear:#ab9e7b}
 body{padding-top:14px;background:radial-gradient(ellipse 70% 75% at 50% -5%,#434b3d 0%,#202921 61%,#0a110c 100%)}
@@ -29,22 +29,6 @@ body{padding-top:14px;background:radial-gradient(ellipse 70% 75% at 50% -5%,#434
 .field-corner.tr{top:-7px;right:-8px;border-right:4px solid #8b927a}
 .field-corner.bl{bottom:-7px;left:-8px;border-left:4px solid #8b927a}
 .field-corner.br{bottom:-7px;right:-8px;border-right:4px solid #8b927a}
-/* Side-mounted metal grab handles and bolted hinges */
-.field-transport{position:absolute;inset:0;pointer-events:none;z-index:6}
-.field-grip{position:absolute;top:130px;width:40px;height:176px;filter:drop-shadow(0 4px 3px #000c)}
-.field-grip.left{left:-52px}.field-grip.right{right:-52px}
-.field-grip .spine{position:absolute;top:20px;bottom:20px;left:6px;right:6px;
- border:6px solid #252e24;border-left-color:#7e8770;border-top-color:#9b9c85;border-right-color:#1c251b;
- border-radius:9px;background:#151d16;box-shadow:inset 0 0 5px #000,0 0 0 2px #3a4739,2px 3px 4px #0009}
-.field-grip .spine::before{content:'';position:absolute;inset:11px 5px;border-radius:6px;
- background:repeating-linear-gradient(0deg,#171f17 0 8px,#454c3e 9px 13px);border:1px solid #596351}
-.field-grip .mount{position:absolute;left:-1px;right:-1px;height:28px;border:3px solid #202a20;
- background:linear-gradient(170deg,#a3a48a,#606a55 35%,#353f32 75%,#242f26);
- box-shadow:inset 0 2px 0 #c1bea083,0 2px 4px #0009}
-.field-grip .mount.top{top:0}.field-grip .mount.bottom{bottom:0}
-.field-grip .mount::before,.field-grip .mount::after{content:'';position:absolute;top:7px;width:8px;height:8px;border-radius:50%;
- border:1px solid #1e291d;background:radial-gradient(circle at 32% 24%,#d8ceaf,#6b755f 45%,#252e23 75%)}
-.field-grip .mount::before{left:3px}.field-grip .mount::after{right:3px}
 /* Uneven paint, inset faceplates, satin finish rather than shiny piping */
 header{margin-top:0;padding:11px 16px;border:3px solid #252e25;border-top-color:#727c69;border-radius:1px;
  background:linear-gradient(120deg,#8e947930,transparent 30%,#0f180f3b 90%),linear-gradient(#555f4e,#39463a);
@@ -74,16 +58,10 @@ header{margin-top:0;padding:11px 16px;border:3px solid #252e25;border-top-color:
 .field-label{position:absolute;z-index:4;left:76px;top:5px;pointer-events:none;color:#aaaf8b;font-size:8px;letter-spacing:.2em;opacity:.75}
 @media(min-width:1051px){
  .console{max-width:1050px}
- .field-grip{width:48px}
- .field-grip.left{left:-62px}.field-grip.right{right:-62px}
- .field-grip .spine{left:4px;right:4px;border-width:6px}
- .field-grip .spine::before{inset:8px 5px;border-radius:4px;border:1px solid #111a13;
- background:linear-gradient(90deg,#202920,#384338 18%,#101811 38%,#131d15 65%,#424d40 85%,#1b251d);
- box-shadow:inset 2px 0 2px #83917b52,inset -2px 0 3px #000e}
  header{grid-template-columns:minmax(320px,1.5fr) minmax(180px,.75fr) minmax(200px,.8fr);gap:8px}
  .brand{gap:8px}.brand h1{font-size:clamp(32px,3vw,40px);white-space:nowrap}
 }
-@media(max-width:1050px){.field-grip{display:none}.field-label{display:none}}
+@media(max-width:1050px){.field-label{display:none}}
 @media(max-width:700px){
  body{padding:6px 4px 14px}.console{border-width:7px;padding:7px;border-radius:1px}
  .field-corner{width:39px;height:23px;border-width:1px}
