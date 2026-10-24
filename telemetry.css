@@ -1,0 +1,46 @@
+/* LUCK MACHINE 5D-20 / v1.4 ACTIVE FIELD INSTRUMENTATION
+   Readout only: no real-world radio communication or effect on dice odds. */
+.radio-apparatus{position:relative}
+.radio-face{overflow:hidden}
+.radio-face::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(150deg,#fff9ce22,transparent 30%,transparent 70%,#2b332432)}
+.signal-needle{position:absolute;inset:3px 7% 2px;height:auto;border-bottom:1px solid #535942;z-index:1;background:repeating-linear-gradient(90deg,transparent 0 9.7%,#565e4d70 10%,transparent 10.5% 20%)}
+.signal-needle i{position:absolute;bottom:3px;left:50%;width:2px;height:29px;background:#9a3726;transform-origin:50% calc(100% - 1px);transform:rotate(-13deg);box-shadow:1px 0 #2c140b;transition:transform .16s ease-out}
+.signal-needle b{position:absolute;bottom:0;left:calc(50% - 4px);width:8px;height:8px;border-radius:50%;background:radial-gradient(circle,#66664f,#32382b);border:1px solid #a39d85}
+.signal-dial{z-index:2;bottom:0;pointer-events:none}
+.radio-bottom{gap:8px}
+.radio-bottom .radio-description{min-width:0;line-height:1.35}
+.radio-bottom .radio-description strong{white-space:nowrap;color:#e8c07b;font-size:9px}
+.radio-bottom .radio-description small{color:#dddfc0;font-size:8px}
+.gain-knob{
+  appearance:none;display:block;padding:0;margin:0;cursor:ew-resize;touch-action:none;
+  user-select:none;-webkit-user-select:none;position:relative;flex:none;
+  width:29px;height:29px;border-radius:50%;outline-offset:3px;
+  transform:rotate(0deg);transition:transform .16s ease-out,filter .13s ease-out
+}
+.gain-knob:hover:not(:disabled){filter:brightness(1.2)}
+.gain-knob:focus-visible{outline:2px solid #f0d0a0}
+.gain-knob:active{filter:brightness(1.38)}
+.gain-knob::before{transform:translateY(-1px)}
+.radio-channel-hint{position:absolute;right:12px;top:7px;font:700 7px 'IBM Plex Mono',monospace;color:#c3bb96;letter-spacing:.08em}
+.scope-path .path-footer i{transition:height .17s ease-out,background .17s ease-out,box-shadow .17s ease-out;opacity:.65}
+.scope-path .path-footer i[data-active="true"]{background:#a6e3ae;box-shadow:0 0 7px #9bffb0;opacity:1}
+.uplink-head em{transition:color .25s ease}
+.uplink-head em[data-alert="true"]{color:#eab66b}
+.signal-needle i[data-alert="true"]{background:#b52119;box-shadow:0 0 4px #f77d54}
+@media (max-width:1050px){
+ .radio-channel-hint{display:none}
+}
+@media(max-width:700px){
+ /* This is now a usable input, so do not hide it on phones. */
+ .radio-apparatus{display:block;min-height:82px;padding:6px 9px}
+ .radio-label{font-size:8px;min-height:12px}
+ .radio-face{height:39px;margin:4px 0 3px}
+ .signal-needle i{height:24px}
+ .radio-bottom{justify-content:flex-start}
+ .radio-bottom .radio-description{font-size:8px}
+ .gain-knob{width:29px;height:29px}
+ .remote-rack{grid-template-columns:1fr;gap:5px}
+}
+@media(prefers-reduced-motion:reduce){
+ .signal-needle i,.gain-knob,.scope-path .path-footer i{transition:none}
+}
