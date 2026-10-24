@@ -541,57 +541,55 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
 <link rel="stylesheet" href="./hardware.css?v=0.9">
 <link rel="stylesheet" href="./field.css?v=1.3">
 <link rel="stylesheet" href="./telemetry.css?v=1.4">
+<link rel="stylesheet" href="./legibility.css?v=1.5">
 </head>
 <body>
 <div class="fit-stage"><main class="console" aria-label="Luck Machine dice game console">
   <i class="screw tl"></i><i class="screw tr"></i><i class="screw bl"></i><i class="screw br"></i>
   <header>
-    <div class="brand"><div class="star" aria-hidden="true">★</div><div class="header-stamp" aria-hidden="true">ОТК / 84</div><div><h1>LUCK MACHINE</h1><p>FIELD OPERATIONS · PORTABLE UNIT 5D–20</p></div></div>
-    <div class="serial"><span class="stenciled">APPARATUS NO.</span><strong>5D / 20</strong><span>REMOTE PROBABILITY COMMAND SYSTEM</span></div>
-    <div class="status bezel led"><div class="statusline"><span class="statuslabel"><i class="lamp"></i>SYSTEM ONLINE</span><span id="systemState">READY</span></div><div class="statusline"><span class="statuslabel"><i class="lamp orange"></i>SCORING UNIT</span><span>OPERATIONAL</span></div></div>
+    <div class="brand"><div class="star" aria-hidden="true">★</div><div class="header-stamp" aria-hidden="true">ОТК / 84</div><div><h1>LUCK MACHINE</h1><p>ПОЛЕВОЙ ПУЛЬТ · FIELD UNIT 5D–20</p></div></div>
+    <div class="serial"><span class="stenciled">АППАРАТ / MODEL</span><strong>5D / 20</strong><span>ЗАВОД № 14 · 1984</span></div>
+    <div class="status bezel led"><div class="statusline"><span class="statuslabel"><i class="lamp"></i>ПИТАНИЕ / POWER</span><span id="systemState">READY</span></div><div class="statusline"><span class="statuslabel"><i class="lamp orange"></i>СЧЁТ / SCORE</span><span>OPERATIONAL</span></div></div>
   </header>
 
 <section class="remote-rack" aria-label="Fictional remote radio telemetry display">
  <div class="radio-apparatus" role="group" aria-label="Simulated field radio and channel selector">
-   <div class="radio-label">RADIO TRANSMITTER / РАДИОКАНАЛ</div>
+   <div class="radio-label">РАДИОСВЯЗЬ / RADIO</div>
    <div class="radio-face"><div class="signal-needle" aria-hidden="true"><i id="meterNeedle"></i><b></b></div><div class="signal-dial"><span>0</span><span>СИГНАЛ</span><span>100</span></div></div>
    <div class="radio-bottom"><button type="button" class="gain-knob" id="radioDial" aria-label="Radio channel 07. Click or drag sideways to tune, or use left and right arrow keys." title="Click, drag horizontally, or use arrow keys to select radio channel"></button><span class="radio-description"><span id="radioChannel">КАНАЛ 07</span><br><strong id="radioLinkStatus">СВЯЗЬ ЕСТЬ</strong></span><div class="field-socket" aria-label="Fictional field connector"><i></i><i></i><i></i></div></div>
  </div>
  <div class="uplink-module" aria-hidden="true">
-   <div class="uplink-head"><span>★ &nbsp; ДАЛЬНЯЯ СВЯЗЬ / REMOTE SITE TELEMETRY</span><em><i></i> <span id="telemetryLink">LINK ESTABLISHED</span></em></div>
+   <div class="uplink-head"><span>★ &nbsp; ДАЛЬНЯЯ СВЯЗЬ / RADIO LINK</span><em><i></i> <span id="telemetryLink">LINK ESTABLISHED</span></em></div>
    <div class="scope-area">
     <div class="scope-station"><div class="station-icon"><span></span><i></i></div><b>FIELD UNIT<br>5D–20</b></div>
-    <div class="scope-path"><div class="path-header">ENCRYPTED RADIO LINK <span>···</span> DISTANT LOCATION</div><svg viewBox="0 0 440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 39 H32 l14 -14 l17 28 l19 -28 l19 28 l20 -14 H440" fill="none" stroke="#6b9c84" stroke-width="1.5" opacity=".8"/><path d="M0 39 H440" stroke="#c9ad74" stroke-width="1" stroke-dasharray="5 11" opacity=".5"/><circle cx="70" cy="39" r="5" fill="#f4bc6d"/><circle cx="225" cy="39" r="4" fill="#a2e7bd"/><circle cx="383" cy="39" r="5" fill="#f4bc6d"/></svg><div class="path-footer">TRANSMIT <i></i><i></i><i></i><i></i><i></i> RECEIVE <strong>REMOTE</strong></div></div>
-    <div class="scope-site"><div class="site-icon"><div class="tower"><span></span></div><div class="horizon"></div></div><b>REMOTE SITE<br>SECTOR 07</b></div>
+    <div class="scope-path"><svg viewBox="0 0 440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 39 H32 l14 -14 l17 28 l19 -28 l19 28 l20 -14 H440" fill="none" stroke="#6b9c84" stroke-width="1.5" opacity=".8"/><path d="M0 39 H440" stroke="#c9ad74" stroke-width="1" stroke-dasharray="5 11" opacity=".5"/><circle cx="70" cy="39" r="5" fill="#f4bc6d"/><circle cx="225" cy="39" r="4" fill="#a2e7bd"/><circle cx="383" cy="39" r="5" fill="#f4bc6d"/></svg><div class="path-footer">ПРД / TX <i></i><i></i><i></i><i></i><i></i> ПРМ / RX <strong>07</strong></div></div>
+    <div class="scope-site"><div class="site-icon"><div class="tower"><span></span></div><div class="horizon"></div></div><b>УЗЕЛ СВЯЗИ<br>SECTOR 07</b></div>
    </div>
-   <div class="scope-foot"><span>СЕКТОР 07 / СВЯЗЬ ПОДТВЕРЖДЕНА</span><span>VISUAL SIMULATION • NO LIVE CONNECTION</span></div>
  </div>
  <div class="auth-block" aria-hidden="true">
-  <div class="auth-plate"><span>МИНИСТЕРСТВО ВЕРОЯТНОСТИ</span><b>ДИСТАНЦИОННЫЙ<br>ПУЛЬТ</b><small>REMOTE CONTROL UNIT</small></div>
-  <div class="auth-lights"><div><i class="tiny-led green-led"></i> RADIO READY</div><div><i class="tiny-led amber-led"></i> REMOTE SITE</div></div>
-  <div class="auth-stencil">MOBILE UNIT · 5D / 20 <span>★</span></div>
+  <div class="auth-plate"><span>М-ВО ВЕРОЯТНОСТИ</span><b>ПУЛЬТ<br>УПРАВЛЕНИЯ</b><small>5Д–20 · СССР · 1984</small></div>
+  <div class="auth-lights"><div><i class="tiny-led green-led"></i> РАДИО</div><div><i class="tiny-led amber-led"></i> УЗЕЛ 07</div></div>
  </div>
 </section>
 <div class="inventory-strip" aria-hidden="true">
-  <span class="inventory-red">★ &nbsp; НАРОДНЫЙ КОНТРОЛЬ</span>
-  <span>ОБЪЕКТ № 5Д–20 &nbsp;/&nbsp; ДИСТАНЦИОННЫЙ ПУЛЬТ</span>
-  <span class="inventory-end">ИНВ. 1984 &nbsp;·&nbsp; СЕКТОР 07 &nbsp;·&nbsp; ПЛОМБА ЦЕЛА</span>
+  <span class="inventory-red">ОТК · ПРИЁМКА</span>
+  <span>ПРИБОР 5Д–20 · ЗАВОД № 14 · 1984</span>
 </div>
 <section class="topread" aria-label="Scoreboard">
-    <div class="readout"><span class="label">TOTAL SCORE</span><strong id="total">000,000</strong></div>
-    <div class="readout"><span class="label">TURN / 20</span><strong id="turn">01 / 20</strong></div>
-    <div class="readout"><span class="label">ROLLS REMAIN</span><strong id="left">03</strong></div>
-    <div class="readout"><span class="label">LOCAL RECORD</span><strong class="smaller" id="record">000,000</strong></div>
+    <div class="readout"><span class="label">СЧЁТ / SCORE</span><strong id="total">000,000</strong></div>
+    <div class="readout"><span class="label">ХОД / TURN</span><strong id="turn">01 / 20</strong></div>
+    <div class="readout"><span class="label">БРОСКИ / ROLLS</span><strong id="left">03</strong></div>
+    <div class="readout"><span class="label">РЕКОРД / BEST</span><strong class="smaller" id="record">000,000</strong></div>
   </section>
-  <div class="paneltitle"><span>DICE ARRAY <span style="color:var(--orange)">/</span> CHANNELS 01—05</span><small>SELECT TO HOLD · KEYS 1–5</small></div>
+  <div class="paneltitle"><span>КУБИКИ <span style="color:var(--orange)">/</span> DICE 01—05</span><small>HOLD · KEYS 1–5</small></div>
   <section class="dicebay" aria-label="Five dice">
     <div class="dice" id="dice"></div>
-    <div class="dicefoot"><span>ILLUMINATED RANDOM NUMBER GENERATORS</span><span id="arrayNote">AWAITING FIRST ROLL</span></div>
+    <div class="dicefoot"><span>ГЕНЕРАТОРЫ / RNG 01—05</span><span id="arrayNote">AWAITING FIRST ROLL</span></div>
   </section>
   <div class="controlgrid">
-    <section class="module paymodule"><h2>AUTHORIZED PAYOUTS</h2><table class="paytable" id="paytable" aria-label="Scoring categories"></table></section>
+    <section class="module paymodule"><h2>ВЫПЛАТЫ / PAYOUTS</h2><table class="paytable" id="paytable" aria-label="Scoring categories"></table></section>
     <section class="module decision" aria-label="Game control panel">
-      <div class="decision-head"><h2>DECISION CONSOLE</h2><span class="tag" id="phase">STANDBY</span></div>
+      <div class="decision-head"><h2>ПУЛЬТ / DECISION</h2><span class="tag" id="phase">STANDBY</span></div>
       <div class="handname" id="hand">AWAITING INPUT</div>
       <div class="decisiontext" id="description">Five dice. Three rolls. Twenty turns. Hold the dice you want and bank your best hand—or declare a risky double-payout challenge.</div>
       <div class="callstatus" id="challengeLine" aria-live="polite">NO ACTIVE CHALLENGE</div>
@@ -603,13 +601,13 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
       <div class="rollnote" id="hint">SPACE = ROLL · B = BANK · C = CALL</div>
     </section>
     <aside class="module sideinfo" aria-label="Instrument readouts">
-      <div class="statusbox"><span>PROJECTED PAYOUT</span><strong id="projected">—</strong><div class="signal" id="signals"><div></div><div></div><div></div></div><div class="slim" id="meterText">ROLL 1 TO BEGIN</div></div>
-      <div class="statusbox"><span>APPARATUS DIRECTIVE</span><div class="slim" id="directive">ALL POINTS ARE EARNED. REDISTRIBUTION HAS BEEN SUSPENDED.</div></div>
+      <div class="statusbox"><span>ПРОГНОЗ / PAYOUT</span><strong id="projected">—</strong><div class="signal" id="signals"><div></div><div></div><div></div></div><div class="slim" id="meterText">ROLL 1 TO BEGIN</div></div>
+      <div class="statusbox"><span>ПРИКАЗ / DIRECTIVE</span><div class="slim" id="directive">ALL POINTS ARE EARNED. REDISTRIBUTION HAS BEEN SUSPENDED.</div></div>
     </aside>
   </div>
   <div class="controlstrip">
     <div class="footleft"><button class="smallbutton" id="newBtn">NEW SESSION</button><button class="smallbutton" id="scoresBtn">TOP 10</button><button class="smallbutton" id="rulesBtn">MANUAL</button><button class="smallbutton" id="soundBtn" aria-pressed="true">SOUND: ON</button></div>
-    <div class="footright"><span class="alertbar"><b>NOTICE:</b> CHANCE IS A DUTY · OPERATOR RESPONSIBLE FOR ALL RISK</span><span class="signature">LM · BUILD 1.4 · ACTIVE RADIO</span></div>
+    <div class="footright"><span class="alertbar"><b>ПРИКАЗ №07:</b> РИСК — ДЕЛО ОПЕРАТОРА</span><span class="signature">LM · BUILD 1.5 · PANEL MARKINGS</span></div>
   </div>
 </main></div>
 <div class="shade" id="overlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><span class="overline" id="dialogOverline">MINISTRY BULLETIN</span><h2 id="dialogTitle"></h2><div id="dialogContent"></div><div class="dialogfoot" id="dialogFoot"></div></section></div>
