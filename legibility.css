@@ -1,0 +1,87 @@
+/* LUCK MACHINE 5D–20 / v1.5: INDUSTRIAL LEGIBILITY PASS
+   Fictional 1984 Soviet field-console labels. Keep the painted chassis untouched. 
+   Functional text is legible; near-microscopic cosmetic slogans are removed. */
+:root{--label-ivory:#e5e0c6;--stencil-khaki:#c4c4a2;--panel-amber:#e7bb75}
+.brand p{font-size:11px;letter-spacing:.055em;color:var(--label-ivory);font-weight:700;text-shadow:0 1px #0a120b}
+.serial span{font-size:11px;color:#d1d3af;letter-spacing:.035em}
+.serial .stenciled{font-size:11px;color:#e2dec0}
+.serial strong{letter-spacing:.13em}
+.statusline{font-size:11px}
+.statuslabel{color:var(--label-ivory)}
+.radio-label{font-size:11px;letter-spacing:.055em;min-height:13px;line-height:1.15;color:#ede5c6;text-shadow:0 1px #182117}
+.radio-bottom{font-size:10px;letter-spacing:.015em}
+.radio-bottom .radio-description{font-size:10px;color:#e1dfc8;line-height:1.25}
+.radio-bottom .radio-description strong{font-size:10px;color:#f0bf72}
+.signal-dial{font-size:9px}
+.uplink-head{font-size:11px;letter-spacing:.035em;align-items:center;padding:6px 9px;flex-wrap:wrap}
+.uplink-head em{font-size:10px;letter-spacing:.015em;white-space:nowrap;color:#bcdfb7}
+.uplink-head>span{color:#e1d9b5}
+.scope-area{padding-top:5px;padding-bottom:5px}
+.scope-station b,.scope-site b{font-size:10px;color:#e4dec5;letter-spacing:.01em}
+.path-header,.scope-foot{display:none}
+.path-footer{font-size:10px;letter-spacing:0;color:#bacbac;gap:4px}
+.path-footer strong{font-size:10px;color:#f0c17d}
+.auth-plate{padding:7px 4px}
+.auth-plate span{font-size:9px;letter-spacing:.035em;color:#28372c}
+.auth-plate b{font-size:17px;line-height:1.0;letter-spacing:.045em;margin:4px 0;color:#263628}
+.auth-plate small{font-size:10px;color:#354332;letter-spacing:.02em}
+.auth-lights{gap:6px;margin-top:6px}
+.auth-lights div{font-size:9px;line-height:1.15;color:#e0dcc0}
+.auth-stencil{display:none}
+.inventory-strip{font-size:11px;letter-spacing:.025em;line-height:1.3;gap:10px;padding:5px 10px;flex-wrap:wrap;
+ color:#dcd8ba;text-shadow:0 1px #121b12}
+.inventory-strip .inventory-red{color:#d1a18b!important;letter-spacing:.045em;max-width:none}
+.inventory-strip .inventory-end{display:none}
+.topread .readout .label{font-size:11px;color:var(--label-ivory);letter-spacing:.065em;text-shadow:0 1px #000}
+.paneltitle{letter-spacing:.105em;font-size:15px;margin-top:10px;margin-bottom:5px}
+.paneltitle small{font-size:11px;letter-spacing:.025em;color:#cbd1b8;font-weight:700}
+.dicefoot{font-size:10px;letter-spacing:.025em;color:#bccdb7;line-height:1.2;gap:8px;margin-top:5px}
+.dicefoot span:last-child{color:#e4d8ac}
+.paymodule h2,.decision-head h2{color:#e8d7b2;letter-spacing:.075em}
+.paytable{font-size:11px;letter-spacing:.005em}
+.paytable td{padding:3px 0}
+.paytable td:first-child{color:#e0dfc8}
+.decisiontext{font-size:13px;line-height:1.4;color:#d2dfd0}
+.decision-head .tag{font-size:10px;letter-spacing:.045em}
+.callstatus{font-size:11px}
+.rollnote{font-size:11px;color:#c3cbb2;letter-spacing:.035em}
+.statusbox span{font-size:11px;letter-spacing:.055em;color:#d4ddca}
+.statusbox .slim{font-size:11px;line-height:1.4;color:#c2cdbb}
+.smallbutton{font-size:12px!important;letter-spacing:.06em}
+.controlstrip .footright::before{display:none}
+.controlstrip .footright{gap:7px}
+.alertbar{font-size:10px;letter-spacing:.015em;color:#d5d3ad}
+.signature{font-size:10px;color:#d2d0ad;letter-spacing:.015em}
+/* Do not let large bilingual text force smaller automatic desktop scaling. */
+.serial{padding:5px 6px}
+.remote-rack{margin-top:9px}
+.controlgrid{margin-top:7px}
+@media (max-width:1050px){
+ .serial{display:none}
+ .brand p{font-size:10px}
+ .uplink-head{font-size:10px}
+ .uplink-head em{font-size:9px}
+ .inventory-strip{font-size:10px;justify-content:center}
+ .paytable{font-size:11px}
+ .paneltitle small{font-size:10px}
+ .controlstrip .footright{display:none}
+}
+@media (max-width:700px){
+ .radio-label{font-size:10px}
+ .radio-bottom .radio-description,.radio-bottom .radio-description strong{font-size:10px}
+ .radio-apparatus{display:block}
+ .uplink-head{gap:4px;font-size:10px}
+ .scope-station b,.scope-site b{font-size:9px}
+ .path-footer{font-size:9px}
+ .inventory-strip{padding:5px 7px;font-size:10px;gap:4px}
+ .inventory-strip .inventory-red{width:auto}
+ .readout .label,.topread .readout .label{font-size:9px}
+ .paneltitle{font-size:13px;letter-spacing:.06em}
+ .paneltitle small{font-size:9px}
+ .dicefoot span:first-child{display:none}
+ .dicefoot{justify-content:flex-end}
+ .decisiontext{font-size:13px}
+ .paytable{font-size:12px}
+ .statusbox .slim{font-size:12px}
+ .rollnote{font-size:10px}
+}
