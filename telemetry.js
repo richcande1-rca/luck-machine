@@ -107,6 +107,8 @@
   knob.addEventListener('pointerup',e=>{
     if(!drag||e.pointerId!==drag.id)return;
     skipClick=drag.moved;drag=null;
+    // A drag should not consume the next tap if a browser omits the synthetic click.
+    if(skipClick)setTimeout(()=>{skipClick=false},0);
     try{knob.releasePointerCapture(e.pointerId)}catch{}
   });
   knob.addEventListener('pointercancel',()=>{drag=null;skipClick=false});
