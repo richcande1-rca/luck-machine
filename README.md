@@ -1,12 +1,12 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.0 — Field Case Carrying Handle.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.1 — Soviet Field Chassis.**
 
 ## Play
 
 [Open LUCK MACHINE](https://richcande1-rca.github.io/luck-machine/) (requires GitHub Pages to be enabled in repository settings).
 
-Or download `index.html`, `audio.js`, `hardware.css`, and `handle.css` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
+Or download `index.html`, `audio.js`, `hardware.css`, and `field.css` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
 
 ## Rules
 
@@ -22,9 +22,11 @@ Keyboard: **Space / Enter** = roll, **1–5** = hold corresponding die, **B** = 
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
 
-## Model 5D-20 Folding Handle
+## Soviet Field Chassis (v1.1)
 
-Version 1.0 replaces the former vent-like decorative top block with a realistic raised folding transport handle: open steel arms, riveted hinge plates, and a rounded Bakelite-style grip. The handle is centered over the case frame and fits on mobile. The desktop viewport-fitting calculation leaves space above the console for the raised grip. All gameplay, rolling animations, sound, scores, and the square dice remain unchanged.
+The tall suitcase handle is gone. The cabinet is now a sharp-edged matte olive field-radio chassis, with structural corner plates, bolted side grips on desktop, separately recessed instrument assemblies, and utilitarian stenciled factory markings. The design prioritizes mechanical credibility rather than casino or decorative briefcase styling. Narrow-screen layout omits external side grips to preserve usable touch controls.
+
+The new appearance is layered in `field.css`. The previous handle treatment is no longer loaded. The five square illuminated dice, twenty-turn rules, extended rolling, sound effects, local Top 10, and viewport scaling remain functionally unchanged.
 
 ## Military Hardware Restoration
 
