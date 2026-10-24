@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.1 — Soviet Field Chassis.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.2 — Clean Military Chassis.**
 
 ## Play
 
@@ -22,9 +22,9 @@ Keyboard: **Space / Enter** = roll, **1–5** = hold corresponding die, **B** = 
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
 
-## Soviet Field Chassis (v1.1)
+## Clean Military Chassis (v1.2)
 
-The tall suitcase handle is gone. The cabinet is now a sharp-edged matte olive field-radio chassis, with structural corner plates, bolted side grips on desktop, separately recessed instrument assemblies, and utilitarian stenciled factory markings. The design prioritizes mechanical credibility rather than casino or decorative briefcase styling. Narrow-screen layout omits external side grips to preserve usable touch controls.
+The cabinet uses a sharp-edged matte olive field-radio chassis, with structural corner plates, separately recessed instrument assemblies, and utilitarian stenciled factory markings. Version 1.2 removes all external side handles and restores the standard viewport width. The design prioritizes mechanical credibility without unnecessary handles or luggage-like features.
 
 The new appearance is layered in `field.css`. The previous handle treatment is no longer loaded. The five square illuminated dice, twenty-turn rules, extended rolling, sound effects, local Top 10, and viewport scaling remain functionally unchanged.
 
