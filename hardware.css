@@ -1,0 +1,47 @@
+/* 5D–20 / 1984: military steel restoration, display-only */
+.console{border-color:#1b241b #263028 #111b15;outline-color:#857c64;background:radial-gradient(ellipse 35% 24% at 0 4%,#9c552744,transparent 89%),radial-gradient(ellipse 28% 24% at 100% 93%,#8c3b2338,transparent 92%),repeating-linear-gradient(92deg,#171e1733 0px,transparent 2px,transparent 73px,#b8b7a908 74px),linear-gradient(130deg,#262d24be,#50574898 20%,#343f32bb 61%,#232e25d1),var(--worn-steel) center / 860px 860px repeat,#444b40;box-shadow:inset 0 0 0 2px #958e6a,inset 0 0 0 7px #0e150e,inset 0 0 23px 7px #0b110cac,0 10px 0 #171d16,0 21px 0 #101710,0 29px 22px #030602,0 42px 90px #000e}
+.console::before{opacity:.7;background:repeating-linear-gradient(163deg,transparent 0px,transparent 91px,#b9b29a12 92px,transparent 93px,transparent 198px),radial-gradient(ellipse 10% 15% at 1% 53%,#774123a3,transparent 100%),radial-gradient(ellipse 16% 12% at 99% 94%,#8f482c7a,transparent 95%)}
+.screw,.readout::before,.readout::after,.module::before,.module::after,.dicebay::after,.controlstrip::before,.controlstrip::after{background:linear-gradient(33deg,transparent 44%,#0f1611 46% 55%,transparent 57%),radial-gradient(circle at 35% 27%,#d0c2a0 0 14%,#93947d 25%,#505a4c 57%,#222b25 75%);border:1px solid #0d160f;box-shadow:0 0 0 2px #283128,inset 1px 1px 2px #eee4ba5a,1px 2px 3px #000c}
+.screw{width:17px;height:17px;border-width:2px;z-index:5}.screw::after{top:5px;left:1px;width:11px;height:2px;background:#0c140e;transform:rotate(-38deg)}
+.brand .star{display:grid;place-items:center;flex:0 0 52px;width:52px;height:53px;margin:0;position:relative;transform:none!important;font-family:Arial,sans-serif;font-size:37px;line-height:1;color:#aa332b;background:radial-gradient(circle at 1px 1px,#d5c6a8 1px,transparent 2px) 5px 5px / 40px 40px no-repeat,linear-gradient(140deg,#838774,#474f41 48%,#272f27 98%);border:3px solid #1c241e;border-radius:2px;box-shadow:inset 0 1px 1px #bfbda06e,inset 0 -3px 4px #0b120d,0 2px 1px #0a110b,0 0 0 1px #838977;text-shadow:1px 1px #44211d,0 0 3px #ca59453a;filter:none}
+.brand .star::before,.brand .star::after{content:'';position:absolute;top:4px;width:5px;height:5px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#d0cbb3,#444c40 57%,#161f18);box-shadow:0 0 0 1px #172017}.brand .star::before{left:4px}.brand .star::after{right:4px}
+header{border:4px ridge #454f42;background:linear-gradient(100deg,#c0b38e12,transparent 42%,#12191053),repeating-linear-gradient(0deg,transparent 0 36px,#d3cfb707 37px),linear-gradient(#4a5145c4,#343d32df),var(--worn-steel);background-size:auto,auto,auto,510px 510px;box-shadow:inset 0 2px 1px #a7a78e71,inset 0 -3px 5px #121b16c2,0 3px 5px #030803aa}
+.brand h1{color:#e4d9b7;text-shadow:1px 2px 0 #10170f,2px 3px 1px #0a0e08;letter-spacing:.085em}.brand p{color:#c3baa0}
+.serial{position:relative;background:linear-gradient(#0b120b12,#121b1540);border-left:2px groove #92958472;border-right:2px groove #92958472}
+.serial::after{content:'ЗАВОД № 14 · ОТК / 84';display:block;letter-spacing:.13em;color:#b88a64;font-size:8px;margin-top:2px}
+.status{border:3px ridge #65715c;background:linear-gradient(#30392e,#171f19);box-shadow:inset 0 1px #b4b49c53,0 2px 5px #070d08c2}
+.lamp,.tiny-led{border:2px solid #1d241c;box-shadow:0 0 0 2px #77816d,inset 1px 2px 3px #f9c87c4d,0 0 5px #e1a555aa}
+.lamp{width:12px;height:12px;background:radial-gradient(circle at 35% 22%,#f7e4a1,#8ba879 24%,#346746 65%,#14231a)}
+.lamp.orange{background:radial-gradient(circle at 35% 22%,#fff3c1,#e4ab4a 30%,#96612b 70%,#291e13)}
+.lamp.red{background:radial-gradient(circle at 35% 22%,#f9c8b0,#bb4b34 35%,#591d1c 76%)}
+.remote-rack{background:linear-gradient(160deg,#6c715c 0,#343d32 9%,#262e26 52%,#575b49 100%);border:7px ridge #4b5143;box-shadow:inset 0 2px 5px #000d,inset 0 0 0 2px #141b14,0 3px 5px #000a}
+.radio-apparatus,.auth-block{border:3px ridge #5c6653;background:linear-gradient(135deg,#75776147,#303c2f 39%,#252e27 98%);box-shadow:inset 0 1px #d0c3a24f,0 3px 5px #030904c9}
+.radio-face{border:5px ridge #596350;background:linear-gradient(#8d9176,#d9d1a9 35%,#b5b297 67%,#777963);box-shadow:inset 0 0 9px #4e533b,0 1px 4px #050903}
+.gain-knob{position:relative;background:repeating-conic-gradient(from 12deg,#171f19 0 14deg,#465043 15deg 24deg,#222c24 25deg 31deg);box-shadow:0 0 0 2px #89907a,0 2px 4px #050903c9}
+.gain-knob::after{content:'';position:absolute;width:6px;height:8px;top:1px;left:calc(50% - 3px);background:#c8a977;border-radius:1px}
+.uplink-module{border:6px ridge #647460;outline:2px solid #202c20;box-shadow:inset 0 0 20px #000,0 3px 6px #000d}
+.uplink-head{color:#d4d0af;background:linear-gradient(#3b4d3c,#1a2b20);border-bottom:2px solid #526652}
+.auth-plate{border:3px ridge #8d866c;background:linear-gradient(160deg,#d1c6a7,#a4a087 45%,#6e7260);box-shadow:inset 0 2px #e6d9b3,0 2px 4px #000b}.auth-plate b{color:#302f22}
+.auth-lights .tiny-led{background:#927348}
+.inventory-strip{background:linear-gradient(#666b58,#323c2f 32%,#212b22),var(--worn-steel);border:2px ridge #555c4c;box-shadow:inset 0 1px #9799824d,0 2px 3px #0b110ca8}.inventory-strip .inventory-red{color:#c88363}
+.readout{border:4px ridge #626e60;background:linear-gradient(#05140d,#0b1a12 40%,#14241a);box-shadow:inset 0 0 0 2px #060c09,inset 0 3px 14px #000b,0 2px 1px #8d987d66,0 4px 6px #000a}
+.readout .label{color:#a99f80}.readout strong{color:#ecae58;text-shadow:0 0 10px #f6ac4f56}
+.dicebay{border:7px ridge #586b56;background:linear-gradient(#1d291e,#121d15 26%,#283124 100%);box-shadow:inset 0 0 0 2px #0f1b13,inset 0 4px 10px #0009,0 3px 4px #0009}
+.die{border:4px ridge #6b796b;border-radius:2px;background:linear-gradient(134deg,#4b574b,#18251e 24%,#0a1712 79%,#404b3f);box-shadow:inset 0 0 0 3px #0c170f,inset 0 0 0 5px #83927b60,0 3px 3px #000d}
+.die .face{border:2px solid #316653;box-shadow:inset 0 0 2px #a0f7d348,inset 0 0 24px #030e0c,0 0 4px #51a98770}
+.die .holdbadge{border:2px ridge #6a8574;background:linear-gradient(#253e32,#10251c);box-shadow:inset 0 1px #b2dbba3a,0 2px 1px #000c;color:#b8dbc5}
+.die[data-held="true"] .holdbadge{border-color:#ac8850;background:linear-gradient(#4d361e,#211a13)}
+.controlgrid .module{border:5px ridge #606956;box-shadow:inset 0 0 0 1px #171d17,inset 0 2px #b4ba9761,0 3px 6px #050804c9}
+.module:not(.decision){background:linear-gradient(150deg,#67705a99,#293329e6 55%,#1f2922),var(--worn-steel);background-size:auto,525px 525px}
+.decision{background:linear-gradient(#1e2b21,#101c15)}
+.module h2{color:#e0c69d;text-shadow:1px 1px 0 #161c16}
+.metalbutton{border:3px ridge #7d8469;border-bottom:5px solid #11170f;border-radius:2px;background:linear-gradient(#798575,#495949 14%,#354034 65%,#283228);box-shadow:inset 0 1px 0 #e4d5ac6b,0 3px 4px #000b}
+.metalbutton.roll{background:linear-gradient(#ae7460 0,#a15b3f 10%,#783b2a 57%,#471d18);border-color:#98735c;color:#fff0d4}
+.metalbutton.bank{background:linear-gradient(#689082,#316452 14%,#234e3c 70%,#143629);border-color:#637c6e}
+.metalbutton.call{background:linear-gradient(#b36b57,#8d4033 20%,#5a241d 90%);border-color:#a16f5c}
+.smallbutton{border:3px ridge #6d7765;border-bottom:4px solid #121913;border-radius:2px;background:linear-gradient(#77806f,#3e503e 24%,#243126 100%);box-shadow:inset 0 1px #d9d8b35c,0 2px 3px #000a}
+.controlstrip{border:5px ridge #626b58;background:linear-gradient(0deg,#1a241c,#535d4c),var(--worn-steel);box-shadow:inset 0 1px #a7a89171,0 2px 4px #000a}
+.statusbox{border:3px ridge #536553;background:linear-gradient(#101b13,#09160e);box-shadow:inset 0 1px 11px #000a,0 2px 2px #0008}
+.header-stamp{position:absolute;top:2px;right:6px;transform:rotate(-1deg);padding:1px 4px;border:1px solid #c1886b80;color:#b78265;font-size:7px;font-weight:700;letter-spacing:.1em;opacity:.8;pointer-events:none}
+.brand{position:relative}.dicefoot{border-top:1px solid #656b5354;padding-top:5px}.controlstrip .footright::before{content:'ВОЕНПРИЁМКА · № 14';font-weight:700;color:#a98972}
+@media(max-width:700px){.brand .star{width:39px;height:39px;flex-basis:39px;font-size:29px;border-width:2px}.brand .star::before,.brand .star::after{width:4px;height:4px;top:3px}.console{border-width:8px}.remote-rack{border-width:4px}.dicebay{border-width:4px}.die{border-width:2px;padding:3px}.readout{border-width:2px}.controlgrid .module{border-width:3px}.controlstrip{border-width:3px}.metalbutton,.smallbutton{border-width:2px;border-bottom-width:3px}.header-stamp{display:none}}
