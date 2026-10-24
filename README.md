@@ -1,12 +1,12 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 0.4 — Long-Range Command.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 0.6 — Audio System Overhaul.**
 
 ## Play
 
 [Open LUCK MACHINE](https://richcande1-rca.github.io/luck-machine/) (requires GitHub Pages to be enabled in repository settings).
 
-Or download `index.html` and open it locally in a modern browser. No installation or build process is needed.
+Or download `index.html` and `audio.js` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
 
 ## Rules
 
@@ -17,6 +17,10 @@ Or download `index.html` and open it locally in a modern browser. No installatio
 - Local Top 10 leaderboard stored in this browser only; scores are **not shared online**.
 
 Keyboard: **Space / Enter** = roll, **1–5** = hold corresponding die, **B** = bank, **C** = call.
+
+## Sound
+
+Sound is generated locally with Web Audio. The new v0.6 audio engine includes mechanical relay clicks, five staggered dice-stop sounds, tactile HOLD clicks, bank-counting chimes, CALL IT! warnings, success/failure signals, five-of-a-kind fanfare, an end-session sign-off, and infrequent faint idle radio chirps. All audio is controlled by the existing SOUND ON/OFF switch. Gameplay and scores are unchanged.
 
 ## Design
 
