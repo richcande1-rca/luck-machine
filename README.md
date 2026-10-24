@@ -1,12 +1,12 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.7.2 — Audio Level Adjustment.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.8.0 — World Top 10 Integration (backend deployment required).**
 
 ## Play
 
 [Open LUCK MACHINE](https://richcande1-rca.github.io/luck-machine/) (requires GitHub Pages to be enabled in repository settings).
 
-Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.css`, `telemetry.js`, `legibility.css`, `scoring.js`, `scoring.css`, and `operator.css` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
+Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.css`, `telemetry.js`, `legibility.css`, `scoring.js`, `scoring.css`, `operator.css`, `world-board.js`, and `world-board.css` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
 
 ## Rules
 
@@ -21,6 +21,35 @@ Keyboard: **Space / Enter** = roll, **1–5** = hold corresponding die, **B** = 
 ## Version 0.9
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
+
+## World Top 10 (v1.8.0)
+
+The TOP 10 console button now opens a **worldwide scoreboard interface**, with explicit
+live/offline status, refresh, local Top 10, and pre-v1.6 legacy Top 10. At game-over,
+a qualifying online score can be submitted with 1–5-character initials. Failed
+network submissions never silently count as posted: they offer retry/local saving.
+The score window never freezes or stops the dice if the network is unavailable.
+
+**IMPORTANT: BACKEND NOT AUTOMATICALLY DEPLOYED.** The static GitHub Pages frontend
+is ready, but a shared worldwide board requires a separately running Cloudflare
+Worker + dedicated D1 database. See worker/README.md for exact setup. The expected
+API URL after deployment to the existing Cloudflare account is:
+
+    https://luck-machine-board.rich-gothic.workers.dev/api/board
+
+The frontend will correctly display **WORLD BOARD OFFLINE** until it can verify
+the backend. Do not interpret an offline/empty table as a live scoreboard.
+
+Old 1.6+ locally saved scores remain in luck-machine-leaderboard-v2, and older
+fixed-payout records remain in luck-machine-leaderboard-v1. They are not wiped,
+migrated into the worldwide Top 10, or shared without an explicit final submission.
+
+The backend checks formatting, Top 10 cutoff, and maximum theoretical score
+(20 turns × 2 × 5,600 = 224,000). Because this is anonymous client-side dice,
+these basic checks do NOT make the worldwide board tamper-proof.
+
+The roll timing, face-value payout rules, CALL IT!, SOUND engine, active
+radio hardware, and olive-drab cabinet were not changed.
 
 ## Audio Level Adjustment (v1.7.2)
 
