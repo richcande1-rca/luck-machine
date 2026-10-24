@@ -463,10 +463,84 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
 }
 @media(prefers-reduced-motion:reduce){.uplink-head em i{animation:none}}
 
+
+/* MODEL 5D-20 / V0.5: viewport-sized command station. Decorative layout only. */
+.fit-stage{position:relative;margin:0 auto}
+@media(min-width:701px){
+ body{padding:24px 12px 8px}
+ .console{max-width:1180px;padding:10px;border-width:8px 11px 10px}
+ header{margin-top:7px;padding:10px 16px}
+ .brand h1{font-size:clamp(34px,3.7vw,46px)}
+ .brand p{margin-top:5px}
+ .star{font-size:32px}
+ .serial strong{font-size:25px}
+ .status{padding:8px 11px;gap:5px}
+ .statusline{font-size:10px}
+ .transport-mount{top:-24px;height:50px}
+ .carry-handle{height:43px;width:180px;margin-top:-20px;border-width:10px 10px 6px}
+ .case-latch{height:36px;width:46px;padding:6px 9px}
+ .case-latch span{height:19px}
+ .remote-rack{margin:8px 1px 3px;padding:6px;gap:7px;grid-template-columns:175px minmax(0,1fr) 170px;border-width:5px}
+ .radio-apparatus{padding:6px 9px}
+ .radio-face{height:38px;margin:4px 0 3px}
+ .signal-needle{height:21px}
+ .signal-needle i{height:18px}
+ .radio-bottom{font-size:7px}
+ .gain-knob{width:22px;height:22px}
+ .uplink-head{padding:5px 8px;font-size:9px}
+ .scope-area{padding:3px 7px 2px;grid-template-columns:76px minmax(0,1fr) 85px}
+ .scope-path svg{height:33px}
+ .scope-station,.scope-site{gap:2px}
+ .station-icon{transform:scale(.7);margin:-8px 0}
+ .site-icon{transform:scale(.78);margin:-5px 0}
+ .scope-foot{padding:3px 7px 4px}
+ .auth-plate b{font-size:13px}
+ .auth-lights{margin-top:4px}
+ .auth-block{padding:4px 6px}
+ .inventory-strip{padding:4px 10px 3px;font-size:9px}
+ .topread{margin-top:8px;gap:6px}
+ .readout{padding:7px 10px;min-height:58px}
+ .readout strong{font-size:31px}
+ .readout .smaller{font-size:29px}
+ .readout .label{font-size:9px}
+ .paneltitle{margin:9px 2px 5px;font-size:13px}
+ .dicebay{padding:9px 9px 10px}
+ .dice{gap:9px}
+ .die{padding:7px}
+ .die .face{aspect-ratio:1.55/1;padding:9px}
+ .die .under{margin-top:6px}
+ .die .holdbadge{padding:4px 7px}
+ .pip{width:clamp(8px,1.2vw,16px);height:clamp(8px,1.2vw,16px)}
+ .dicefoot{margin-top:6px}
+ .controlgrid{margin-top:8px;gap:8px;grid-template-columns:minmax(220px,.8fr) minmax(340px,1.7fr) minmax(175px,.65fr)}
+ .module{padding:10px;min-height:225px}
+ .module h2{font-size:19px;margin:0 0 7px}
+ .paytable{font-size:10px}
+ .paytable td{padding:3px 0}
+ .handname{font-size:34px;min-height:34px}
+ .decisiontext{font-size:11px;min-height:31px;line-height:1.4}
+ .buttons{gap:6px}
+ .metalbutton{min-height:43px;font-size:18px}
+ .statusbox{padding:8px}
+ .statusbox strong{font-size:30px}
+ .statusbox .slim{font-size:10px;line-height:1.45;margin-top:5px}
+ .signal{margin-top:6px}
+ .controlstrip{margin-top:8px;padding:7px 10px}
+ .smallbutton{padding:6px 9px;font-size:11px}
+ .alertbar,.signature{font-size:9px}
+}
+@media(min-width:701px) and (max-width:1050px){
+ .remote-rack{grid-template-columns:165px minmax(0,1fr)}
+ .controlgrid{grid-template-columns:1fr 1.4fr}
+ .sideinfo{grid-column:1/-1;flex-direction:row}
+ .module{min-height:0}
+}
+@media(max-width:700px){.fit-stage{width:100%!important;height:auto!important}.console{transform:none!important;width:100%!important}}
+
 </style>
 </head>
 <body>
-<main class="console" aria-label="Luck Machine dice game console">
+<div class="fit-stage"><main class="console" aria-label="Luck Machine dice game console">
   <i class="screw tl"></i><i class="screw tr"></i><i class="screw bl"></i><i class="screw br"></i>
   <header>
     <div class="brand"><div class="star" aria-hidden="true">★</div><div><h1>LUCK MACHINE</h1><p>FIELD OPERATIONS · PORTABLE UNIT 5D–20</p></div></div>
@@ -533,9 +607,9 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
   </div>
   <div class="controlstrip">
     <div class="footleft"><button class="smallbutton" id="newBtn">NEW SESSION</button><button class="smallbutton" id="scoresBtn">TOP 10</button><button class="smallbutton" id="rulesBtn">MANUAL</button><button class="smallbutton" id="soundBtn" aria-pressed="true">SOUND: ON</button></div>
-    <div class="footright"><span class="alertbar"><b>NOTICE:</b> CHANCE IS A DUTY · OPERATOR RESPONSIBLE FOR ALL RISK</span><span class="signature">LM · BUILD 0.4 · LONG-RANGE COMMAND</span></div>
+    <div class="footright"><span class="alertbar"><b>NOTICE:</b> CHANCE IS A DUTY · OPERATOR RESPONSIBLE FOR ALL RISK</span><span class="signature">LM · BUILD 0.5 · FITTED COMMAND</span></div>
   </div>
-</main>
+</main></div>
 <div class="shade" id="overlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><span class="overline" id="dialogOverline">MINISTRY BULLETIN</span><h2 id="dialogTitle"></h2><div id="dialogContent"></div><div class="dialogfoot" id="dialogFoot"></div></section></div>
 <script>
 (()=>{'use strict';
@@ -574,6 +648,39 @@ $('rollBtn').addEventListener('click',performRoll);$('bankBtn').addEventListener
 $('overlay').addEventListener('click',e=>{if(e.target===$('overlay'))closeDialog()});
 document.addEventListener('keydown',e=>{if(!$('overlay').hidden){if(e.key==='Escape')closeDialog();return}if(e.target instanceof HTMLElement&&['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))return;if('12345'.includes(e.key)&&e.key.length===1){toggleHold(Number(e.key)-1);return}if(e.key===' '||e.key==='Enter'){e.preventDefault();performRoll()}else if(e.key.toLowerCase()==='b'){bank()}else if(e.key.toLowerCase()==='c'){showCall()}});
 loadBoard();makeDice();buildPaytable();update();
+})();
+</script>
+
+<script>
+/* Desktop viewport auto-fit: never alter dice, scoring, or the mobile layout. */
+(()=>{
+  const stage=document.querySelector('.fit-stage');
+  const consoleElement=document.querySelector('.console');
+  if(!stage||!consoleElement)return;
+  let frame=0;
+  function fit(){
+    frame=0;
+    consoleElement.style.transform='none';
+    consoleElement.style.width='';
+    stage.style.width='';
+    stage.style.height='';
+    // Keep touch controls readable on phones/tablets; allow natural scrolling there.
+    if(window.innerWidth<=1050)return;
+    const availableWidth=Math.max(300,window.innerWidth-24);
+    consoleElement.style.width=Math.min(1180,availableWidth)+'px';
+    const w=consoleElement.offsetWidth;
+    const h=consoleElement.offsetHeight;
+    const availableHeight=Math.max(300,window.innerHeight-32);
+    const factor=Math.min(1,availableWidth/w,availableHeight/h);
+    stage.style.width=(w*factor)+'px';
+    stage.style.height=(h*factor)+'px';
+    consoleElement.style.transformOrigin='top left';
+    consoleElement.style.transform='scale('+factor+')';
+  }
+  function queue(){if(!frame)frame=requestAnimationFrame(fit)}
+  window.addEventListener('resize',queue,{passive:true});
+  if(document.fonts?.ready)document.fonts.ready.then(queue);
+  queue();
 })();
 </script>
 </body>
