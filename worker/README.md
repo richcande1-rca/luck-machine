@@ -1,49 +1,53 @@
-# LUCK MACHINE World Top 10 — Cloudflare deployment
+# LUCK MACHINE — Cloudflare Worker (v1.9.0, dashboard deployment)
 
-This is a **separate** Cloudflare Worker and D1 database for LUCK MACHINE.
-It does **not** share the pinball Worker, database, or table. No pinball scores are modified.
+**The owner uses the Cloudflare dashboard, not Wrangler.** The Worker and D1
+database already exist. You do **not** need to create another database, alter
+the SQL schema, reset scores, or touch Miami Nights.
 
-## First-time setup (Cloudflare account rich-gothic)
+## One-time upgrade for the new ten-turn game
 
-Requires Node.js/npm, Cloudflare account access, and Wrangler.
-From the worker directory:
+1. Open **Cloudflare → Workers & Pages → luck-machine-board → Edit Code**.
+2. Open https://github.com/richcande1-rca/luck-machine/blob/main/worker/src/index.js
+3. Replace the existing Worker's code with **the entire contents** of that file.
+4. Click **Deploy**.
+5. Confirm that the Worker still has a **Production D1 binding** with variable
+   name exactly `DB` pointing to the **existing** `luck_machine_board` database.
+6. Visit https://luck-machine-board.rich-gothic.workers.dev/api/board
+   The response should contain `ok:true`, `game:luck-machine`,
+   `ruleset:face-v1-10`, `limit:10`, and an `entries` array.
+7. Verify the old ranking is still at
+   https://luck-machine-board.rich-gothic.workers.dev/api/board?ruleset=face-v1
+   Its response should report `ruleset:face-v1` and any old entries.
 
-1. npm install
-2. npx wrangler login
-3. npx wrangler d1 create luck_machine_board
-4. Copy the returned database_id to worker/wrangler.toml, replacing REPLACE_WITH_YOUR_LUCK_MACHINE_D1_ID.
-5. npm run db:init:remote — creates only luck_machine_entries.
-6. npm run deploy
-
-The Worker name is luck-machine-board. If Cloudflare uses the same rich-gothic
-workers.dev subdomain as Miami Nights, the frontend is configured to expect:
-
-    https://luck-machine-board.rich-gothic.workers.dev/api/board
-
-**That URL is a deployment target, not proof the Worker already exists.**
-Checking it should return JSON containing ok:true, game:luck-machine and an entries array.
-The frontend will say WORLD BOARD OFFLINE until the Worker is deployed and reachable.
-If the subdomain differs, update ENDPOINT in world-board.js and its versioned script URL
-in index.html.
+**No SQL update is necessary.** The existing `luck_machine_entries` table
+already contains a `ruleset` column and supports both twenty-turn and
+ten-turn scores. Nothing is deleted or migrated.
 
 ## Behavior
 
-- GET /api/board -> worldwide Top 10, descending; ties go to the older record.
-- POST /api/board -> {"initials":"RCA","score":34120,"build":"1.8.0","ruleset":"face-v1"}.
-- Validates 1–5 uppercase alphanumeric initials, integer score (1–224000), build,
-  scoring ruleset, and Top 10 qualification. Detects accidental duplicate posts within
-  five minutes and prunes to ten entries.
-- Allowed browser origins: https://richcande1-rca.github.io and local development.
-- Offline: game runs normally and can save local scores in luck-machine-leaderboard-v2.
-  Scores from before face-value scoring remain separately accessible as legacy records.
+| Operation | Ruleset | Result |
+| --- | --- | --- |
+| GET /api/board | face-v1-10 (default) | Current ten-turn Top 10 |
+| POST /api/board | face-v1-10 | Submit a ten-turn score |
+| GET /api/board?ruleset=face-v1 | face-v1 | Read-only historic twenty-turn Top 10 |
+| POST /api/board with face-v1 | face-v1 | Rejected: historic records are frozen |
 
-## Important: score integrity
+Ten turns × the maximum double five-of-a-kind payout (11200) = **112000**
+maximum score. The old twenty-turn competition stays separate. Accidental
+duplicate retries are handled as before.
 
-As with the original Miami Nights Worker, this anonymous arcade leaderboard accepts
-browser-reported scores. They are **not cryptographically verified**; forged submissions
-are possible. Validation and a maximum-score ceiling reduce accidents, not cheating.
-For rigorous competition, the server should generate/verify all random rolls and full
-turn logs and employ rate limiting.
+Until you paste the new Worker code in Cloudflare, the frontend displays
+**Cloudflare Worker update required** for ten-turn world records, while
+allowing local ten-turn scores. The old archive can still be read.
 
-Do not embed Cloudflare tokens or database credentials in the public game.
-Deploy from your Cloudflare account or a CI workflow with protected secrets.
+## Local score keys
+
+- `luck-machine-leaderboard-v3-ten-turn` — new ten-turn scores.
+- `luck-machine-leaderboard-v2` — older twenty-turn face-value scores.
+- `luck-machine-leaderboard-v1` — pre-1.6 fixed-payout scores.
+
+All archives remain accessible through the game's leaderboard menus.
+
+**Important:** Edit the LUCK MACHINE Worker only. Do not alter the Miami
+Nights Worker, D1 database, or leaderboard. Browser-reported scores aren't
+cryptographically verified; do not paste credentials into public files.
