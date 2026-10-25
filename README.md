@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.9.1 — Oversized LAUNCH Actuator.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.9.2 — LAUNCH Above Secondary Controls.**
 
 ## Play
 
@@ -21,6 +21,23 @@ Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** 
 ## Version 0.9
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
+
+## Corrected Two-Row LAUNCH Panel (v1.9.2)
+
+The first button is now a genuinely prominent, **full-width LAUNCH / RELAUNCH
+actuator on its own 78-pixel-tall top row**, with the three smaller controls
+(**KEEP IT!**, **BANK / END TURN / RESOLVE**, and **CALL IT!**) aligned beneath
+it. The decision label, the hand name, the challenge status and concise
+operator instructions occupy a compact information grid *above* the buttons.
+
+This removes the v1.9.1 negative-margin enlargement, which enlarged the
+label without guaranteeing space and caused text to overflow. The LAUNCH
+label cannot spill into neighboring buttons. The cabinet retains its
+existing desktop auto-fit (complete console on one screen); phones retain
+natural vertical scrolling and a larger touch target.
+
+No changes to the 10-turn game length, scoring, dice probabilities, HOLD,
+KEEP IT!, challenge resolution, audio, world archive, or Cloudflare Worker.
 
 ## Oversized LAUNCH Actuator (v1.9.1)
 
