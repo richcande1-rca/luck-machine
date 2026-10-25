@@ -1,8 +1,9 @@
-/* LUCK MACHINE — separate world Top 10 service (Cloudflare Worker + D1).
- * Deliberately independent of Miami Nights and all other arcade scores.
- * Public, anonymous arcade leaderboard: browser scores are not cryptographically attested.
+/* LUCK MACHINE / BUILD 1.9.0 — 10-turn Top 10 with read-only 20-turn archive.
+ * Uses the EXISTING luck_machine_entries table; no D1 migration or score deletion.
+ * Independent of Miami Nights and all other arcade scores.
+ * Public anonymous scores are browser-reported, not cryptographically attested.
  */
-const LIMIT=10,MAX_SCORE=224000,RULESET='face-v1';
+const LIMIT=10,MAX_SCORE=112000,RULESET='face-v1-10',ARCHIVE_RULESET='face-v1';
 const ORIGINS=new Set(['https://richcande1-rca.github.io','http://localhost:8787','http://127.0.0.1:8787','http://localhost:8000','http://127.0.0.1:8000']);
 function headers(request){
  const origin=request.headers.get('Origin')||'';
@@ -23,17 +24,17 @@ function normalized(payload){
  const build=typeof payload.build==='string'?payload.build.trim():'';
  const ruleset=payload.ruleset;
  if(!/^[A-Z0-9]{1,5}$/.test(initials))return {error:'Initials must contain 1–5 letters or digits.'};
- if(!Number.isSafeInteger(score)||score<=0||score>MAX_SCORE)return {error:'Score is outside the valid twenty-turn range.'};
+ if(!Number.isSafeInteger(score)||score<=0||score>MAX_SCORE)return {error:'Score is outside the valid ten-turn range.'};
  if(ruleset!==RULESET)return {error:'Unsupported scoring ruleset.'};
  if(!/^(\d+)\.(\d+)(?:\.\d+)?$/.test(build)||build.length>24)return {error:'Invalid build identifier.'};
  return {initials,score,build,ruleset};
 }
-async function rows(env){
+async function rows(env,ruleset=RULESET){
  const r=await env.DB.prepare('SELECT initials, score, build, created_at AS createdAt FROM luck_machine_entries WHERE ruleset = ? ORDER BY score DESC, created_at ASC, id ASC LIMIT ?')
-  .bind(RULESET,LIMIT).all();
+  .bind(ruleset,LIMIT).all();
  return r.results||[];
 }
-async function getBoard(req,env){return respond(req,{ok:true,game:'luck-machine',ruleset:RULESET,limit:LIMIT,entries:await rows(env)})}
+async function getBoard(req,env,ruleset=RULESET){return respond(req,{ok:true,game:'luck-machine',ruleset,limit:LIMIT,entries:await rows(env,ruleset)})}
 async function submit(req,env){
  let raw;
  try{
@@ -64,7 +65,12 @@ export default {async fetch(req,env){
  if(url.pathname!=='/api/board')return respond(req,{ok:false,error:'Not found.'},404);
  if(!env.DB)return respond(req,{ok:false,error:'D1 binding not configured.'},503);
  try{
-  if(req.method==='GET')return await getBoard(req,env);
+  if(req.method==='GET'){
+    const selected=url.searchParams.get('ruleset')||RULESET;
+    if(selected!==RULESET&&selected!==ARCHIVE_RULESET)
+      return respond(req,{ok:false,error:'Unknown scoring ruleset.'},400);
+    return await getBoard(req,env,selected);
+  }
   if(req.method==='POST')return await submit(req,env);
   return respond(req,{ok:false,error:'Method not allowed.'},405);
  }catch(e){return respond(req,{ok:false,error:'Leaderboard storage unavailable.'},503)}
