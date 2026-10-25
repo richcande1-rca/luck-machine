@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.9.0 — Ten Turns and KEEP IT! Auto-Hold.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.9.1 — Oversized LAUNCH Actuator.**
 
 ## Play
 
@@ -21,6 +21,23 @@ Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** 
 ## Version 0.9
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
+
+## Oversized LAUNCH Actuator (v1.9.1)
+
+The main game control is now **LAUNCH** for the first dice throw, and
+**RELAUNCH** when unheld dice are rerolled. The new primary actuator uses a
+larger industrial red metal housing, stronger lighting, and a prominent
+depressed/pressed state. It **extends upward into the free decision-panel
+space** instead of increasing the size of the whole cabinet or the row of
+secondary controls. Its height is recalculated as message text or viewport
+dimensions change, keeping clearance above the button and preserving the
+single-screen desktop layout. Phones use a naturally taller key in the
+existing mobile scrolling layout.
+
+The on-console keyboard hint, first-launch instructions, progress meter and
+operator manual use the LAUNCH / RELAUNCH terminology. Space / Enter remain
+the controls. Roll physics, timing, HOLD / KEEP IT!, scoring, sound, the
+Cloudflare Worker and both archives are **unchanged**.
 
 ## Ten Turns, KEEP IT! and New Scoreboard (v1.9.0)
 
