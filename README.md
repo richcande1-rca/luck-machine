@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.8.1 — Automatic Game-Over World Top 10.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.8.2 — Audio Overhaul and Sound Test.**
 
 ## Play
 
@@ -21,6 +21,25 @@ Keyboard: **Space / Enter** = roll, **1–5** = hold corresponding die, **B** = 
 ## Version 0.9
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
+
+## Audio Overhaul and Diagnostics (v1.8.2)
+
+The existing synthesized Web Audio effects now pass through a louder preamp (~+14 dB),
+a low-frequency trim / midrange-presence stage designed for Chromebook and small laptop
+speakers, a dynamics compressor, and final soft limiting. The mechanical relay and
+rolling ticks gain audible high-frequency detail. The game keeps its original synth
+phrases and sound-on/off toggle.
+
+A new compact **AUDIO TEST** button sits beside SOUND: ON. Clicking it plays a
+short mechanical click followed by three unmistakable rising tones, while a modal
+reports whether Web Audio is supported, enabled, and actively running (or suspended).
+The test can be replayed without restarting the game. A RUNNING status confirms
+that the browser has accepted scheduled audio, but cannot verify that a muted tab,
+operating-system output device, or speakers are actually producing sound. Check
+Chrome site mute and Chromebook output volume if the test is still silent.
+
+No game mechanics, dice motion, scoring, world leaderboard, or cabinet height were
+changed. The Web Audio script uses its own versioned URL for cache refresh.
 
 ## Automatic Game-Over World Top 10 (v1.8.1)
 
