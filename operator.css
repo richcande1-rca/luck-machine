@@ -233,3 +233,81 @@ header{padding:8px 13px;margin-top:0}
   .buttons{grid-template-columns:repeat(2,minmax(0,1fr))}
   #keepBtn{font-size:20px}
 }
+
+
+/* BUILD 1.9.1 — LAUNCH ACTUATOR
+   Larger physical button, lifted into existing unused console space.
+   Negative top margin offsets added height to preserve row + cabinet height. */
+.buttons{align-items:end}
+#rollBtn{
+  --launch-rise:0px;
+  align-self:end;
+  position:relative;
+  z-index:2;
+  box-sizing:border-box;
+  height:calc(43px + var(--launch-rise));
+  margin-top:calc(-1 * var(--launch-rise));
+  min-height:43px;
+  padding:7px 8px;
+  font:900 clamp(25px,2.6vw,34px)/1 'Barlow Condensed',sans-serif;
+  letter-spacing:.07em;
+  color:#ffedd1;
+  border:4px solid #7d3827;
+  border-top-color:#ffc08c;
+  border-left-color:#ce6a49;
+  border-bottom:8px solid #3f1710;
+  border-radius:5px;
+  background:
+    linear-gradient(90deg,#31120f70,transparent 12% 89%,#3b130c66),
+    linear-gradient(180deg,#ffca8a 0%,#e87144 12%,#ca482e 35%,#a82c23 72%,#74221c 100%);
+  text-shadow:0 2px 1px #60291c,0 4px 4px #210c08;
+  box-shadow:
+    inset 0 2px 2px #ffe4bcb0,
+    inset 0 -7px 10px #45140d88,
+    inset 3px 0 5px #ffbd6840,
+    0 4px 0 #28130f,
+    0 0 0 2px #31271c,
+    0 0 18px #db5b3055;
+}
+#rollBtn::before{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+  inset:5px;
+  border:1px solid #ffd1a33b;
+  border-radius:2px;
+}
+#rollBtn::after{
+  width:10px;
+  height:10px;
+  top:9px;
+  right:9px;
+}
+#rollBtn:not(:disabled):hover{
+  filter:brightness(1.11);
+  box-shadow:
+    inset 0 2px 2px #fff0ccd0,
+    inset 0 -7px 10px #45140d88,
+    0 4px 0 #28130f,
+    0 0 0 2px #423021,
+    0 0 23px #ff914a88;
+}
+#rollBtn:not(:disabled):active{
+  transform:translateY(4px);
+  border-bottom-width:4px;
+  box-shadow:inset 0 5px 12px #401008d9,inset 0 2px 3px #ffe0ad77,0 0 0 2px #423021;
+}
+#rollBtn:disabled{
+  filter:saturate(.52) brightness(.75);
+  border-top-color:#9c705b;
+  box-shadow:inset 0 2px 8px #2b1612,0 1px 0 #23140f;
+}
+@media(max-width:700px){
+  /* Natural scrolling on phones permits a taller first-row launch key. */
+  #rollBtn{
+    height:78px;
+    margin-top:0;
+    font-size:29px;
+    letter-spacing:.06em;
+  }
+}
