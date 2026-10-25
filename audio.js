@@ -1,20 +1,68 @@
 /* LUCK MACHINE / 5D-20: fictional field-console sound system. Web Audio only. */
 (()=>{'use strict';
-  let context=null,master=null,noiseBuffer=null,enabled=true,used=false,lastAction=0;
-  const volume=.78; // modest +22% master output; preserve effect mix
+  let context=null,master=null,mix=null,noiseBuffer=null,enabled=true,used=false,lastAction=0;
+  let lastError='',resumePending=null,scheduled=0;
+  // v1.8.2: boost quiet individual voices BEFORE dynamics protection.
+  // On small Chromebook speakers, emphasize audible midrange over sub-bass.
+  const volume=.88,preamp=5.2;
+  function status(){
+    return {
+      supported:Boolean(window.AudioContext||window.webkitAudioContext),
+      enabled,state:context?.state||'not-started',
+      lastError,scheduled,boostDb:Math.round(20*Math.log10(preamp)),
+      protectedOutput:true
+    };
+  }
+  function resumeAudio(){
+    if(!context||context.state!=='suspended'||resumePending)return resumePending||Promise.resolve();
+    try{
+      resumePending=Promise.resolve(context.resume()).then(()=>{
+        lastError=context.state==='running'?'':'The browser has not unlocked audio playback.';
+      }).catch(error=>{lastError=error?.message||'Audio playback was blocked.';})
+        .finally(()=>{resumePending=null});
+      return resumePending;
+    }catch(error){
+      lastError=error?.message||'Audio playback was blocked.';
+      return Promise.resolve();
+    }
+  }
   function ensure(){
     if(!enabled)return null;
     try{
       if(!context){
         const Audio=window.AudioContext||window.webkitAudioContext;
-        if(!Audio)return null;
+        if(!Audio){lastError='Web Audio is not supported in this browser.';return null}
         context=new Audio();
-        master=context.createGain();master.gain.value=volume;master.connect(context.destination);
+        mix=context.createGain();mix.gain.value=preamp;
+        const bass=context.createBiquadFilter();
+        bass.type='lowshelf';bass.frequency.value=210;bass.gain.value=-3;
+        const presence=context.createBiquadFilter();
+        presence.type='peaking';presence.frequency.value=1150;presence.Q.value=.8;presence.gain.value=4;
+        const compressor=context.createDynamicsCompressor();
+        compressor.threshold.value=-18;
+        compressor.knee.value=12;
+        compressor.ratio.value=10;
+        compressor.attack.value=.003;
+        compressor.release.value=.12;
+        // Final soft limiter catches transients that the compressor may pass.
+        const limiter=context.createWaveShaper();
+        const curve=new Float32Array(2049);
+        for(let i=0;i<curve.length;i++){
+          const x=i/1024-1;
+          curve[i]=Math.tanh(1.7*x)/Math.tanh(1.7);
+        }
+        limiter.curve=curve;limiter.oversample='2x';
+        master=context.createGain();master.gain.value=volume;
+        mix.connect(bass);bass.connect(presence);presence.connect(compressor);
+        compressor.connect(limiter);limiter.connect(master);master.connect(context.destination);
       }
-      if(context.state==='suspended')context.resume().catch(()=>{});
-      used=true;lastAction=Date.now();
+      if(context.state==='suspended')resumeAudio();
+      used=true;lastAction=Date.now();lastError=context.state==='running'?'':lastError;
       return context;
-    }catch{return null}
+    }catch(error){
+      lastError=error?.message||'Audio engine initialization failed.';
+      return null;
+    }
   }
   function tone(hz,seconds=.08,gain=.035,wave='triangle',delay=0,endHz=hz){
     const a=ensure();if(!a)return;
@@ -26,7 +74,7 @@
     envelope.gain.setValueAtTime(.0001,at);
     envelope.gain.linearRampToValueAtTime(gain,at+Math.min(.009,length*.18));
     envelope.gain.exponentialRampToValueAtTime(.0001,at+length);
-    osc.connect(envelope);envelope.connect(master);
+    osc.connect(envelope);envelope.connect(mix);scheduled++;
     osc.start(at);osc.stop(at+length+.008);
   }
   function staticBurst(delay=0,seconds=.045,gain=.022,frequency=1400){
@@ -43,13 +91,34 @@
     envelope.gain.setValueAtTime(.0001,t);
     envelope.gain.linearRampToValueAtTime(gain,t+.004);
     envelope.gain.exponentialRampToValueAtTime(.0001,t+length);
-    src.connect(filter);filter.connect(envelope);envelope.connect(master);
+    src.connect(filter);filter.connect(envelope);envelope.connect(mix);scheduled++;
     src.start(t);src.stop(t+length+.005);
   }
   function relay(delay=0,strength=1){
-    staticBurst(delay,.035,.031*strength,950);
+    staticBurst(delay,.042,.031*strength,1400);
     tone(95,.043,.034*strength,'square',delay,62);
     tone(190,.021,.016*strength,'triangle',delay+.015,125);
+    // Added a crisp mechanical overtone that survives small speakers.
+    tone(840,.037,.020*strength,'square',delay+.006,620);
+  }
+  function rollTestPattern(){
+    // Bright, distinct test signal: click + three rising beeps.
+    relay(0,1.1);
+    [660,880,1100].forEach((hz,i)=>tone(hz,.21,.086,'sine',.11+i*.27));
+    staticBurst(.96,.08,.032,2150);
+  }
+  async function test(){
+    if(!enabled)return {...status(),lastError:'SOUND is OFF. Enable it using SOUND: ON.'};
+    const a=ensure();
+    if(!a)return status();
+    if(a.state!=='running')await resumeAudio();
+    if(context!==a||a.state!=='running'){
+      lastError=lastError||'Chrome blocked the audio context. Click PLAY AGAIN.';
+      return status();
+    }
+    lastError='';
+    rollTestPattern();
+    return status();
   }
   const api={
     setEnabled(on){
@@ -58,11 +127,12 @@
         master.gain.cancelScheduledValues(context.currentTime);
         master.gain.setTargetAtTime(enabled?volume:0,context.currentTime,.008);
       }
-      if(enabled){tone(440,.055,.025,'triangle');tone(620,.075,.024,'triangle',.075)}
+      if(enabled){tone(440,.055,.032,'triangle');tone(620,.075,.032,'triangle',.075)}
     },
+    status,test,
     tune(channel){relay(0,.43);staticBurst(.028,.075,.015,1600);tone(240+channel*46,.11,.023,'sine',.035,330+channel*33);tone(510+channel*34,.045,.013,'triangle',.14)},
-    rollStart(){relay(0,.9);relay(.12,.55);tone(104,.29,.030,'sawtooth',.025,155);tone(360,.095,.021,'square',.13,285)},
-    rollTick(){staticBurst(0,.016,.009,2100);tone(200,.016,.012,'square')},
+    rollStart(){relay(0,.9);relay(.12,.55);tone(104,.29,.030,'sawtooth',.025,155);tone(360,.095,.021,'square',.13,285);tone(720,.055,.021,'square',.08,490)},
+    rollTick(){staticBurst(0,.025,.012,2300);tone(820,.023,.016,'square',0,590)},
     dieStop(position){relay(0,.73);tone(350+position*75,.105,.026,'triangle',.022,275+position*45)},
     noDice(){tone(170,.12,.035,'square',0,95);relay(.09,.5)},
     hold(isHeld){relay(0,.85);tone(isHeld?570:300,.095,.024,'triangle',.032,isHeld?730:180)},
@@ -97,7 +167,7 @@
     newGame(){relay(0,.75);tone(390,.095,.026,'square',.05);tone(510,.11,.025,'triangle',.17)},
     gameOver(){staticBurst(0,.14,.020,1200);tone(640,.13,.025,'sine',.06);tone(450,.15,.025,'sine',.24);tone(290,.3,.021,'triangle',.42,190)},
     idle(){
-      if(!enabled||!used||!context||document.hidden||Date.now()-lastAction<18000)return;
+      if(!enabled||!used||!context||context.state!=='running'||document.hidden||Date.now()-lastAction<18000)return;
       if(document.getElementById('overlay')?.hidden===false)return;
       staticBurst(0,.095,.008,1800);
       tone(720,.045,.013,'sine',.11);
@@ -105,6 +175,6 @@
     }
   };
   window.LMAudio=api;
-  // Ambient radio activity is infrequent, subtle, and silent until first user action.
+  // Ambient radio activity remains subtle and silent until first user action.
   setInterval(()=>api.idle(),48000);
 })();
