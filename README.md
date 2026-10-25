@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.8.4 — Launch Control and Challenge Resolution.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.9.0 — Ten Turns and KEEP IT! Auto-Hold.**
 
 ## Play
 
@@ -10,17 +10,49 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 
 ## Rules
 
-- Five illuminated dice, each with its own HOLD control.
-- Three rolls per turn, 20 turns per game.
+- Five illuminated dice with individual HOLD controls and a **KEEP IT!** button to hold all matching dice at once.
+- Three rolls per turn, **10 turns per game**.
 - Score repeatable poker-style dice combinations.
 - Bank your hand for points, or **CALL YOUR HAND** before your final roll to attempt a better combination for double the payout; a failed call scores zero for the turn.
-- Local Top 10 leaderboard stored in this browser only; scores are **not shared online**.
+- Worldwide ten-turn Top 10 after the Cloudflare Worker upgrade; local-only fallback while offline. Historic twenty-turn records remain accessible in their own archive.
 
-Keyboard: **Space / Enter** = roll, **1–5** = hold corresponding die, **B** = bank, **C** = call.
+Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call.
 
 ## Version 0.9
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
+
+## Ten Turns, KEEP IT! and New Scoreboard (v1.9.0)
+
+Game sessions are now **ten turns**, with up to three rolls per turn. The
+**KEEP IT!** button (shortcut **K**) automatically holds all dice belonging
+to matching groups, such as three sixes or two pairs, without consuming a
+roll or adding any points. Manual HOLD controls remain available to fine-tune
+the result. If all five dice are held, REROLL is disabled so an empty roll
+cannot accidentally consume an attempt. The existing BANK / RESOLVE logic
+remains unchanged, including its challenge restrictions.
+
+The new 10-turn worldwide Top 10 uses a separate Cloudflare ruleset
+(`face-v1-10`) and maximum score of **112,000**. The earlier twenty-turn
+world archive (`face-v1`) remains **read-only**, and 20-turn local records
+stay in the old browser key `luck-machine-leaderboard-v2`. New local
+records go in `luck-machine-leaderboard-v3-ten-turn`. Even older pre-1.6
+fixed-scoring records (`luck-machine-leaderboard-v1`) remain available.
+No previous scores are deleted or compared against the new competition.
+
+**Cloudflare dashboard step required:** Copy the new code from
+[worker/src/index.js](worker/src/index.js) into the existing
+`luck-machine-board` Worker using **Edit Code → Deploy**. Keep the
+existing **DB → luck_machine_board** binding and existing D1 table.
+**Do not recreate the database or run any SQL.** Detailed manual
+instructions are in [worker/README.md](worker/README.md). Until that
+dashboard update happens, the ten-turn world scoreboard reports that the
+Worker update is required; local ten-turn scoring works immediately.
+
+The industrial 5D-20 cabinet model designation is retained. The main
+cabinet remains a one-screen desktop layout, with four control buttons
+across and a two-row layout allowed on small mobile screens. Sound levels,
+dice physics, category scoring, and Miami Nights are untouched.
 
 ## Launch Control and Challenge Resolution (v1.8.4)
 
@@ -69,6 +101,8 @@ After the 20th BANK, the game-over sound plays and the **World Top 10** dialog o
 If the world API is unavailable, the very same dialog identifies that condition explicitly, shows the locally stored Top 10, and offers local saving when the score qualifies. Old fixed-payout legacy records remain accessible through the usual TOP 10 screens. The game-over dialog is compact to avoid scrolling at ordinary desktop heights. Dice behavior, sound, category scoring, the twenty-turn limit, and the main cabinet layout are unchanged.
 
 ## World Top 10 (v1.8.0)
+
+*Historical release note: v1.8.0 used the twenty-turn `face-v1` ruleset. As of v1.9.0 it is a read-only archive; the live competition is `face-v1-10`.*
 
 The TOP 10 console button now opens a **worldwide scoreboard interface**, with explicit
 live/offline status, refresh, local Top 10, and pre-v1.6 legacy Top 10. At game-over,
