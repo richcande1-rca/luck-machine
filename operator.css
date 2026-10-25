@@ -191,3 +191,45 @@ header{padding:8px 13px;margin-top:0}
 @media(prefers-reduced-motion:reduce){
   #rollBtn{transition:none}
 }
+
+
+/* BUILD 1.9.0 — four clearly differentiated actuators; same desktop row height. */
+.buttons{
+  grid-template-columns:minmax(0,1.29fr) repeat(3,minmax(0,1fr));
+  gap:6px;
+}
+#keepBtn{
+  position:relative;
+  border:3px solid #4c6155;
+  border-top-color:#bed2a9;
+  border-bottom:6px solid #1d3027;
+  border-radius:3px;
+  color:#f2f2d3;
+  background:linear-gradient(180deg,#9bb69c 0%,#527f65 13%,#306e55 47%,#1e4f3d 100%);
+  font:800 clamp(15px,1.35vw,20px)/1 'Barlow Condensed',sans-serif;
+  letter-spacing:.025em;
+  white-space:nowrap;
+  text-shadow:0 1px 2px #132d1e;
+  box-shadow:inset 0 2px #d7f1bf88,inset 0 -2px 5px #15291ec7,0 3px 0 #15281d,0 0 9px #7fd69a33;
+}
+#keepBtn:disabled{
+  background:linear-gradient(#66786b,#40564b 30%,#34463a);
+  border-color:#455247;
+  border-top-color:#849584;
+  border-bottom-color:#283328;
+  color:#bac7b9;
+  opacity:.58;
+  filter:saturate(.55);
+  box-shadow:inset 0 1px 2px #101e15,0 1px #1d2a1f;
+  cursor:not-allowed;
+}
+#keepBtn:not(:disabled):hover{filter:brightness(1.15)}
+#keepBtn:not(:disabled):active{
+  transform:translateY(3px);border-bottom-width:3px;
+  box-shadow:inset 0 3px 7px #12301ecc,0 0 2px #9edb9b88;
+}
+@media(max-width:700px){
+  /* Phones can flow into two rows; desktop remains a single-row console. */
+  .buttons{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #keepBtn{font-size:20px}
+}
