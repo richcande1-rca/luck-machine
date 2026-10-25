@@ -235,79 +235,167 @@ header{padding:8px 13px;margin-top:0}
 }
 
 
-/* BUILD 1.9.1 — LAUNCH ACTUATOR
-   Larger physical button, lifted into existing unused console space.
-   Negative top margin offsets added height to preserve row + cabinet height. */
-.buttons{align-items:end}
-#rollBtn{
-  --launch-rise:0px;
+/* BUILD 1.9.2: one full-width LAUNCH row ABOVE three secondary controls.
+   The decision readouts now share a compact row to reclaim the original space.
+   The layout uses natural grid flow, never negative margins or overflow lifts. */
+.decision{
+  gap:5px;
+}
+.decision-info{
+  display:grid;
+  grid-template-columns:minmax(0, .43fr) minmax(0, .57fr);
+  grid-template-rows:auto auto;
+  align-items:start;
+  gap:3px 10px;
+  min-width:0;
+}
+.decision-info .handname{
+  grid-column:1;
+  grid-row:1;
+  font-size:clamp(25px,2.35vw,31px);
+  line-height:1.02;
+  letter-spacing:.025em;
+  min-height:0;
+  margin:0;
+  overflow-wrap:normal;
+}
+.decision-info .callstatus{
+  grid-column:1;
+  grid-row:2;
   align-self:end;
+  font-size:11px;
+  line-height:1.22;
+  letter-spacing:.02em;
+  min-height:0;
+}
+.decision-info .decisiontext{
+  grid-column:2;
+  grid-row:1/3;
+  min-width:0;
+  min-height:0;
+  font-size:13px;
+  line-height:1.35;
+  color:#dbe5d5;
+}
+.decision .buttons.launch-controls{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-rows:78px 44px;
+  gap:6px;
+  align-items:stretch;
+  margin-top:auto;
+  min-width:0;
+}
+.launch-controls .metalbutton{min-width:0;box-sizing:border-box}
+.decision .launch-controls #rollBtn{
+  grid-column:1/-1;
+  grid-row:1;
   position:relative;
-  z-index:2;
-  box-sizing:border-box;
-  height:calc(43px + var(--launch-rise));
-  margin-top:calc(-1 * var(--launch-rise));
-  min-height:43px;
-  padding:7px 8px;
-  font:900 clamp(25px,2.6vw,34px)/1 'Barlow Condensed',sans-serif;
-  letter-spacing:.07em;
-  color:#ffedd1;
-  border:4px solid #7d3827;
-  border-top-color:#ffc08c;
-  border-left-color:#ce6a49;
-  border-bottom:8px solid #3f1710;
+  z-index:1;
+  align-self:stretch;
+  width:100%;
+  height:78px;
+  min-height:78px;
+  margin:0;
+  padding:5px 24px;
+  overflow:hidden;
+  white-space:nowrap;
+  word-break:normal;
+  font:900 clamp(30px,3.3vw,39px)/1 'Barlow Condensed',sans-serif;
+  letter-spacing:.13em;
+  color:#fff0d9;
+  border:4px solid #8b3d2c;
+  border-top-color:#ffc693;
+  border-left-color:#d47957;
+  border-bottom:8px solid #3a1911;
   border-radius:5px;
   background:
-    linear-gradient(90deg,#31120f70,transparent 12% 89%,#3b130c66),
-    linear-gradient(180deg,#ffca8a 0%,#e87144 12%,#ca482e 35%,#a82c23 72%,#74221c 100%);
-  text-shadow:0 2px 1px #60291c,0 4px 4px #210c08;
-  box-shadow:
-    inset 0 2px 2px #ffe4bcb0,
-    inset 0 -7px 10px #45140d88,
-    inset 3px 0 5px #ffbd6840,
-    0 4px 0 #28130f,
-    0 0 0 2px #31271c,
-    0 0 18px #db5b3055;
+    linear-gradient(90deg,#30100d88,transparent 12% 88%,#36130e99),
+    linear-gradient(180deg,#ffd69b 0%,#eb8051 12%,#c7482e 42%,#952a22 78%,#6e221c);
+  text-shadow:0 2px 1px #61291c,0 3px 5px #250d09;
+  box-shadow:inset 0 2px 2px #ffecc1b0,
+             inset 0 -6px 10px #35100b91,
+             0 4px 0 #2c1710,
+             0 0 0 2px #332418,
+             0 0 17px #ec6e385c;
 }
-#rollBtn::before{
+.decision .launch-controls #rollBtn::before{
   content:"";
   position:absolute;
-  pointer-events:none;
-  inset:5px;
-  border:1px solid #ffd1a33b;
+  inset:6px;
+  border:1px solid #ffddb663;
   border-radius:2px;
+  pointer-events:none;
 }
-#rollBtn::after{
-  width:10px;
-  height:10px;
-  top:9px;
-  right:9px;
+.decision .launch-controls #rollBtn::after{
+  width:10px;height:10px;
+  right:13px;top:12px;
 }
-#rollBtn:not(:disabled):hover{
-  filter:brightness(1.11);
-  box-shadow:
-    inset 0 2px 2px #fff0ccd0,
-    inset 0 -7px 10px #45140d88,
-    0 4px 0 #28130f,
-    0 0 0 2px #423021,
-    0 0 23px #ff914a88;
+.decision .launch-controls #rollBtn:not(:disabled):hover{
+  filter:brightness(1.12);
+  box-shadow:inset 0 2px 2px #fff0cbd8,
+             inset 0 -6px 10px #35100b91,
+             0 4px 0 #2c1710,
+             0 0 0 2px #473022,
+             0 0 26px #ff8c4b80;
 }
-#rollBtn:not(:disabled):active{
+.decision .launch-controls #rollBtn:not(:disabled):active{
   transform:translateY(4px);
   border-bottom-width:4px;
-  box-shadow:inset 0 5px 12px #401008d9,inset 0 2px 3px #ffe0ad77,0 0 0 2px #423021;
+  box-shadow:inset 0 5px 12px #49170de3,
+             inset 0 2px 2px #f7cd9577,
+             0 0 0 2px #473022;
 }
-#rollBtn:disabled{
-  filter:saturate(.52) brightness(.75);
-  border-top-color:#9c705b;
-  box-shadow:inset 0 2px 8px #2b1612,0 1px 0 #23140f;
+.decision .launch-controls #rollBtn:disabled{
+  color:#dcc2ac;
+  border-top-color:#9d7961;
+  filter:saturate(.5) brightness(.77);
+  box-shadow:inset 0 2px 8px #291311,
+             0 1px 0 #23140f;
 }
+.launch-controls #keepBtn,
+.launch-controls #bankBtn,
+.launch-controls #callBtn{
+  grid-row:2;
+  height:44px;
+  min-height:44px;
+  padding:3px 4px;
+  font-size:clamp(16px,1.6vw,20px);
+  line-height:1;
+  letter-spacing:.025em;
+  white-space:nowrap;
+}
+.launch-controls #keepBtn{grid-column:1}
+.launch-controls #bankBtn{grid-column:2}
+.launch-controls #callBtn{grid-column:3}
 @media(max-width:700px){
-  /* Natural scrolling on phones permits a taller first-row launch key. */
-  #rollBtn{
-    height:78px;
-    margin-top:0;
-    font-size:29px;
-    letter-spacing:.06em;
+  .decision-info{
+    grid-template-columns:1fr;
+    grid-template-rows:auto;
+    gap:4px;
+  }
+  .decision-info .handname,
+  .decision-info .callstatus,
+  .decision-info .decisiontext{
+    grid-column:1;
+    grid-row:auto;
+  }
+  .decision-info .handname{font-size:32px}
+  .decision-info .decisiontext{font-size:14px;line-height:1.4}
+  .decision .buttons.launch-controls{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-rows:82px 45px;
+    gap:5px;
+  }
+  .decision .launch-controls #rollBtn{
+    height:82px;min-height:82px;
+    font-size:34px;letter-spacing:.08em;
+  }
+  .launch-controls #keepBtn,
+  .launch-controls #bankBtn,
+  .launch-controls #callBtn{
+    height:45px;min-height:45px;
+    font-size:clamp(14px,3.8vw,18px);
+    letter-spacing:0;
   }
 }
