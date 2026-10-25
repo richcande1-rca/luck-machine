@@ -126,3 +126,68 @@ header{padding:8px 13px;margin-top:0}
  .smallbutton{font-size:14px!important}
  .build-plate strong{font-size:15px}
 }
+
+
+/* BUILD 1.8.4 — The roll actuator is the cabinet's primary launch control.
+   No increased row height: desktop console must remain a one-screen instrument. */
+.buttons{
+  grid-template-columns:minmax(0,1.35fr) minmax(0,.94fr) minmax(0,.94fr);
+}
+#rollBtn{
+  position:relative;
+  font:900 clamp(19px,1.95vw,25px)/1 'Barlow Condensed',sans-serif;
+  letter-spacing:.09em;
+  color:#fff2cf;
+  border:3px solid #874f38;
+  border-top-color:#edba86;
+  border-bottom:6px solid #421b15;
+  border-radius:3px;
+  background:linear-gradient(180deg,#ffba7f 0%,#e36c3d 11%,#bd3e27 44%,#922d22 76%,#6b231d 100%);
+  text-shadow:0 1px 0 #5b2318,0 2px 3px #260c0a;
+  box-shadow:inset 0 2px 1px #ffe1ab99,inset 0 -3px 6px #40100cba,0 3px 0 #301a13,0 0 0 2px #30291d,0 0 15px #ed713366;
+  transition:filter .12s,transform .07s,box-shadow .13s;
+}
+#rollBtn::after{
+  content:"";pointer-events:none;
+  position:absolute;right:8px;top:6px;
+  width:8px;height:8px;border-radius:50%;
+  background:#4a2920;border:1px solid #643a2c;
+  box-shadow:inset 0 1px 2px #160b09;
+}
+#rollBtn[data-ready="true"]::after{
+  background:#ffeaa2;border-color:#fff0ad;
+  box-shadow:inset 0 0 3px #fff6c3,0 0 6px #ffc05f,0 0 11px #ff894f;
+}
+#rollBtn:not(:disabled):hover{
+  filter:brightness(1.12);
+  box-shadow:inset 0 2px 1px #ffe1abdd,inset 0 -3px 6px #40100cba,0 3px 0 #301a13,0 0 0 2px #483222,0 0 20px #ff813a88;
+}
+#rollBtn:not(:disabled):active{
+  transform:translateY(3px);
+  border-bottom-width:3px;
+  box-shadow:inset 0 3px 7px #40100ce0,inset 0 1px 2px #ffdfa077,0 0 0 2px #483222;
+}
+#rollBtn:disabled{
+  color:#dcc2ac;
+  filter:saturate(.43) brightness(.69);
+  border-top-color:#86604a;
+  box-shadow:inset 0 1px 2px #251611,0 1px 0 #301a13;
+  cursor:not-allowed;
+}
+#bankBtn[data-challenge-lock="true"]{
+  opacity:.48;
+  filter:saturate(.5);
+  cursor:not-allowed;
+  border-color:#3d5147;
+  background:linear-gradient(#485950,#293d35 25%,#1e2d27);
+  color:#b1c2b7;
+  box-shadow:inset 0 2px 5px #0e1811,0 1px 1px #0006;
+}
+@media(max-width:700px){
+  .buttons{grid-template-columns:minmax(0,1.23fr) minmax(0,1fr) minmax(0,1fr)}
+  #rollBtn{font-size:20px;letter-spacing:.045em}
+  #rollBtn::after{right:5px;top:5px;width:6px;height:6px}
+}
+@media(prefers-reduced-motion:reduce){
+  #rollBtn{transition:none}
+}
