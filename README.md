@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.8.3 — Slightly Reduced Master Volume.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.8.4 — Launch Control and Challenge Resolution.**
 
 ## Play
 
@@ -21,6 +21,23 @@ Keyboard: **Space / Enter** = roll, **1–5** = hold corresponding die, **B** = 
 ## Version 0.9
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
+
+## Launch Control and Challenge Resolution (v1.8.4)
+
+The **ROLL / REROLL** button is now the visually dominant field-console
+actuator: wider in its existing three-button row, bright industrial red-orange
+finish, a pilot light that shines only when ready, and tactile pressed styling.
+The control row has no added height, preserving desktop single-screen fit and
+existing mobile flow.
+
+In a **CALL IT!** challenge, the existing BANK button becomes **RESOLVE** and
+stays **disabled/dimmed** while the target has not been achieved and rolls
+remain. RESOLVE becomes available either when the called combination is
+achieved (allowing early payout) or when the **third roll has finished**
+(allowing a failed call to close the turn with zero). Clicking RESOLVE and
+the **B** keyboard shortcut enforce precisely the same rule. The challenge
+instructions accurately describe early success and failed final rolls.
+No scoring formula, dice motion, audio, or online archive behavior was changed.
 
 ## Master Volume Fine-Tuning (v1.8.3)
 
