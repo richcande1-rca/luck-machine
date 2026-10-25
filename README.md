@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.8.2 — Audio Overhaul and Sound Test.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.8.3 — Slightly Reduced Master Volume.**
 
 ## Play
 
@@ -21,6 +21,10 @@ Keyboard: **Space / Enter** = roll, **1–5** = hold corresponding die, **B** = 
 ## Version 0.9
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
+
+## Master Volume Fine-Tuning (v1.8.3)
+
+Adjusted the final audio master gain from 0.88 to 0.80 (approximately 9% quieter). All sound effects, equalization, compression, limiting, Audio Test behavior, and gameplay are unchanged.
 
 ## Audio Overhaul and Diagnostics (v1.8.2)
 
