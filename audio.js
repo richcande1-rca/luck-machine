@@ -4,7 +4,7 @@
   let lastError='',resumePending=null,scheduled=0;
   // v1.8.2: boost quiet individual voices BEFORE dynamics protection.
   // On small Chromebook speakers, emphasize audible midrange over sub-bass.
-  const volume=.88,preamp=5.2;
+  const volume=.80,preamp=5.2;
   function status(){
     return {
       supported:Boolean(window.AudioContext||window.webkitAudioContext),
