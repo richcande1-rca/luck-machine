@@ -1,9 +1,9 @@
-/* LUCK MACHINE / BUILD 1.9.0 — 10-turn Top 10 with read-only 20-turn archive.
+/* LUCK MACHINE / BUILD 1.10.0 — 12-turn collection Top 10 with read-only 10/20-turn archives.
  * Uses the EXISTING luck_machine_entries table; no D1 migration or score deletion.
  * Independent of Miami Nights and all other arcade scores.
  * Public anonymous scores are browser-reported, not cryptographically attested.
  */
-const LIMIT=10,MAX_SCORE=112000,RULESET='face-v1-10',ARCHIVE_RULESET='face-v1';
+const LIMIT=10,MAX_SCORE=159400,RULESET='face-v2-12',ARCHIVE_RULESET_10='face-v1-10',ARCHIVE_RULESET_20='face-v1';
 const ORIGINS=new Set(['https://richcande1-rca.github.io','http://localhost:8787','http://127.0.0.1:8787','http://localhost:8000','http://127.0.0.1:8000']);
 function headers(request){
  const origin=request.headers.get('Origin')||'';
@@ -24,7 +24,7 @@ function normalized(payload){
  const build=typeof payload.build==='string'?payload.build.trim():'';
  const ruleset=payload.ruleset;
  if(!/^[A-Z0-9]{1,5}$/.test(initials))return {error:'Initials must contain 1–5 letters or digits.'};
- if(!Number.isSafeInteger(score)||score<=0||score>MAX_SCORE)return {error:'Score is outside the valid ten-turn range.'};
+ if(!Number.isSafeInteger(score)||score<=0||score>MAX_SCORE)return {error:'Score is outside the valid twelve-turn range.'};
  if(ruleset!==RULESET)return {error:'Unsupported scoring ruleset.'};
  if(!/^(\d+)\.(\d+)(?:\.\d+)?$/.test(build)||build.length>24)return {error:'Invalid build identifier.'};
  return {initials,score,build,ruleset};
@@ -67,7 +67,7 @@ export default {async fetch(req,env){
  try{
   if(req.method==='GET'){
     const selected=url.searchParams.get('ruleset')||RULESET;
-    if(selected!==RULESET&&selected!==ARCHIVE_RULESET)
+    if(selected!==RULESET&&selected!==ARCHIVE_RULESET_10&&selected!==ARCHIVE_RULESET_20)
       return respond(req,{ok:false,error:'Unknown scoring ruleset.'},400);
     return await getBoard(req,env,selected);
   }
