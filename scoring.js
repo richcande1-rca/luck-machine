@@ -1,10 +1,10 @@
-/* LUCK MACHINE 5D-20 / BUILD 1.6.0
+/* LUCK MACHINE 5D-20 / BUILD 1.10.0
    Pure, deterministic face-aware payout math.
    Scoring does not change the random rolls or hand ranking. */
 (()=>{
  'use strict';
- const bases=Object.freeze({five:5000,four:2000,full:1000,large:800,small:600,three:400,twoPair:200,pair:100,none:0});
- const ranges=Object.freeze({five:[5100,5600],four:[2050,2300],full:[1040,1170],large:[800,800],small:[600,600],three:[420,520],twoPair:[230,310],pair:[110,160],none:[0,0]});
+ const bases=Object.freeze({five:5000,four:2000,full:1000,large:1500,small:600,three:400,twoPair:200,pair:100,none:0});
+ const ranges=Object.freeze({five:[5100,5600],four:[2050,2300],full:[1040,1170],large:[1500,1500],small:[600,600],three:[420,520],twoPair:[230,310],pair:[110,160],none:[0,0]});
  const count=ds=>{const c=[0,0,0,0,0,0,0];ds.forEach(v=>{if(Number.isInteger(v)&&v>=1&&v<=6)c[v]++});return c};
  const fmt=n=>Number(n).toLocaleString('en-US');
  function evaluate(key,ds){

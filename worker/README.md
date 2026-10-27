@@ -1,53 +1,37 @@
-# LUCK MACHINE — Cloudflare Worker (v1.9.0, dashboard deployment)
+# LUCK MACHINE — Cloudflare Worker (v1.10.0, dashboard deployment)
 
-**The owner uses the Cloudflare dashboard, not Wrangler.** The Worker and D1
-database already exist. You do **not** need to create another database, alter
-the SQL schema, reset scores, or touch Miami Nights.
+**Use the existing Cloudflare Worker and D1 database.** The owner uses the Cloudflare dashboard rather than Wrangler. Do **not** recreate or modify the database, reset historic scores, or touch Miami Nights.
 
-## One-time upgrade for the new ten-turn game
+## Upgrade to the twelve-turn collection competition
 
-1. Open **Cloudflare → Workers & Pages → luck-machine-board → Edit Code**.
-2. Open https://github.com/richcande1-rca/luck-machine/blob/main/worker/src/index.js
-3. Replace the existing Worker's code with **the entire contents** of that file.
-4. Click **Deploy**.
-5. Confirm that the Worker still has a **Production D1 binding** with variable
-   name exactly `DB` pointing to the **existing** `luck_machine_board` database.
-6. Visit https://luck-machine-board.rich-gothic.workers.dev/api/board
-   The response should contain `ok:true`, `game:luck-machine`,
-   `ruleset:face-v1-10`, `limit:10`, and an `entries` array.
-7. Verify the old ranking is still at
-   https://luck-machine-board.rich-gothic.workers.dev/api/board?ruleset=face-v1
-   Its response should report `ruleset:face-v1` and any old entries.
+1. Go to **Cloudflare → Workers & Pages → luck-machine-board → Edit Code**.
+2. Open [worker/src/index.js](https://github.com/richcande1-rca/luck-machine/blob/main/worker/src/index.js) after v1.10.0 is merged.
+3. Replace the Worker's code with the **entire file** and click **Deploy**.
+4. Verify its existing **Production D1 binding** is still named `DB` and points to `luck_machine_board`.
+5. Visit https://luck-machine-board.rich-gothic.workers.dev/api/board and verify `ok:true`, `game:"luck-machine"`, `ruleset:"face-v2-12"` and an `entries` array.
+6. Verify the historic read-only boards still work at `/api/board?ruleset=face-v1-10` and `/api/board?ruleset=face-v1`.
 
-**No SQL update is necessary.** The existing `luck_machine_entries` table
-already contains a `ruleset` column and supports both twenty-turn and
-ten-turn scores. Nothing is deleted or migrated.
+The Worker uses the same `luck_machine_entries` table. **No SQL migration is required.** Previous scores and ruleset partitions are untouched.
 
-## Behavior
+## Rulesets and limits
 
-| Operation | Ruleset | Result |
+| API | Ruleset | Behavior |
 | --- | --- | --- |
-| GET /api/board | face-v1-10 (default) | Current ten-turn Top 10 |
-| POST /api/board | face-v1-10 | Submit a ten-turn score |
+| GET /api/board | face-v2-12 (default) | Current twelve-turn collection Top 10 |
+| POST /api/board | face-v2-12 | Submit a current twelve-turn score |
+| GET /api/board?ruleset=face-v1-10 | face-v1-10 | Read-only previous ten-turn Top 10 |
 | GET /api/board?ruleset=face-v1 | face-v1 | Read-only historic twenty-turn Top 10 |
-| POST /api/board with face-v1 | face-v1 | Rejected: historic records are frozen |
+| POST with either older ruleset | face-v1-10 / face-v1 | Rejected |
 
-Ten turns × the maximum double five-of-a-kind payout (11200) = **112000**
-maximum score. The old twenty-turn competition stays separate. Accidental
-duplicate retries are handled as before.
+Maximum allowed score: **159,400**, a conservative theoretical upper bound: twelve turns × maximum double five-of-a-kind (2 × 5,600) plus a one-time 25,000-point eight-hand collection bonus. An exact twelve-turn maximum under all hand-collection constraints may be lower.
 
-Until you paste the new Worker code in Cloudflare, the frontend displays
-**Cloudflare Worker update required** for ten-turn world records, while
-allowing local ten-turn scores. The old archive can still be read.
+The frontend shows **Cloudflare Worker update required** for new world records until the Worker is deployed. Offline and not-yet-upgraded Workers do not prevent gameplay or local scores. Anonymous browser-reported scores are not tamper-proof.
 
-## Local score keys
+## Local score keys (all independent)
 
-- `luck-machine-leaderboard-v3-ten-turn` — new ten-turn scores.
+- `luck-machine-leaderboard-v4-twelve-turn` — current twelve-turn collection results.
+- `luck-machine-leaderboard-v3-ten-turn` — earlier ten-turn results.
 - `luck-machine-leaderboard-v2` — older twenty-turn face-value scores.
 - `luck-machine-leaderboard-v1` — pre-1.6 fixed-payout scores.
 
-All archives remain accessible through the game's leaderboard menus.
-
-**Important:** Edit the LUCK MACHINE Worker only. Do not alter the Miami
-Nights Worker, D1 database, or leaderboard. Browser-reported scores aren't
-cryptographically verified; do not paste credentials into public files.
+**Important:** Edit only the LUCK MACHINE Worker. The Miami Nights Worker and leaderboard are separate. Never include Cloudflare credentials in GitHub files.
