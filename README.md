@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.9.2 — LAUNCH Above Secondary Controls.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.10.0 — Twelve Turns and Eight-Hand Collection.**
 
 ## Play
 
@@ -11,18 +11,29 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 ## Rules
 
 - Five illuminated dice with individual HOLD controls and a **KEEP IT!** button to hold all matching dice at once.
-- Three rolls per turn, **10 turns per game**.
-- Score repeatable poker-style dice combinations.
+- Three rolls per turn, **12 turns per game**.
+- Score repeatable poker-style dice combinations. A large straight now pays **1,500 points**.
+- Bank all eight distinct scoring categories during one session for an **immediate one-time 25,000-point collection bonus**. Successful called hands count; failed calls do not. The paytable marks collected hands.
 - Bank your hand for points, or **CALL YOUR HAND** before your final roll to attempt a better combination for double the payout; a failed call scores zero for the turn.
-- Worldwide ten-turn Top 10 after the Cloudflare Worker upgrade; local-only fallback while offline. Historic twenty-turn records remain accessible in their own archive.
+- A new **twelve-turn world Top 10** and independent local board, alongside read-only ten-turn and twenty-turn archives. The Cloudflare Worker must be updated in the dashboard to enable twelve-turn world posts.
 
 Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call.
+
+## Twelve Turns and Complete Collection (v1.10.0)
+
+- Sessions run for **12 turns** (still three launches per turn).
+- **Large straight** pays 1,500 instead of 800. Small straight remains at 600; other payouts and face bonuses are unchanged.
+- Every **successfully banked distinct category** adds one mark to the eight-hand collection. A successful CALL IT! counts as the declared hand, regardless of other hands present. A failed CALL IT! earns zero and records no category. Repeating a hand still pays points but does not advance the collection.
+- Collect all eight (pair, two pair, three, small straight, large straight, full house, four, five) during one game to add **25,000 points once, immediately**. CALL IT! never doubles the collection bonus. The existing paytable displays completion marks, the collection tally and its prize; the manual and final result screen explain it.
+- Separate ruleset: `face-v2-12`, with a theoretical score ceiling of **159,400** (12 × double 5,600 + 25,000). Local scores use `luck-machine-leaderboard-v4-twelve-turn`. The old 10-turn local board (`luck-machine-leaderboard-v3-ten-turn`) and old 20-turn boards remain untouched and accessible, as do the previous world archives.
+- The new front-end World Top 10 requires the **existing** Cloudflare Worker to be updated from `worker/src/index.js` via the Cloudflare dashboard. Its existing D1 binding and table remain the same. Until that update, local scoring works but the current world board correctly reports that a Worker update is required.
+- No changes to dice probabilities, hold/keep controls, radio hardware, audio engine, Miami Nights, or the retired leaderboards. The 1.9.2 LAUNCH layout is retained.
 
 ## Version 0.9
 
 The five illuminated dice faces have a square 1:1 aspect ratio on desktop and mobile. Every roll, including the first roll of each turn, now uses the same longer stepped electronic cycling (about 1.3–1.9 seconds, depending on how many dice are rolling). Gameplay probabilities and scoring remain unchanged.
 
-## Corrected Two-Row LAUNCH Panel (v1.9.2)
+## Corrected Two-Row LAUNCH Panel (v1.9.2 — historical release)
 
 The first button is now a genuinely prominent, **full-width LAUNCH / RELAUNCH
 actuator on its own 78-pixel-tall top row**, with the three smaller controls
