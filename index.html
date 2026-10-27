@@ -700,9 +700,9 @@ function showCall(){if(state.rolls===0||state.rolls>=3||state.call||state.animat
 function formatScoreRows(rows){return rows.length?rows.map((x,i)=>'<tr><td>'+(i+1)+'</td><td>'+escapeHTML(x.initials||x.name||'---')+'</td><td>'+fmt(x.score)+'</td></tr>').join(''):'<tr><td colspan="3">NO SCORES RECORDED YET.</td></tr>'}
 function scoreTable(rows){return '<table class="lb"><thead><tr><th>RANK</th><th>OPERATOR</th><th>POINTS</th></tr></thead><tbody>'+formatScoreRows(rows)+'</tbody></table>'}
 function showScores(){
-  openDialog('МИРОВОЙ РЕКОРД / TEN-TURN WORLD ARCHIVE','10-TURN WORLD TOP 10',
-    '<p id="worldStatus" class="world-status">CONTACTING TEN-TURN ARCHIVE...</p><div id="worldScoreList">'+scoreTable([])+'</div>',
-    [{text:'REFRESH',fn:showScores},{text:'LOCAL 10',fn:showLocalScores},{text:'WORLD 20',fn:showWorld20Scores},{text:'CLOSE',fn:closeDialog}]);
+  openDialog('МИРОВОЙ РЕКОРД / TWELVE-TURN WORLD BOARD','12-TURN WORLD TOP 10',
+    '<p id="worldStatus" class="world-status">CONTACTING TWELVE-TURN BOARD...</p><div id="worldScoreList">'+scoreTable([])+'</div>',
+    [{text:'REFRESH',fn:showScores},{text:'LOCAL 12',fn:showLocalScores},{text:'WORLD 10',fn:showWorld10Scores},{text:'WORLD 20',fn:showWorld20Scores},{text:'CLOSE',fn:closeDialog}]);
   refreshWorldDisplay();
 }
 async function refreshWorldDisplay(){
@@ -710,16 +710,16 @@ async function refreshWorldDisplay(){
  try{
   const rows=await window.LMWorldBoard.refresh();
   if($('worldStatus')!==status)return;
-  status.textContent='LIVE WORLDWIDE TOP 10 · TEN TURNS · FACE-VALUE RULES';
+  status.textContent='LIVE WORLDWIDE TOP 10 · TWELVE TURNS · COLLECTION BONUS';
   status.dataset.offline='false';
   list.innerHTML=scoreTable(rows);
  }catch(error){
   if($('worldStatus')!==status)return;
   status.textContent=String(error?.message||'').includes('Worker update required')?
-   'TEN-TURN WORKER UPDATE REQUIRED · USE THE CLOUDFLARE DASHBOARD':
-   'TEN-TURN WORLD BOARD OFFLINE · LOCAL RECORDS AVAILABLE';
+   'TWELVE-TURN WORKER UPDATE REQUIRED · USE THE CLOUDFLARE DASHBOARD':
+   'TWELVE-TURN WORLD BOARD OFFLINE · LOCAL RECORDS AVAILABLE';
   status.dataset.offline='true';
-  list.innerHTML='<p>The ten-turn worldwide records cannot be checked yet. Old twenty-turn scores are preserved separately.</p>';
+  list.innerHTML='<p>The twelve-turn worldwide records cannot be checked yet. Old ten- and twenty-turn scores are preserved separately.</p>';
  }
 }
 function readLocalArchive(key){
@@ -729,16 +729,38 @@ function readLocalArchive(key){
  }catch{return []}
 }
 function showLocalScores(){
- openDialog('ЛОКАЛЬНЫЙ АРХИВ / TEN TURNS','LOCAL 10-TURN TOP 10',
-  '<p>Only scores from 10-turn games on this browser. Old 20-turn records are preserved separately.</p>'+scoreTable(state.board),
-  [{text:'WORLD 10',fn:showScores},{text:'LOCAL 20',fn:showLocal20Scores},{text:'PRE-1.6',fn:showLegacyScores},{text:'CLOSE',fn:closeDialog}]);
+ openDialog('ЛОКАЛЬНЫЙ АРХИВ / TWELVE TURNS','LOCAL 12-TURN TOP 10',
+  '<p>Only scores from 12-turn collection games on this browser. Previous 10- and 20-turn records remain available separately.</p>'+scoreTable(state.board),
+  [{text:'WORLD 12',fn:showScores},{text:'LOCAL 10',fn:showLocal10Scores},{text:'LOCAL 20',fn:showLocal20Scores},{text:'CLOSE',fn:closeDialog}]);
+}
+function showWorld10Scores(){
+ openDialog('АРХИВ / PREVIOUS WORLD RECORDS','WORLD 10-TURN ARCHIVE',
+  '<p>Read-only scores from the previous ten-turn ruleset. Never mixed with the twelve-turn collection competition.</p>'+
+  '<p id="world10Status" class="world-status">CONTACTING HISTORICAL ARCHIVE...</p>'+
+  '<div id="world10ScoreList">'+scoreTable([])+'</div>',
+  [{text:'REFRESH',fn:showWorld10Scores},{text:'WORLD 12',fn:showScores},{text:'LOCAL 10',fn:showLocal10Scores},{text:'WORLD 20',fn:showWorld20Scores},{text:'CLOSE',fn:closeDialog}]);
+ const status=$('world10Status'),list=$('world10ScoreList');
+ window.LMWorldBoard.archive10().then(rows=>{
+  if($('world10Status')!==status)return;
+  status.textContent='10-TURN WORLD ARCHIVE · READ ONLY';
+  list.innerHTML=scoreTable(rows);
+ }).catch(()=>{
+  if($('world10Status')!==status)return;
+  status.textContent='HISTORICAL 10-TURN WORLD ARCHIVE UNAVAILABLE · LOCAL 10 REMAINS AVAILABLE';
+ });
+}
+function showLocal10Scores(){
+ const rows=readLocalArchive('luck-machine-leaderboard-v3-ten-turn');
+ openDialog('ЛОКАЛЬНЫЙ АРХИВ / PREVIOUS RULES','LOCAL 10-TURN TOP 10',
+  '<p>Saved 10-turn records from the previous format, preserved without conversion.</p>'+scoreTable(rows),
+  [{text:'WORLD 10',fn:showWorld10Scores},{text:'WORLD 12',fn:showScores},{text:'LOCAL 12',fn:showLocalScores},{text:'LOCAL 20',fn:showLocal20Scores},{text:'CLOSE',fn:closeDialog}]);
 }
 function showWorld20Scores(){
  openDialog('АРХИВ / HISTORIC WORLD RECORDS','WORLD 20-TURN ARCHIVE',
-  '<p>Read-only records from the old 20-turn format. Not compared with 10-turn scores.</p>'+
+  '<p>Read-only records from the old 20-turn format. Not compared with 12-turn scores.</p>'+
   '<p id="world20Status" class="world-status">CONTACTING HISTORICAL ARCHIVE...</p>'+
   '<div id="world20ScoreList">'+scoreTable([])+'</div>',
-  [{text:'REFRESH',fn:showWorld20Scores},{text:'WORLD 10',fn:showScores},{text:'LOCAL 20',fn:showLocal20Scores},{text:'CLOSE',fn:closeDialog}]);
+  [{text:'REFRESH',fn:showWorld20Scores},{text:'WORLD 12',fn:showScores},{text:'WORLD 10',fn:showWorld10Scores},{text:'LOCAL 20',fn:showLocal20Scores},{text:'CLOSE',fn:closeDialog}]);
  const status=$('world20Status'),list=$('world20ScoreList');
  window.LMWorldBoard.archive20().then(rows=>{
   if($('world20Status')!==status)return;
@@ -752,14 +774,14 @@ function showWorld20Scores(){
 function showLocal20Scores(){
  const rows=readLocalArchive('luck-machine-leaderboard-v2');
  openDialog('ЛОКАЛЬНЫЙ АРХИВ / OLD FACE-VALUE RULES','LOCAL 20-TURN TOP 10',
-  '<p>Saved 20-turn records from this browser. Kept intact and never compared with new 10-turn scores.</p>'+scoreTable(rows),
-  [{text:'WORLD 20',fn:showWorld20Scores},{text:'WORLD 10',fn:showScores},{text:'PRE-1.6',fn:showLegacyScores},{text:'CLOSE',fn:closeDialog}]);
+  '<p>Saved 20-turn records from this browser. Kept intact and never compared with new 12-turn scores.</p>'+scoreTable(rows),
+  [{text:'WORLD 20',fn:showWorld20Scores},{text:'WORLD 12',fn:showScores},{text:'LOCAL 10',fn:showLocal10Scores},{text:'PRE-1.6',fn:showLegacyScores},{text:'CLOSE',fn:closeDialog}]);
 }
 function showLegacyScores(){
  const rows=readLocalArchive('luck-machine-leaderboard-v1');
  openDialog('ARCHIVE / PRE-1.6 SCORING','LEGACY TOP 10',
-  '<p>Old fixed-payout records, preserved separately from both the 20-turn and 10-turn face-value competitions.</p>'+scoreTable(rows),
-  [{text:'WORLD 10',fn:showScores},{text:'LOCAL 20',fn:showLocal20Scores},{text:'CLOSE',fn:closeDialog}]);
+  '<p>Old fixed-payout records, preserved separately from the newer 20-, 10-, and 12-turn competitions.</p>'+scoreTable(rows),
+  [{text:'WORLD 12',fn:showScores},{text:'LOCAL 10',fn:showLocal10Scores},{text:'LOCAL 20',fn:showLocal20Scores},{text:'CLOSE',fn:closeDialog}]);
 }
 function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 // Sound-check modal leaves gameplay and on-screen cabinet size untouched.
@@ -804,7 +826,7 @@ function showAudioCheck(){
  [{text:'PLAY TEST AGAIN',fn:playAudioCheck},{text:'CLOSE',fn:closeDialog}]);
  playAudioCheck();
 }
-function showRules(){openDialog('OPERATOR HANDBOOK','OPERATIONAL PROCEDURE',`<p><b>1.</b> Each game lasts 10 turns. You get up to three launches per turn (LAUNCH first, then RELAUNCH). Tap a die to HOLD or release it before the next roll.</p><p><b>2.</b> KEEP IT! holds all dice in matching groups with a single click; it does not spend a roll or score points. You can still adjust each die manually. BANK at any time after rolling to take the payout for your best combination. You can score the same type of hand on every turn. There is no scorecard to fill.</p><p><b>SCORING:</b> Equal hands do not always pay equally. Pair: base + 10 × face; two pair: base + 10 × each paired face; three of a kind: base + 20 × face; full house: base + 20 × triple face + 10 × pair face; four of a kind: base + 50 × face; five of a kind: base + 100 × face. Straights stay fixed. The panel shows ranges.</p><p><b>3.</b> CALL IT! after launch one or two to declare an improved target. Make your called combination before you bank to score DOUBLE its actual face-value payout, including bonuses. Miss it and earn ZERO for that turn. The call is irreversible.</p><p><b>4.</b> After 10 turns, qualifying scores may be posted to the new ten-turn worldwide Top 10. Earlier 20-turn records remain in a separate archive; no historic scores are deleted.</p><p><b>KEYS:</b> Space or Enter = LAUNCH / RELAUNCH; 1–5 = hold dice; K = auto-hold matching dice; B = bank/end turn/resolve; C = call; Esc = close menu.</p><p><b>NOTICE:</b> No game modes or escalation systems have been installed. By order of the People's Committee.</p>`,[{text:'ACKNOWLEDGED',fn:closeDialog}])}
+function showRules(){openDialog('OPERATOR HANDBOOK','OPERATIONAL PROCEDURE',`<p><b>1.</b> Each game lasts 12 turns. You get up to three launches per turn (LAUNCH first, then RELAUNCH). Tap a die to HOLD or release it before the next roll.</p><p><b>2.</b> KEEP IT! holds all dice in matching groups with one click; it does not consume a roll. BANK after rolling to claim your best combination. Repeated hands still pay their normal points.</p><p><b>COLLECTION:</b> Bank all eight different scoring hands within 12 turns to earn an additional <b>25,000 POINTS</b> immediately. Each hand is recorded only once. A successful CALL IT! counts as its called category; a failed call does not count. Completed hands are marked on the paytable, with progress underneath. The bonus pays once.</p><p><b>SCORING:</b> Large straight pays <b>1,500</b> (small straight: 600). Pair: base + 10 × face; two pair: base + 10 × paired faces; three of a kind: base + 20 × face; full house: base + 20 × triple face + 10 × pair face; four of a kind: base + 50 × face; five of a kind: base + 100 × face. The panel shows ranges.</p><p><b>3.</b> CALL IT! after launch one or two to declare a better target. Score DOUBLE its actual payout if successful or ZERO if not. The call cannot be canceled. The collection bonus itself is never doubled.</p><p><b>4.</b> After 12 turns, qualifying scores may be posted to the twelve-turn worldwide Top 10. Older 10-turn and 20-turn records are available in separate read-only archives.</p><p><b>KEYS:</b> Space or Enter = LAUNCH / RELAUNCH; 1–5 = hold dice; K = auto-hold matching dice; B = bank/end turn/resolve; C = call; Esc = close menu.</p><p><b>NOTICE:</b> No game modes or escalation systems have been installed. By order of the People's Committee.</p>`,[{text:'ACKNOWLEDGED',fn:closeDialog}])}
 let postedThisSession=false,postingWorldScore=false;
 function localQualifies(){return state.total>0&&(state.board.length<10||state.total>Number(state.board[state.board.length-1].score))}
 function addLocalScore(name){
@@ -838,9 +860,9 @@ function endGameButtons({canPost=false,canSave=false}={}){
 function showEndGameBoard(){
  // Display the final score and world rankings in the SAME dialog.
  // Never leave the player on a separate score-entry screen.
- openDialog('СЕАНС ЗАВЕРШЁН / GAME OVER','10-TURN WORLD TOP 10',
+ openDialog('СЕАНС ЗАВЕРШЁН / GAME OVER','12-TURN WORLD TOP 10',
   '<div id="endgameBoard" class="endgame-board" data-final-score="'+state.total+'">'+
-  '<div class="endgame-score"><span>FINAL SCORE / ИТОГ</span><strong>'+fmt(state.total)+'</strong></div>'+
+  '<div class="endgame-score"><span>FINAL SCORE / ИТОГ</span><strong>'+fmt(state.total)+'</strong></div>'+ (state.collectionAwarded?'<p class="collection-victory">ALL EIGHT HANDS COLLECTED · +25,000 BONUS AWARDED</p>':'<p class="collection-summary">HAND COLLECTION: '+state.collected.size+' / 8</p>')+
   '<p id="worldStatus" class="world-status" aria-live="polite">CONTACTING CENTRAL ARCHIVE...</p>'+
   '<div id="worldScoreList">'+scoreTable([])+'</div>'+
   '<div id="endgameEntry" class="endgame-entry" hidden>'+
@@ -863,12 +885,12 @@ async function refreshEndGameBoard(){
   const rows=await window.LMWorldBoard.refresh();
   if($('endgameBoard')!==panel||!state.finished)return;
   available=true;
-  status.textContent='LIVE WORLDWIDE TOP 10 · TEN TURNS';
+  status.textContent='LIVE WORLDWIDE TOP 10 · TWELVE TURNS';
   list.innerHTML=scoreTable(rows);
   qualifiesWorld=!postedThisSession&&window.LMWorldBoard.qualifies(finalScore,rows);
  }catch(error){
   if($('endgameBoard')!==panel||!state.finished)return;
-  status.textContent=String(error?.message||'').includes('Worker update required')?'CLOUDFLARE WORKER UPDATE REQUIRED · SHOWING LOCAL 10':'TEN-TURN WORLD BOARD OFFLINE · SHOWING LOCAL 10';
+  status.textContent=String(error?.message||'').includes('Worker update required')?'CLOUDFLARE WORKER UPDATE REQUIRED · SHOWING LOCAL 12':'TWELVE-TURN WORLD BOARD OFFLINE · SHOWING LOCAL 12';
   status.dataset.offline='true';
   list.innerHTML=scoreTable(state.board);
  }
