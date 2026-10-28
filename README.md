@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.10.0 — Twelve Turns and Eight-Hand Collection.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.10.1 — World-Only 12-Turn Top 10.**
 
 ## Play
 
@@ -15,18 +15,27 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 - Score repeatable poker-style dice combinations. A large straight now pays **1,500 points**.
 - Bank all eight distinct scoring categories during one session for an **immediate one-time 25,000-point collection bonus**. Successful called hands count; failed calls do not. The paytable marks collected hands.
 - Bank your hand for points, or **CALL YOUR HAND** before your final roll to attempt a better combination for double the payout; a failed call scores zero for the turn.
-- A new **twelve-turn world Top 10** and independent local board, alongside read-only ten-turn and twenty-turn archives. The Cloudflare Worker must be updated in the dashboard to enable twelve-turn world posts.
+- The **twelve-turn WORLD TOP 10** is the only scoreboard offered in the game. There are no local score saves or older archive buttons. The existing Cloudflare Worker supports this ruleset; prior records remain stored but hidden from the game.
 
 Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call.
 
-## Twelve Turns and Complete Collection (v1.10.0)
+## World-Only Leaderboard (v1.10.1)
+
+- The TOP 10 dialog offers **REFRESH** and **CLOSE** only. It displays current `face-v2-12` online rankings, not previous turn formats.
+- The end-of-game dialog keeps the final score, the worldwide Top 10 qualification and **POST WORLD SCORE** flow, plus REFRESH, NEW SESSION and CLOSE. There is no SAVE LOCALLY fallback.
+- If the network or Cloudflare Worker is unavailable, show **WORLD LEADERBOARD OFFLINE** (or **WORKER UPDATE REQUIRED**, when applicable), without displaying cached local rankings or accepting local-only scores. The score remains visible at game over, but it is **not posted** until the worldwide submission succeeds.
+- The WORLD BEST readout displays the online best only (or a dash if unavailable).
+- Previously written local browser records are neither loaded nor deleted. Existing `face-v1-10` and `face-v1` world data remain untouched in Cloudflare D1 and the Worker; the game no longer offers archive navigation. No database or Worker deployment is required for this interface-only change.
+- All game mechanics, collection bonus, scoring, audio, input controls and LAUNCH panel layout remain unchanged.
+
+## Twelve Turns and Complete Collection (v1.10.0 — historical release)
 
 - Sessions run for **12 turns** (still three launches per turn).
 - **Large straight** pays 1,500 instead of 800. Small straight remains at 600; other payouts and face bonuses are unchanged.
 - Every **successfully banked distinct category** adds one mark to the eight-hand collection. A successful CALL IT! counts as the declared hand, regardless of other hands present. A failed CALL IT! earns zero and records no category. Repeating a hand still pays points but does not advance the collection.
 - Collect all eight (pair, two pair, three, small straight, large straight, full house, four, five) during one game to add **25,000 points once, immediately**. CALL IT! never doubles the collection bonus. The existing paytable displays completion marks, the collection tally and its prize; the manual and final result screen explain it.
-- Separate ruleset: `face-v2-12`, with a theoretical score ceiling of **159,400** (12 × double 5,600 + 25,000). Local scores use `luck-machine-leaderboard-v4-twelve-turn`. The old 10-turn local board (`luck-machine-leaderboard-v3-ten-turn`) and old 20-turn boards remain untouched and accessible, as do the previous world archives.
-- The new front-end World Top 10 requires the **existing** Cloudflare Worker to be updated from `worker/src/index.js` via the Cloudflare dashboard. Its existing D1 binding and table remain the same. Until that update, local scoring works but the current world board correctly reports that a Worker update is required.
+- Separate ruleset: `face-v2-12`, with a theoretical score ceiling of **159,400** (12 × double 5,600 + 25,000). The release initially added local `luck-machine-leaderboard-v4-twelve-turn` scores alongside the earlier `luck-machine-leaderboard-v3-ten-turn` and twenty-turn archives. Version 1.10.1 subsequently removed these options from the game UI while retaining existing records.
+- The new front-end World Top 10 requires the **existing** Cloudflare Worker to be updated from `worker/src/index.js` via the Cloudflare dashboard. Its existing D1 binding and table remain the same. Until that update, games remain playable but the world board correctly reports that a Worker update is required.
 - No changes to dice probabilities, hold/keep controls, radio hardware, audio engine, Miami Nights, or the retired leaderboards. The 1.9.2 LAUNCH layout is retained.
 
 ## Version 0.9
