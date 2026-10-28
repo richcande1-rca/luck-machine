@@ -1,4 +1,4 @@
-/* LUCK MACHINE 5D-20 / v1.4 — simulated signal instrumentation.
+/* LUCK MACHINE 5D-20 / v1.11.1 — mobile-throttled signal instrumentation.
    Pure presentation. Never feeds back into scoring, RNG or dice controls. */
 (()=>{'use strict';
   const $=id=>document.getElementById(id);
@@ -13,6 +13,7 @@
   const pad=n=>String(n).padStart(2,'0');
   const levels=[0,38,62,47,78,56,85,93,72,49];
   const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches||false;
+  const mobile=window.matchMedia?.('(max-width:700px)');
   let channel=7,rolling=false,stops=0,pulse=0,pulseUntil=0,event='idle',frame=0;
   let previousPower=-1,tuneTimer=0,drag=null,skipClick=false,channelVersion=0;
   const alive=()=>!document.hidden;
@@ -123,5 +124,13 @@
     if(e.key==='End'){e.preventDefault();setChannel(9)}
   });
   initChannel();paint(performance.now());
-  setInterval(()=>paint(performance.now()),reduced?500:140);
+  // Avoid a constant seven-frame-per-second radio repaint when a phone is idle.
+  // Interactive tuning and roll events still repaint immediately via paint/signal.
+  function schedulePaint(){
+    const now=performance.now();
+    if(alive())paint(now);
+    const delay=!alive()?1000:mobile?.matches?(rolling||now<pulseUntil?160:650):(reduced?500:140);
+    setTimeout(schedulePaint,delay);
+  }
+  schedulePaint();
 })();

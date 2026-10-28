@@ -1,12 +1,12 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.0 — Repeat-Hand Bonuses, 12-Turn World Top 10.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.1 — Phone Layout and Roll Performance, with Repeat-Hand Bonuses.**
 
 ## Play
 
 [Open LUCK MACHINE](https://richcande1-rca.github.io/luck-machine/) (requires GitHub Pages to be enabled in repository settings).
 
-Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.css`, `telemetry.js`, `legibility.css`, `scoring.js`, `scoring.css`, `operator.css`, `world-board.js`, and `world-board.css` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
+Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.css`, `telemetry.js`, `legibility.css`, `scoring.js`, `scoring.css`, `operator.css`, `world-board.js`, `world-board.css`, and `mobile.css` together in the same folder and open `index.html` in a modern browser. No installation or build process is needed.
 
 ## Rules
 
@@ -18,6 +18,15 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 - The **twelve-turn WORLD TOP 10** is the only scoreboard offered in the game. The new `face-v3-12` ruleset separates repeat-hand scores from earlier formats. Existing Cloudflare D1 scores are retained as archives, but are not shown in-game. The Cloudflare Worker needs to be deployed with the updated `worker/src/index.js` to accept the new ruleset.
 
 Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call.
+
+## Phone Layout and Performance (v1.11.1)
+
+- A **phone-only** last-in-cascade `mobile.css` resolves conflicting older responsive rules at widths up to 700px. At 320–430px it shows a readable 2×2 score panel, five square dice, a full-width LAUNCH actuator and three usable secondary controls, with no scaled-down desktop cabinet.
+- Compact radio tuning hardware remains accessible on phones; the decorative animated uplink illustration is hidden there. Other cabinet elements keep their olive industrial appearance.
+- The dice renderer caches the five sets of nine pip elements and each HOLD badge once, updates only changed faces/held states and defers accessibility-label updates until rolls settle. Roll duration and final RNG outcomes are unchanged. Mobile dice previews refresh every 110ms instead of 70ms; desktop still refreshes every 70ms. Animated preview faces use lightweight random numbers, but the final dice targets still use the unchanged secure RNG.
+- On phones the radio paints about every 650ms while idle and every 160ms when rolling/active, and still responds instantly to user actions. Desktop timing is unchanged. Hidden tabs throttle to ~1 second.
+- Phone CSS drops continuous dice-face vibration, reduces glow/shadow cost and removes modal backdrop blur. Touch targets and the score modal fit narrow screens; desktops remain on their previous layout.
+- **No game-rule changes:** 12 turns, repeats, eight-hand collection, CALL IT!, audio engine, dice probabilities and the `face-v3-12` worldwide leaderboard are untouched. No Cloudflare Worker or D1 changes.
 
 ## Repeat-Hand Bonuses (v1.11.0)
 
