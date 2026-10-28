@@ -107,3 +107,90 @@
   .die .face{padding:2px}
   .launch-controls #keepBtn,.launch-controls #bankBtn,.launch-controls #callBtn{font-size:13px}
 }
+
+
+/* v1.11.2: phone GAME screen. Decorative/read-only desktop sections remain
+   in the DOM and work on desktop, but never push phone controls below the fold. */
+@media (max-width:700px){
+  html,body{overflow-x:clip}
+  body{padding:5px 5px max(5px,env(safe-area-inset-bottom,0px));min-height:100dvh}
+  .console{border-width:3px;padding:5px 6px;box-shadow:inset 0 0 0 1px #82917c,0 3px 8px #0008}
+  .fit-stage{max-width:500px}
+  .console::before{opacity:.1}
+  /* On a phone, the dice and controls matter more than simulated radio hardware. */
+  .transport-mount,.remote-rack,.inventory-strip,.status,.build-plate,.paneltitle,
+  .paymodule,.sideinfo,.dicefoot,.rollnote{display:none!important}
+  header{display:block;margin:0;padding:4px 6px;border-width:1px}
+  .brand{padding:0;border:0;gap:6px}
+  .brand h1{font-size:clamp(27px,8vw,36px);line-height:.94}
+  .brand p{font-size:8px;margin:3px 0 0}
+  .brand .star{flex-basis:30px;width:30px;height:31px;font-size:22px;border-width:1px}
+  .header-stamp{display:none}
+  .topread{grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;margin-top:5px}
+  .readout{min-height:49px;padding:5px 3px;text-align:center;border-width:1px}
+  .topread .readout .label{font-size:clamp(7px,2.1vw,9px);letter-spacing:0;line-height:1.12}
+  .topread .readout strong,.topread .readout .smaller{
+    font-size:clamp(20px,5.5vw,25px);line-height:1.1;letter-spacing:0}
+  .dicebay{margin-top:5px;padding:5px 4px;border-width:2px}
+  .dice{gap:4px}
+  .die{padding:3px 2px}
+  .die .face{padding:2px}
+  .die .under{margin-top:3px}
+  .die .holdbadge{padding:3px 1px;font-size:10px}
+  .mobile-progress{display:flex;justify-content:space-between;align-items:center;
+    gap:5px;padding:4px 7px;margin-top:4px;border:1px solid #53664f;
+    background:#111f16;color:#bce6ad;
+    font:700 11px/1.2 'IBM Plex Mono',monospace}
+  .mobile-progress .prize{color:#efc77e}
+  .mobile-progress[data-complete="true"]{color:#f7d17c;text-shadow:0 0 5px #ffa83d66}
+  .controlgrid{margin-top:5px;gap:0;display:block}
+  .controlgrid .decision{margin:0;padding:6px 7px;gap:3px;border-width:2px}
+  .decision-head h2{font-size:17px;margin:0}
+  .decision-head .tag{font-size:9px;padding:2px 4px}
+  .decision-info{gap:2px}
+  .decision-info .handname{font-size:clamp(24px,6.5vw,30px);line-height:1.02}
+  .decision-info .callstatus{font-size:10px;line-height:1.15}
+  .decision-info .decisiontext{font-size:12px;line-height:1.2}
+  .decision .buttons.launch-controls{grid-template-rows:62px 45px;gap:4px;margin-top:3px}
+  .decision .launch-controls #rollBtn{height:62px;min-height:62px;
+    font-size:clamp(27px,7.5vw,34px);border-width:3px;border-bottom-width:5px;
+    padding:4px 10px;box-shadow:inset 0 1px 2px #ffe1ab90,0 2px 0 #33180f}
+  .decision .launch-controls #rollBtn::before{inset:4px}
+  .decision .launch-controls #rollBtn::after{width:7px;height:7px;top:7px;right:7px}
+  .launch-controls #keepBtn,.launch-controls #bankBtn,.launch-controls #callBtn{
+    height:45px;min-height:45px;font-size:clamp(13px,3.65vw,17px);
+    text-overflow:clip;padding:3px 1px}
+  .controlstrip{margin-top:5px;padding:4px;border-width:1px}
+  .footleft{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+  .footleft .smallbutton{font-size:clamp(11px,3vw,13px)!important;
+    padding:5px 2px;min-height:42px;border-width:1px;border-bottom-width:2px}
+  .footleft #rulesBtn,.footleft #soundBtn,.footleft #soundTestBtn{display:none}
+  #payoutsMobile,#moreMobile{display:block}
+  .die.rolling .face{animation:none}
+  .die,.die .face,.pip{transition:none}
+  .die.rolling,.metalbutton:disabled{filter:none}
+  .shade{backdrop-filter:none}
+}
+@media (max-width:700px) and (max-height:650px){
+  body{padding:2px 4px}
+  .console{padding:3px 5px}
+  header{padding:2px 5px}
+  .brand h1{font-size:26px}
+  .brand p{display:none}
+  .brand .star{width:25px;height:26px;flex-basis:25px;font-size:19px}
+  .topread{margin-top:3px}
+  .readout{min-height:42px;padding:3px 2px}
+  .topread .readout strong,.topread .readout .smaller{font-size:20px}
+  .dicebay{margin-top:3px;padding:3px}
+  .die .under{margin-top:2px}
+  .die .holdbadge{padding:2px 0}
+  .mobile-progress{margin-top:3px;padding:3px 5px;font-size:10px}
+  .controlgrid{margin-top:3px}
+  .controlgrid .decision{padding:4px 5px}
+  .decision-info .decisiontext{font-size:11px;line-height:1.12}
+  .decision .buttons.launch-controls{grid-template-rows:54px 42px;gap:3px}
+  .decision .launch-controls #rollBtn{height:54px;min-height:54px}
+  .launch-controls #keepBtn,.launch-controls #bankBtn,.launch-controls #callBtn{height:42px;min-height:42px}
+  .controlstrip{margin-top:3px;padding:2px}
+  .footleft .smallbutton{min-height:38px}
+}
