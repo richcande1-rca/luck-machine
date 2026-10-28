@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.2 — Compact One-Screen Phone Game and Faster Rolls.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.3 — Smoother Frame-Synchronized Phone Rolls.**
 
 ## Play
 
@@ -18,6 +18,14 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 - The **twelve-turn WORLD TOP 10** is the only scoreboard offered in the game. The new `face-v3-12` ruleset separates repeat-hand scores from earlier formats. Existing Cloudflare D1 scores are retained as archives, but are not shown in-game. The Cloudflare Worker needs to be deployed with the updated `worker/src/index.js` to accept the new ruleset.
 
 Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call.
+
+## Smoother Phone Rolls (v1.11.3)
+
+- The compact phone layout and existing 1.1-second roll duration remain unchanged.
+- During phone rolls, visual dice previews now run through `requestAnimationFrame` instead of a fixed 120ms interval. Changes are capped to approximately one preview every 55ms, making the sequence smoother without rebuilding the dice DOM on each display frame.
+- A subtle 45ms opacity transition softens pip changes on phones, except when reduced-motion preferences are enabled. Desktop dice animation, scoring and visual styling are unchanged.
+- Final targets are still generated before the animation using the same secure random source. Holds, CALL IT!, repeat-hand bonuses, the eight-hand collection, 12 turns and the `face-v3-12` world board are unchanged.
+- Verification covers 30, 60 and 120Hz simulated frame callbacks, held dice, timing, exact settled outcomes and missed frames. These are code-level tests, not physical-phone performance measurements.
 
 ## Compact One-Screen Phone Game (v1.11.2)
 
