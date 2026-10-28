@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.1 — Phone Layout and Roll Performance, with Repeat-Hand Bonuses.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.2 — Compact One-Screen Phone Game and Faster Rolls.**
 
 ## Play
 
@@ -18,6 +18,15 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 - The **twelve-turn WORLD TOP 10** is the only scoreboard offered in the game. The new `face-v3-12` ruleset separates repeat-hand scores from earlier formats. Existing Cloudflare D1 scores are retained as archives, but are not shown in-game. The Cloudflare Worker needs to be deployed with the updated `worker/src/index.js` to accept the new ruleset.
 
 Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call.
+
+## Compact One-Screen Phone Game (v1.11.2)
+
+- At phone widths (up to 700px), the main playing screen prioritizes **score/turn/rolls/world best, all five dice, 8-hand collection progress, LAUNCH, KEEP IT!, BANK/RESOLVE and CALL IT!**. Decorative radio, inventory and extra instrument panels no longer consume vertical screen space on phones; desktop appearance remains unchanged.
+- **PAYOUTS** in the phone footer opens the complete score/collection table. **MORE** offers MANUAL, SOUND ON/OFF and AUDIO TEST. NEW SESSION and TOP 10 remain on the main phone screen. All original desktop footer controls are unchanged.
+- Short portrait phone viewports get a measured, modest fit adjustment when necessary, without requiring the entire desktop console to be scaled down. On extremely small viewports the game can still scroll rather than shrinking controls below usability.
+- Phone roll animation now settles in approximately **0.9–1.1 seconds** depending on held dice, versus the unchanged desktop animation of approximately 1.3–1.9 seconds. Only visual timing is changed: the secure final dice draw, hold logic and scoring remain identical.
+- Hidden phone radio instrumentation no longer triggers constant paint changes.
+- Gameplay and worldwide rankings are unaffected: 12 turns, repeat-hand bonuses, 8-hand collection and Cloudflare `face-v3-12` remain the same. **No Cloudflare or D1 update is needed.**
 
 ## Phone Layout and Performance (v1.11.1)
 
