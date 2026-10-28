@@ -1,0 +1,109 @@
+/* LUCK MACHINE 5D-20 / v1.11.1 — phone-only fitting and lighter rendering.
+   Loaded after the legacy cabinet styles; desktop is intentionally untouched. */
+@media (max-width:700px){
+  html,body{width:100%;min-width:0;overflow-x:clip}
+  body{padding:17px 6px max(12px,env(safe-area-inset-bottom,12px));min-height:100dvh}
+  .fit-stage{width:100%!important;height:auto!important;min-width:0}
+  .console{box-sizing:border-box;width:100%!important;max-width:100%;min-width:0;
+    transform:none!important;padding:7px;border:5px solid #29382b;
+    box-shadow:inset 0 0 0 2px #87927b,0 6px 17px #0008}
+  .console::before{opacity:.18}
+  .transport-mount{top:-12px;height:25px;left:13%;right:13%}
+  .carry-handle{height:23px;width:118px;margin-top:-12px;border-width:5px 6px 3px}
+  .case-latch{width:24px;height:20px;padding:3px 5px}
+  .case-latch span{height:10px}
+  .screw{width:10px;height:10px}
+  header{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;
+    margin-top:5px;padding:8px;min-width:0}
+  .brand{min-width:0;gap:8px;padding-bottom:6px}
+  .brand h1{font-size:clamp(27px,8vw,38px);letter-spacing:.035em;line-height:.94;overflow-wrap:normal}
+  .brand p{font-size:9px;line-height:1.2;letter-spacing:.02em;margin-top:4px}
+  .brand .star{width:35px;height:36px;flex-basis:35px;font-size:25px}
+  .serial{display:none}
+  .status{display:flex;flex-wrap:wrap;gap:5px 12px;margin:0;padding:5px 7px;min-width:0}
+  .statusline{gap:5px;font-size:10px;min-width:0}
+  /* Keep the operational radio tuner, not the expensive animated map scene. */
+  .remote-rack{display:grid;grid-template-columns:minmax(0,1fr);
+    min-width:0;margin:5px 0 0;padding:3px 6px;gap:0;border-width:2px}
+  .radio-apparatus{display:block;min-height:0;padding:2px 5px}
+  .radio-label{font-size:10px;min-height:0;line-height:1}
+  .radio-face{height:27px;margin:2px 0}
+  .signal-needle i{height:21px}
+  .radio-bottom{gap:8px;margin:0;font-size:10px;min-height:26px}
+  .radio-bottom .radio-description,.radio-bottom .radio-description strong{font-size:10px}
+  .gain-knob{width:29px;height:29px}
+  .uplink-module,.auth-block{display:none}
+  .inventory-strip{margin:4px 0 0;padding:3px 7px;font-size:9px;
+    gap:4px;letter-spacing:0;white-space:normal}
+  .topread{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:6px}
+  .readout{min-width:0;min-height:60px;padding:6px 8px;overflow:hidden;text-align:left}
+  .topread .readout .label{font-size:10px;letter-spacing:0;line-height:1.2;white-space:nowrap}
+  .topread .readout strong,.topread .readout .smaller{
+    display:block;font-size:clamp(25px,7vw,35px);line-height:1.12;letter-spacing:0}
+  .paneltitle{margin:9px 1px 4px;gap:5px;font-size:15px}
+  .paneltitle small{font-size:10px}
+  .dicebay{min-width:0;padding:7px 5px;border:2px solid #17231b;overflow:hidden}
+  .dice{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;min-width:0}
+  .die{min-width:0;padding:4px 2px;border-width:1px;
+    box-shadow:inset 0 0 0 2px #09130f,0 1px 2px #0008;transition:none}
+  .die .face{box-sizing:border-box;aspect-ratio:1/1;min-width:0;padding:3px;
+    border-width:1px;box-shadow:inset 0 0 0 1px #153b2c,0 0 3px #41cfad55;transition:none}
+  .die[data-held="true"] .face{box-shadow:inset 0 0 0 1px #614b29,0 0 4px #ffaa2755}
+  .pip{width:clamp(4px,2.45vw,10px);height:clamp(4px,2.45vw,10px);
+    box-shadow:0 0 3px #5ce8c3;transition:none}
+  .die[data-held="true"] .pip{box-shadow:0 0 3px #ffb44e}
+  .die.rolling{filter:none}
+  .die.rolling .face{animation:none}
+  .die .under{margin-top:4px}
+  .die .holdbadge{font-size:11px;padding:4px 1px;letter-spacing:0}
+  .dicefoot{font-size:10px;margin-top:5px}
+  .controlgrid{display:grid;grid-template-columns:minmax(0,1fr);
+    min-width:0;gap:8px;margin-top:8px}
+  .controlgrid .module{min-width:0;min-height:0;padding:9px;border:2px solid #2a382b}
+  .decision{order:1;gap:7px}
+  .paymodule{order:2}
+  .sideinfo{order:3;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .statusbox{min-width:0;padding:7px}
+  .statusbox strong{font-size:clamp(22px,6vw,31px)}
+  .statusbox .slim{font-size:11px;line-height:1.32}
+  .module h2{font-size:20px;margin-bottom:6px}
+  .decision-info{display:grid;grid-template-columns:minmax(0,1fr);gap:4px}
+  .decision-info .handname{font-size:clamp(25px,7vw,32px)}
+  .decision-info .decisiontext{font-size:13px;line-height:1.35}
+  .decision-info .callstatus{font-size:11px;overflow-wrap:anywhere}
+  .decision .buttons.launch-controls{grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-rows:76px 48px;gap:5px}
+  .decision .launch-controls #rollBtn{height:76px;min-height:76px;font-size:32px}
+  .launch-controls #keepBtn,.launch-controls #bankBtn,.launch-controls #callBtn{
+    min-width:0;height:48px;min-height:48px;padding:3px 1px;
+    font-size:clamp(13px,3.65vw,18px);letter-spacing:0;overflow:hidden}
+  .paytable td:first-child{font-size:16px}
+  .paytable td:last-child{font-size:13px}
+  .collection-progress{font-size:10px}
+  .controlstrip{margin-top:7px;padding:7px 5px}
+  .footleft{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+  .footleft .smallbutton{min-width:0;min-height:39px;padding:6px 3px;
+    font-size:13px!important;letter-spacing:0;white-space:nowrap}
+  #soundTestBtn{font-size:12px!important;padding:6px 2px}
+  .footright{display:none}
+  .build-plate{min-width:0;margin-top:6px}
+  .shade{padding:8px;backdrop-filter:none}
+  .dialog{box-sizing:border-box;width:100%;max-width:520px;
+    max-height:calc(100dvh - 16px);padding:12px;border-width:4px;
+    box-shadow:0 7px 24px #000c}
+  .dialog h2{font-size:clamp(27px,8vw,34px);line-height:1}
+  .dialogfoot{flex-wrap:wrap;gap:6px}
+  .dialogfoot .smallbutton{min-height:42px;padding:7px 10px}
+  .choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .choice{min-width:0;padding:9px}
+  .choice strong{font-size:17px}
+  .choice span{overflow-wrap:anywhere}
+}
+@media (max-width:360px){
+  .topread .readout strong,.topread .readout .smaller{font-size:25px}
+  .paneltitle{font-size:14px}
+  .topread .readout .label{font-size:9px}
+  .die{padding:3px 1px}
+  .die .face{padding:2px}
+  .launch-controls #keepBtn,.launch-controls #bankBtn,.launch-controls #callBtn{font-size:13px}
+}
