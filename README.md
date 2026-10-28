@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.10.1 — World-Only 12-Turn Top 10.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.0 — Repeat-Hand Bonuses, 12-Turn World Top 10.**
 
 ## Play
 
@@ -12,16 +12,23 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 
 - Five illuminated dice with individual HOLD controls and a **KEEP IT!** button to hold all matching dice at once.
 - Three rolls per turn, **12 turns per game**.
-- Score repeatable poker-style dice combinations. A large straight now pays **1,500 points**.
+- Score poker-style dice combinations. Repeatedly banking any category earns escalating payouts: first 1×, second 1.5×, third 2×, fourth 2.5×, etc. A large straight pays **1,500 points** before repeat multipliers.
 - Bank all eight distinct scoring categories during one session for an **immediate one-time 25,000-point collection bonus**. Successful called hands count; failed calls do not. The paytable marks collected hands.
-- Bank your hand for points, or **CALL YOUR HAND** before your final roll to attempt a better combination for double the payout; a failed call scores zero for the turn.
-- The **twelve-turn WORLD TOP 10** is the only scoreboard offered in the game. There are no local score saves or older archive buttons. The existing Cloudflare Worker supports this ruleset; prior records remain stored but hidden from the game.
+- Bank your hand for points, or **CALL YOUR HAND** before your final roll to attempt a better combination for double the payout (including any repeat bonus); a failed call scores zero and does not increase repetition.
+- The **twelve-turn WORLD TOP 10** is the only scoreboard offered in the game. The new `face-v3-12` ruleset separates repeat-hand scores from earlier formats. Existing Cloudflare D1 scores are retained as archives, but are not shown in-game. The Cloudflare Worker needs to be deployed with the updated `worker/src/index.js` to accept the new ruleset.
 
 Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call.
 
-## World-Only Leaderboard (v1.10.1)
+## Repeat-Hand Bonuses (v1.11.0)
 
-- The TOP 10 dialog offers **REFRESH** and **CLOSE** only. It displays current `face-v2-12` online rankings, not previous turn formats.
+- Every successful bank of a scoring category (including pairs and straights) increases that category's bank count. Each category has an independent multiplier: first ×1, second ×1.5, third ×2, fourth ×2.5, increasing by ×0.5 each subsequent bank.
+- The multiplier applies to the category's normal face-aware payout, and **CALL IT!** still doubles successful called payouts. Failed calls neither score nor advance bank counts. The 25,000-point complete-collection prize is never multiplied.
+- The paytable shows a repeat count after the second successful bank and the payout preview displays the repeat multiplier. No extra controls, turns, or visual panels were added.
+- New worldwide ruleset: `face-v3-12`, with a maximum theoretically possible score of **504,000** (twelve successfully called five-of-a-kinds with the increasing repeat multiplier). `face-v2-12` is retained read-only in D1. The frontend does not mix the two competitions. **Deploy the updated Cloudflare Worker** from `worker/src/index.js` to restore worldwide scores after the game update; no D1 migration or deletion is necessary.
+
+## World-Only Leaderboard (v1.10.1 — historical release)
+
+- The TOP 10 dialog offers **REFRESH** and **CLOSE** only. In v1.10.1 it displayed `face-v2-12` online rankings; v1.11.0 switches to `face-v3-12`.
 - The end-of-game dialog keeps the final score, the worldwide Top 10 qualification and **POST WORLD SCORE** flow, plus REFRESH, NEW SESSION and CLOSE. There is no SAVE LOCALLY fallback.
 - If the network or Cloudflare Worker is unavailable, show **WORLD LEADERBOARD OFFLINE** (or **WORKER UPDATE REQUIRED**, when applicable), without displaying cached local rankings or accepting local-only scores. The score remains visible at game over, but it is **not posted** until the worldwide submission succeeds.
 - The WORLD BEST readout displays the online best only (or a dash if unavailable).
