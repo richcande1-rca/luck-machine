@@ -1,4 +1,4 @@
-/* LUCK MACHINE 5D-20 / v1.11.1 — mobile-throttled signal instrumentation.
+/* LUCK MACHINE 5D-20 / v1.11.2 — mobile-throttled signal instrumentation.
    Pure presentation. Never feeds back into scoring, RNG or dice controls. */
 (()=>{'use strict';
   const $=id=>document.getElementById(id);
@@ -47,7 +47,8 @@
     screenText.textContent='LINK ESTABLISHED';
   }
   function paint(now){
-    if(!alive())return;
+    // Phone compact mode hides the radio; never repaint invisible instrumentation.
+    if(mobile?.matches||!alive())return;
     const t=now/1000;
     let strength=base();
     const active=now<pulseUntil;
@@ -129,7 +130,7 @@
   function schedulePaint(){
     const now=performance.now();
     if(alive())paint(now);
-    const delay=!alive()?1000:mobile?.matches?(rolling||now<pulseUntil?160:650):(reduced?500:140);
+    const delay=!alive()?1000:mobile?.matches?2500:(reduced?500:140);
     setTimeout(schedulePaint,delay);
   }
   schedulePaint();
