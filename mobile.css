@@ -194,3 +194,12 @@
   .controlstrip{margin-top:3px;padding:2px}
   .footleft .smallbutton{min-height:38px}
 }
+
+/* v1.11.3: soften the brief changes between phone dice preview faces.
+   No face-wide vibration, repaint-heavy filters, or desktop changes. */
+@media(max-width:700px) and (prefers-reduced-motion:no-preference){
+  .die.rolling .pip{transition:opacity 45ms linear}
+}
+@media(max-width:700px) and (prefers-reduced-motion:reduce){
+  .die.rolling .pip{transition:none}
+}
