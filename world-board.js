@@ -1,8 +1,8 @@
-/* LUCK MACHINE 1.10.0 — current twelve-turn collection leaderboard; previous ten- and twenty-turn rankings remain read-only. */
+/* LUCK MACHINE 1.10.1 — only the active twelve-turn worldwide board is accessible from the game. Historical records remain in Cloudflare. */
 (()=>{
  'use strict';
  const ENDPOINT='https://luck-machine-board.rich-gothic.workers.dev/api/board';
- const RULESET='face-v2-12',ARCHIVE_RULESET_10='face-v1-10',ARCHIVE_RULESET_20='face-v1',LIMIT=10,BUILD='1.10.0';
+ const RULESET='face-v2-12',LIMIT=10,BUILD='1.10.1';
  let entries=[],online=false,lastError='',busy=null;
  function cleanInitials(value){return String(value||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,5)}
  function scoreQualifies(n,board=entries){
@@ -10,13 +10,13 @@
   if(!Array.isArray(board)||board.length<LIMIT)return true;
   return n>Number(board[LIMIT-1]?.score||0);
  }
- async function request(method,body,{archive=null}={}){
+ async function request(method,body){
   const controller=new AbortController();
   const timeout=setTimeout(()=>controller.abort(),7000);
   try{
-   const res=await fetch(ENDPOINT+(archive?'?ruleset='+encodeURIComponent(ARCHIVE_RULESET):''),{method,cache:'no-store',headers:{Accept:'application/json',...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{}),signal:controller.signal});
+   const res=await fetch(ENDPOINT,{method,cache:'no-store',headers:{Accept:'application/json',...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{}),signal:controller.signal});
    const result=await res.json().catch(()=>({}));
-   const expected=archive||RULESET;
+   const expected=RULESET;
    if(res.ok&&result.ok&&result.game==='luck-machine'&&Array.isArray(result.entries)&&result.ruleset!==expected){
     throw new Error('Cloudflare Worker update required: expected '+expected+', received '+String(result.ruleset));
    }
@@ -24,10 +24,8 @@
     throw new Error(result.error||('World scoreboard HTTP '+res.status));
    }
    const board=result.entries.filter(e=>e&&typeof e.initials==='string'&&Number.isSafeInteger(e.score)&&e.score>0).sort((a,b)=>b.score-a.score).slice(0,LIMIT);
-   if(!archive){
-    entries=board;online=true;lastError='';
-    window.dispatchEvent(new Event('lm-world-board-updated'));
-   }
+   entries=board;online=true;lastError='';
+   window.dispatchEvent(new Event('lm-world-board-updated'));
    return board;
   }finally{clearTimeout(timeout)}
  }
@@ -37,8 +35,6 @@
    busy=request('GET').catch(e=>{online=false;lastError=e.message||'Network unavailable';window.dispatchEvent(new Event('lm-world-board-updated'));throw e}).finally(()=>{busy=null});
    return busy;
   },
-  archive10(){return request('GET',null,{archive:ARCHIVE_RULESET_10})},
-  archive20(){return request('GET',null,{archive:ARCHIVE_RULESET_20})},
   async submit(initials,score){
    const name=cleanInitials(initials);
    if(!name)throw new Error('Enter 1–5 letters or digits.');
