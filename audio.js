@@ -1,16 +1,17 @@
-/* LUCK MACHINE / 5D-20: fictional field-console sound system. Web Audio only. */
+/* LUCK MACHINE / 5D-20 / v1.11.6: fictional field-console sound system. Web Audio only. */
 (()=>{'use strict';
   let context=null,master=null,mix=null,noiseBuffer=null,enabled=true,used=false,lastAction=0;
   let lastError='',resumePending=null,scheduled=0;
+  const mobileAudio=window.matchMedia?.('(max-width:700px)')?.matches||false;
   // v1.8.2: boost quiet individual voices BEFORE dynamics protection.
   // On small Chromebook speakers, emphasize audible midrange over sub-bass.
-  const volume=.80,preamp=5.2;
+  const volume=.80,preamp=mobileAudio?1.55:5.2;
   function status(){
     return {
       supported:Boolean(window.AudioContext||window.webkitAudioContext),
       enabled,state:context?.state||'not-started',
       lastError,scheduled,boostDb:Math.round(20*Math.log10(preamp)),
-      protectedOutput:true
+      protectedOutput:!mobileAudio
     };
   }
   function resumeAudio(){
@@ -34,6 +35,7 @@
         if(!Audio){lastError='Web Audio is not supported in this browser.';return null}
         context=new Audio();
         mix=context.createGain();mix.gain.value=preamp;
+        if(!mobileAudio){
         const bass=context.createBiquadFilter();
         bass.type='lowshelf';bass.frequency.value=210;bass.gain.value=-3;
         const presence=context.createBiquadFilter();
@@ -55,6 +57,12 @@
         master=context.createGain();master.gain.value=volume;
         mix.connect(bass);bass.connect(presence);presence.connect(compressor);
         compressor.connect(limiter);limiter.connect(master);master.connect(context.destination);
+        }else{
+          // Phone audio: a simple two-gain path avoids compressor, filters and
+          // oversampled limiter processing while retaining the console's timbre.
+          master=context.createGain();master.gain.value=volume;
+          mix.connect(master);master.connect(context.destination);
+        }
       }
       if(context.state==='suspended')resumeAudio();
       used=true;lastAction=Date.now();lastError=context.state==='running'?'':lastError;
@@ -131,9 +139,9 @@
     },
     status,test,
     tune(channel){relay(0,.43);staticBurst(.028,.075,.015,1600);tone(240+channel*46,.11,.023,'sine',.035,330+channel*33);tone(510+channel*34,.045,.013,'triangle',.14)},
-    rollStart(){relay(0,.9);relay(.12,.55);tone(104,.29,.030,'sawtooth',.025,155);tone(360,.095,.021,'square',.13,285);tone(720,.055,.021,'square',.08,490)},
-    rollTick(){staticBurst(0,.025,.012,2300);tone(820,.023,.016,'square',0,590)},
-    dieStop(position){relay(0,.73);tone(350+position*75,.105,.026,'triangle',.022,275+position*45)},
+    rollStart(){if(mobileAudio){tone(155,.13,.05,'triangle',0,220);tone(560,.035,.018,'square');return}relay(0,.9);relay(.12,.55);tone(104,.29,.030,'sawtooth',.025,155);tone(360,.095,.021,'square',.13,285);tone(720,.055,.021,'square',.08,490)},
+    rollTick(){if(mobileAudio)return;staticBurst(0,.025,.012,2300);tone(820,.023,.016,'square',0,590)},
+    dieStop(position){if(mobileAudio){tone(390+position*65,.055,.042,'triangle',0,335+position*48);return}relay(0,.73);tone(350+position*75,.105,.026,'triangle',.022,275+position*45)},
     noDice(){tone(170,.12,.035,'square',0,95);relay(.09,.5)},
     hold(isHeld){relay(0,.85);tone(isHeld?570:300,.095,.024,'triangle',.032,isHeld?730:180)},
     openCall(){tone(290,.065,.025,'square');tone(260,.085,.024,'square',.105)},
