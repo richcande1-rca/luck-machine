@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.6 — Lightweight Phone Sound, Enhanced Electronic Dice and Hands Won.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.7 — Stronger Repeat-Hand Bonuses.**
 
 ## Play
 
@@ -12,12 +12,20 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 
 - Five illuminated dice with individual HOLD controls and a **KEEP IT!** button to hold all matching dice at once.
 - Three rolls per turn, **12 turns per game**.
-- Score poker-style dice combinations. Repeatedly banking any category earns escalating payouts: first 1×, second 1.5×, third 2×, fourth 2.5×, etc. A large straight pays **1,500 points** before repeat multipliers.
+- Score poker-style dice combinations. Repeatedly banking any category earns escalating payouts: first 1×, second 2×, third 3×, fourth 4×, etc. A large straight pays **1,500 points** before repeat multipliers.
 - Bank all eight distinct scoring categories during one session for an **immediate one-time 25,000-point collection bonus**. Successful called hands count; failed calls do not. The paytable marks collected hands.
 - Bank your hand for points, or **CALL YOUR HAND** before your final roll to attempt a better combination for double the payout (including any repeat bonus); a failed call scores zero and does not increase repetition.
 - The **twelve-turn WORLD TOP 10** is the only scoreboard offered in the game. The new `face-v3-12` ruleset separates repeat-hand scores from earlier formats. Existing Cloudflare D1 scores are retained as archives, but are not shown in-game. The Cloudflare Worker needs to be deployed with the updated `worker/src/index.js` to accept the new ruleset.
 
 Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call.
+
+## Stronger Repeat-Hand Bonuses (v1.11.7)
+
+- The payout multiplier increases by **1× for every additional bank of the same hand**: first ×1, second ×2, third ×3, fourth ×4, and so on. The existing face-aware payouts and CALL IT! doubling still apply; failed calls do not count as repeats.
+- The **25,000-point bonus for all eight different hands remains unchanged**. Players can choose between collecting eight hands and chasing high-value repeats.
+- The live **`face-v3-12` WORLD TOP 10 stays in place**, with all existing entries untouched; new scores compete on the same board and naturally displace older scores when higher.
+- The theoretical ceiling for 12 called five-of-a-kinds rises to **873,600** (5,600 × 2 × [1 + 2 + ... + 12]). The browser validation and Cloudflare Worker source now accept that ceiling. **Deploy the updated `worker/src/index.js` in Cloudflare** to accept scores above the previous 504,000 limit; otherwise, the existing online board still handles lower scores.
+- No changes to dice outcomes, 12 turns, game controls, audio, interface layout, stored D1 entries, or ruleset identifier.
 
 ## Mobile Sound and Collected-Hands Display (v1.11.6)
 
