@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.5 — Stationary Electronic Phone Dice, Low-Glow Test.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.6 — Lightweight Phone Sound, Enhanced Electronic Dice and Hands Won.**
 
 ## Play
 
@@ -18,6 +18,14 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 - The **twelve-turn WORLD TOP 10** is the only scoreboard offered in the game. The new `face-v3-12` ruleset separates repeat-hand scores from earlier formats. Existing Cloudflare D1 scores are retained as archives, but are not shown in-game. The Cloudflare Worker needs to be deployed with the updated `worker/src/index.js` to accept the new ruleset.
 
 Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call.
+
+## Mobile Sound and Collected-Hands Display (v1.11.6)
+
+- **Phone sound performance:** The phone's Web Audio mixer now connects directly through gain stages instead of the desktop EQ, compressor and oversampled waveshaper/limiter. The phone uses two brief electronic launch tones and a single tone per die stopped; recurring roll tick sounds and static bursts are skipped entirely. **Desktop audio is unchanged.**
+- **Stationary electronic dice:** Subtly deeper glass/metal faceplates, brighter high-contrast pip cores, and dim inactive pip positions improve readability on phone screens. Held dice retain the amber indication. Pip shadows stay disabled on phones, and the dice neither spin nor use animated glow effects.
+- **Hands won:** Eight compact indicators show each distinct scoring category. A banked hand lights up and shows a checkmark; bank it again and the indicator shows a repeat count (×2, ×3, etc.). Unbanked categories remain dim. Only **successfully banked** hands count, and NEW SESSION clears the display. On desktop this extra panel is hidden.
+- The existing compact phone layout, 12 turns, 3 rolls per turn, payouts, secure dice outcomes, +25,000 eight-category bonus, called-hand rules and `face-v3-12` worldwide competition remain untouched. No Cloudflare Worker changes.
+- Code-level checks include desktop/phone Web Audio node comparisons, banked-hand/repeat/reset display states, JavaScript syntax and CSS structure. Physical-device performance is not asserted until tested.
 
 ## Stationary Electronic Dice Test (v1.11.5)
 
