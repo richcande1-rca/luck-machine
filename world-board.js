@@ -1,8 +1,8 @@
-/* LUCK MACHINE 1.11.7 — only the active twelve-turn worldwide board is accessible from the game. Historical records remain in Cloudflare. */
+/* LUCK MACHINE 1.11.8 — only the active twelve-turn worldwide board is accessible from the game. Historical records remain in Cloudflare. */
 (()=>{
  'use strict';
  const ENDPOINT='https://luck-machine-board.rich-gothic.workers.dev/api/board';
- const RULESET='face-v3-12',LIMIT=10,BUILD='1.11.7';
+ const RULESET='face-v3-12',LIMIT=10,BUILD='1.11.8';
  let entries=[],online=false,lastError='',busy=null;
  function cleanInitials(value){return String(value||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,5)}
  function scoreQualifies(n,board=entries){
@@ -38,7 +38,7 @@
   async submit(initials,score){
    const name=cleanInitials(initials);
    if(!name)throw new Error('Enter 1–5 letters or digits.');
-   if(!Number.isSafeInteger(score)||score<=0||score>873600)throw new Error('Invalid twelve-turn final score.');
+   if(!Number.isSafeInteger(score)||score<=0||score>1612800)throw new Error('Invalid twelve-turn final score.');
    return request('POST',{initials:name,score,build:BUILD,ruleset:RULESET});
   },
   qualifies:scoreQualifies,cleanInitials,
