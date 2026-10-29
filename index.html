@@ -557,7 +557,7 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
 .dialogfoot{flex-wrap:wrap}
 .mobile-progress,.mobile-only{display:none}
 </style>
-<link rel="stylesheet" href="./mobile.css?v=1.11.4">
+<link rel="stylesheet" href="./mobile.css?v=1.11.5">
 </head>
 <body>
 <div class="fit-stage"><main class="console" aria-label="Luck Machine dice game console">
@@ -629,7 +629,7 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
     <div class="footleft"><button class="smallbutton" id="newBtn">NEW SESSION</button><button class="smallbutton" id="scoresBtn">TOP 10</button><button class="smallbutton mobile-only" id="payoutsMobile">PAYOUTS</button><button class="smallbutton mobile-only" id="moreMobile">MORE</button><button class="smallbutton" id="rulesBtn">MANUAL</button><button class="smallbutton" id="soundBtn" aria-pressed="true">SOUND: ON</button><button class="smallbutton" id="soundTestBtn" title="Play audio test and show playback status" aria-label="Test sound and diagnose audio">AUDIO TEST</button></div>
     <div class="footright"><span class="alertbar"><b>ПРИКАЗ №07:</b> РИСК — ДЕЛО ОПЕРАТОРА</span></div>
   </div>
-  <div class="build-plate" aria-label="Current game build"><span class="build-series">5Д–20 · СЕРИЯ 1984</span><strong>BUILD 1.11.4</strong></div>
+  <div class="build-plate" aria-label="Current game build"><span class="build-series">5Д–20 · СЕРИЯ 1984</span><strong>BUILD 1.11.5</strong></div>
 </main></div>
 <div class="shade" id="overlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><span class="overline" id="dialogOverline">MINISTRY BULLETIN</span><h2 id="dialogTitle"></h2><div id="dialogContent"></div><div class="dialogfoot" id="dialogFoot"></div></section></div>
 <script src="./audio.js?v=1.8.3"></script>
@@ -708,30 +708,7 @@ function keepMatchingDice(){
  sfx('hold',true);
  update();
 }
-function performRoll(){if(state.rolls>=3||state.animating||state.finished||(state.rolls>0&&state.held.every(Boolean)))return;state.animating=true;state.started=true;state.rolls++;const targets=state.dice.map((v,i)=>state.held[i]?v:randDie()),indices=state.dice.map((_,i)=>i).filter(i=>!state.held[i]);if(!indices.length){state.animating=false;sfx('noDice');update();return}sfx('rollStart');window.LMTelemetry?.rollStart?.();update();const phoneRoll=window.matchMedia?.('(max-width:700px)')?.matches||false;const spinTime=phoneRoll?650:1160;const stopGap=phoneRoll?90:150;const duration=spinTime+indices.length*stopGap;const start=performance.now();let tick=0;const settled=new Set();if(phoneRoll){
-  // Animate only a CSS transform while rolling; show each secure result once,
-  // when its die settles. No continuous pip changes or animation-frame JS.
-  indices.forEach(i=>diceEls[i].classList.add('rolling'));
-  const settle=(i,j)=>{
-    if(settled.has(i))return;
-    settled.add(i);
-    diceEls[i].classList.remove('rolling');
-    state.dice[i]=targets[i];
-    renderDice();
-    sfx('dieStop',j);
-    window.LMTelemetry?.dieStop?.();
-  };
-  indices.forEach((i,j)=>setTimeout(()=>settle(i,j),spinTime+j*stopGap));
-  setTimeout(()=>{
-    indices.forEach((i,j)=>settle(i,j));
-    state.animating=false;
-    window.LMTelemetry?.rollEnd?.();
-    if(bestHand(state.dice)[0]==='five')sfx('five');
-    update();
-  },duration);
-  return;
- }
- const loop=setInterval(()=>{tick++;const now=performance.now()-start;indices.forEach((i,j)=>{const threshold=spinTime+j*stopGap;const rolling=now<threshold;diceEls[i].classList.toggle('rolling',rolling);if(rolling){state.dice[i]=previewDie()}else{state.dice[i]=targets[i];if(!settled.has(i)){settled.add(i);sfx('dieStop',j);window.LMTelemetry?.dieStop?.()}}});renderDice();if(tick%2===0)sfx('rollTick');if(now>=duration){clearInterval(loop);indices.forEach(i=>{diceEls[i].classList.remove('rolling');state.dice[i]=targets[i]});state.animating=false;window.LMTelemetry?.rollEnd?.();if(bestHand(state.dice)[0]==='five')sfx('five');update()}},70)}
+function performRoll(){if(state.rolls>=3||state.animating||state.finished||(state.rolls>0&&state.held.every(Boolean)))return;state.animating=true;state.started=true;state.rolls++;const targets=state.dice.map((v,i)=>state.held[i]?v:randDie()),indices=state.dice.map((_,i)=>i).filter(i=>!state.held[i]);if(!indices.length){state.animating=false;sfx('noDice');update();return}sfx('rollStart');window.LMTelemetry?.rollStart?.();update();const phoneRoll=window.matchMedia?.('(max-width:700px)')?.matches||false;const spinTime=phoneRoll?650:1160;const stopGap=phoneRoll?90:150;const duration=spinTime+indices.length*stopGap;const start=performance.now();let tick=0;const settled=new Set(); const loop=setInterval(()=>{tick++;const now=performance.now()-start;indices.forEach((i,j)=>{const threshold=spinTime+j*stopGap;const rolling=now<threshold;diceEls[i].classList.toggle('rolling',rolling);if(rolling){state.dice[i]=previewDie()}else{state.dice[i]=targets[i];if(!settled.has(i)){settled.add(i);sfx('dieStop',j);window.LMTelemetry?.dieStop?.()}}});renderDice();if(tick%2===0)sfx('rollTick');if(now>=duration){clearInterval(loop);indices.forEach(i=>{diceEls[i].classList.remove('rolling');state.dice[i]=targets[i]});state.animating=false;window.LMTelemetry?.rollEnd?.();if(bestHand(state.dice)[0]==='five')sfx('five');update()}},phoneRoll?120:70)}
 function canResolve(){return state.rolls>0&&!state.animating&&!state.finished&&(!state.call||state.rolls>=3||qualifies(state.call[0],state.dice))}
 function bank(){
  if(!canResolve())return;
