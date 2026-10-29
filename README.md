@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.3 — Smoother Frame-Synchronized Phone Rolls.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.4 — Low-Workload Mobile Dice Animation.**
 
 ## Play
 
@@ -19,7 +19,16 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 
 Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call.
 
-## Smoother Phone Rolls (v1.11.3)
+## Low-Workload Phone Dice Animation (v1.11.4)
+
+- Removes the 1.11.3 phone-side `requestAnimationFrame` loop, 18fps pip preview mutations, and repeated 45ms pip fades, which worsened the reported stutter.
+- A rolling die now gets **one CSS transform animation** while its currently visible face stays fixed. The face changes **only once when that die settles**, using the secure target already generated at roll start. There are no ongoing JavaScript preview-frame updates on phones.
+- Each unheld die has one settlement timer and the roll has one completion timer; the 650ms spin lead-in, 90ms stagger, and approximate 1.1-second total five-dice duration are preserved. Rolling and finish notifications still fire once.
+- Reduced-motion users see no spinning. The original desktop 70ms animation and all phone sizing/menu improvements remain unchanged.
+- No changes to scored dice RNG, holds, 12 turns, repeat-hand scoring, collection bonus, sound engine, Cloudflare ruleset `face-v3-12`, or the worldwide leaderboard.
+- JavaScript syntax, CSS structure, and simulated normal/delayed timer ordering verified. These are code-level checks; physical-phone smoothness has not been benchmarked.
+
+## Frame-Synchronized Phone Rolls (v1.11.3 — superseded)
 
 - The compact phone layout and existing 1.1-second roll duration remain unchanged.
 - During phone rolls, visual dice previews now run through `requestAnimationFrame` instead of a fixed 120ms interval. Changes are capped to approximately one preview every 55ms, making the sequence smoother without rebuilding the dice DOM on each display frame.
