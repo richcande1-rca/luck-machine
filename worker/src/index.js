@@ -1,9 +1,9 @@
-/* LUCK MACHINE / BUILD 1.11.0 — 12-turn repeat-hand Top 10 with read-only prior rulesets.
+/* LUCK MACHINE / BUILD 1.11.7 — 12-turn repeat-hand Top 10 with read-only prior rulesets.
  * Uses the EXISTING luck_machine_entries table; no D1 migration or score deletion.
  * Independent of Miami Nights and all other arcade scores.
  * Public anonymous scores are browser-reported, not cryptographically attested.
  */
-const LIMIT=10,MAX_SCORE=504000,RULESET='face-v3-12',ARCHIVE_RULESET_12='face-v2-12',ARCHIVE_RULESET_10='face-v1-10',ARCHIVE_RULESET_20='face-v1';
+const LIMIT=10,MAX_SCORE=873600,RULESET='face-v3-12',ARCHIVE_RULESET_12='face-v2-12',ARCHIVE_RULESET_10='face-v1-10',ARCHIVE_RULESET_20='face-v1';
 const ORIGINS=new Set(['https://richcande1-rca.github.io','http://localhost:8787','http://127.0.0.1:8787','http://localhost:8000','http://127.0.0.1:8000']);
 function headers(request){
  const origin=request.headers.get('Origin')||'';
