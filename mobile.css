@@ -195,11 +195,16 @@
   .footleft .smallbutton{min-height:38px}
 }
 
-/* v1.11.3: soften the brief changes between phone dice preview faces.
-   No face-wide vibration, repaint-heavy filters, or desktop changes. */
+/* v1.11.4: one inexpensive compositor transform per rolling die.
+   Pips stay fixed until that die settles; no per-frame DOM updates. */
+@keyframes phoneDieSpin{to{transform:rotate(360deg)}}
 @media(max-width:700px) and (prefers-reduced-motion:no-preference){
-  .die.rolling .pip{transition:opacity 45ms linear}
+  .die.rolling .face{
+    animation:phoneDieSpin .52s linear infinite;
+    will-change:transform;
+  }
 }
 @media(max-width:700px) and (prefers-reduced-motion:reduce){
-  .die.rolling .pip{transition:none}
+  .die.rolling .face{animation:none}
+  .die.rolling{border-color:#a1c3a9}
 }
