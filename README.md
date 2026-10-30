@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.8 — Competitive Repeat-Hand Bonuses.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.9 — Animation/Outcome Isolation.**
 
 ## Play
 
@@ -18,6 +18,13 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 - The **twelve-turn WORLD TOP 10** is the only scoreboard offered in the game. The new `face-v3-12` ruleset separates repeat-hand scores from earlier formats. Existing Cloudflare D1 scores are retained as archives, but are not shown in-game. The Cloudflare Worker must support `face-v3-12` for worldwide scores. Deploy the latest `worker/src/index.js` to allow the increased score ceiling; no database reset is needed.
 
 Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call.
+
+## Animation/Outcome Isolation (v1.11.9)
+
+- Each launch determines the settled five-die outcome before the animation, preserving held values and the existing secure RNG. The nixie-style pip previews now use a separate display-only array, never temporarily overwriting the scoring/hand-recognition dice.
+- Dice stop in their original staggered order; phone and desktop effects/timing are unchanged. After every die settles, the authoritative dice are committed once, and the display overlay is removed.
+- Starting a new session while the previous roll is still cycling cancels that animation and prevents a stale timer from changing the new game's dice.
+- **No gameplay changes:** twelve turns, three launches, HOLD / KEEP IT!, CALL IT! double-or-nothing, hand scoring, 25,000 collection reward, sound effects and existing worldwide Top 10 remain unchanged. No Cloudflare Worker deployment is needed.
 
 ## Competitive Repeat-Hand Bonuses (v1.11.8)
 
