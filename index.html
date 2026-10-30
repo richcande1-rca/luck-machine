@@ -633,7 +633,7 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
     <div class="footleft"><button class="smallbutton" id="newBtn">NEW SESSION</button><button class="smallbutton" id="scoresBtn">TOP 10</button><button class="smallbutton mobile-only" id="payoutsMobile">PAYOUTS</button><button class="smallbutton mobile-only" id="moreMobile">MORE</button><button class="smallbutton" id="rulesBtn">MANUAL</button><button class="smallbutton" id="soundBtn" aria-pressed="true">SOUND: ON</button><button class="smallbutton" id="soundTestBtn" title="Play audio test and show playback status" aria-label="Test sound and diagnose audio">AUDIO TEST</button></div>
     <div class="footright"><span class="alertbar"><b>ПРИКАЗ №07:</b> РИСК — ДЕЛО ОПЕРАТОРА</span></div>
   </div>
-  <div class="build-plate" aria-label="Current game build"><span class="build-series">5Д–20 · СЕРИЯ 1984</span><strong>BUILD 1.11.8</strong></div>
+  <div class="build-plate" aria-label="Current game build"><span class="build-series">5Д–20 · СЕРИЯ 1984</span><strong>BUILD 1.11.9</strong></div>
 </main></div>
 <div class="shade" id="overlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><span class="overline" id="dialogOverline">MINISTRY BULLETIN</span><h2 id="dialogTitle"></h2><div id="dialogContent"></div><div class="dialogfoot" id="dialogFoot"></div></section></div>
 <script src="./audio.js?v=1.11.6"></script>
@@ -650,6 +650,8 @@ const TURNS_PER_GAME=12;
 const COLLECTION_BONUS=25000;
 const state={dice:[1,2,3,4,5],held:[false,false,false,false,false],rolls:0,turn:1,total:0,call:null,animating:false,finished:false,started:false,sound:true,collected:new Set(),collectionAwarded:false,handCounts:{}};
 const diceEls=[],pipEls=[],holdBadges=[],lastFace=[],lastHold=[],lastDisabled=[],lastAria=[];
+// Animation frames are display-only; state.dice is the last committed roll.
+let displayDice=null,rollTimer=null;
 const mobileHandCells=[];let lastMobileHandSignature='';
 // Sound engine is isolated from dice and scoring for safe iteration.
 const sfx=(name,...args)=>{try{window.LMAudio?.[name]?.(...args)}catch{}};
@@ -704,7 +706,7 @@ function makeDice(){
 function renderDice(){
  const disabled=state.rolls===0||state.rolls>=3||state.finished||state.animating;
  diceEls.forEach((el,i)=>{
-  const n=state.dice[i],held=state.held[i];
+  const n=(displayDice||state.dice)[i],held=state.held[i];
   if(lastFace[i]!==n){
    const before=pipPositions[lastFace[i]]||[],after=pipPositions[n];
    before.forEach(j=>{if(!after.includes(j))pipEls[i][j].classList.remove('on')});
@@ -740,7 +742,55 @@ function keepMatchingDice(){
  sfx('hold',true);
  update();
 }
-function performRoll(){if(state.rolls>=3||state.animating||state.finished||(state.rolls>0&&state.held.every(Boolean)))return;state.animating=true;state.started=true;state.rolls++;const targets=state.dice.map((v,i)=>state.held[i]?v:randDie()),indices=state.dice.map((_,i)=>i).filter(i=>!state.held[i]);if(!indices.length){state.animating=false;sfx('noDice');update();return}sfx('rollStart');window.LMTelemetry?.rollStart?.();update();const phoneRoll=window.matchMedia?.('(max-width:700px)')?.matches||false;const spinTime=phoneRoll?650:1160;const stopGap=phoneRoll?90:150;const duration=spinTime+indices.length*stopGap;const start=performance.now();let tick=0;const settled=new Set(); const loop=setInterval(()=>{tick++;const now=performance.now()-start;indices.forEach((i,j)=>{const threshold=spinTime+j*stopGap;const rolling=now<threshold;diceEls[i].classList.toggle('rolling',rolling);if(rolling){state.dice[i]=previewDie()}else{state.dice[i]=targets[i];if(!settled.has(i)){settled.add(i);sfx('dieStop',j);window.LMTelemetry?.dieStop?.()}}});renderDice();if(!phoneRoll&&tick%2===0)sfx('rollTick');if(now>=duration){clearInterval(loop);indices.forEach(i=>{diceEls[i].classList.remove('rolling');state.dice[i]=targets[i]});state.animating=false;window.LMTelemetry?.rollEnd?.();if(bestHand(state.dice)[0]==='five')sfx('five');update()}},phoneRoll?120:70)}
+function performRoll(){
+ if(state.rolls>=3||state.animating||state.finished||(state.rolls>0&&state.held.every(Boolean)))return;
+ state.animating=true;state.started=true;state.rolls++;
+ // Fix the result before animating; held dice carry forward from the last committed roll.
+ const targets=state.dice.map((v,i)=>state.held[i]?v:randDie());
+ const indices=state.dice.map((_,i)=>i).filter(i=>!state.held[i]);
+ if(!indices.length){state.animating=false;sfx('noDice');update();return}
+ // Preview frames only mutate displayDice. Scoring never sees a temporary face.
+ displayDice=state.dice.slice();
+ sfx('rollStart');window.LMTelemetry?.rollStart?.();update();
+ const phoneRoll=window.matchMedia?.('(max-width:700px)')?.matches||false;
+ const spinTime=phoneRoll?650:1160,stopGap=phoneRoll?90:150;
+ const duration=spinTime+indices.length*stopGap,start=performance.now();
+ let tick=0;
+ const settled=new Set();
+ const loop=setInterval(()=>{
+  // A new session can cancel this animation; stale frames must never commit old dice.
+  if(rollTimer!==loop){clearInterval(loop);return}
+  tick++;
+  const now=performance.now()-start;
+  indices.forEach((i,j)=>{
+   const threshold=spinTime+j*stopGap;
+   const rolling=now<threshold;
+   diceEls[i].classList.toggle('rolling',rolling);
+   if(rolling){
+    displayDice[i]=previewDie();
+   }else{
+    displayDice[i]=targets[i];
+    if(!settled.has(i)){
+     settled.add(i);sfx('dieStop',j);window.LMTelemetry?.dieStop?.();
+    }
+   }
+  });
+  renderDice();
+  if(!phoneRoll&&tick%2===0)sfx('rollTick');
+  if(now>=duration){
+   clearInterval(loop);rollTimer=null;
+   indices.forEach(i=>{diceEls[i].classList.remove('rolling');displayDice[i]=targets[i]});
+   // One authoritative commit, after every die has settled.
+   state.dice=targets;
+   displayDice=null;
+   state.animating=false;
+   window.LMTelemetry?.rollEnd?.();
+   if(bestHand(state.dice)[0]==='five')sfx('five');
+   update();
+  }
+ },phoneRoll?120:70);
+ rollTimer=loop;
+}
 function canResolve(){return state.rolls>0&&!state.animating&&!state.finished&&(!state.call||state.rolls>=3||qualifies(state.call[0],state.dice))}
 function bank(){
  if(!canResolve())return;
@@ -761,7 +811,14 @@ function bank(){
  state.turn++;state.rolls=0;state.held=[false,false,false,false,false];state.call=null;update();
  $('description').textContent=bonus?`COLLECTION COMPLETE! +${fmt(COLLECTION_BONUS)} BONUS BANKED. LAUNCH TURN ${state.turn}.`:newHand?`NEW HAND COLLECTED (${state.collected.size}/8). +${fmt(points)} POINTS. LAUNCH TURN ${state.turn}.`:points>0&&key!=='none'?`REPEAT ${categories.find(c=>c[0]===key)[1]} (${state.handCounts[key]}× BANKED) · +${fmt(points)} POINTS. LAUNCH TURN ${state.turn}.`:`NO PAYOUT THIS TURN. Press LAUNCH for turn ${state.turn}.`;
 }
-function newGame(force=false){if(!force&&state.started&&!state.finished&&(state.total>0||state.rolls>0||state.turn>1)&&!confirm('Abandon this session and begin again?'))return;state.rolls=0;state.turn=1;state.total=0;state.held=[false,false,false,false,false];state.dice=[1,2,3,4,5];state.call=null;state.animating=false;state.finished=false;state.started=false;state.collected=new Set();state.collectionAwarded=false;state.handCounts={};postedThisSession=false;postingWorldScore=false;closeDialog();sfx('newGame');window.LMTelemetry?.reset?.();update()}
+function newGame(force=false){
+ if(!force&&state.started&&!state.finished&&(state.total>0||state.rolls>0||state.turn>1)&&!confirm('Abandon this session and begin again?'))return;
+ // Cancel pending preview frames before resetting the authoritative game state.
+ if(rollTimer!==null){clearInterval(rollTimer);rollTimer=null}
+ displayDice=null;
+ diceEls.forEach(el=>el.classList.remove('rolling'));
+ state.rolls=0;state.turn=1;state.total=0;state.held=[false,false,false,false,false];state.dice=[1,2,3,4,5];state.call=null;state.animating=false;state.finished=false;state.started=false;state.collected=new Set();state.collectionAwarded=false;state.handCounts={};postedThisSession=false;postingWorldScore=false;closeDialog();sfx('newGame');window.LMTelemetry?.reset?.();update();
+}
 function openDialog(overline,title,html,buttons=[]){$('dialogOverline').textContent=overline;$('dialogTitle').textContent=title;$('dialogContent').innerHTML=html;const foot=$('dialogFoot');foot.innerHTML='';buttons.forEach(({text:txt,fn,cls})=>{let b=document.createElement('button');b.className='smallbutton '+(cls||'');b.textContent=txt;b.onclick=fn;foot.appendChild(b)});$('overlay').hidden=false;const first=$('dialogContent').querySelector('input,button')||foot.querySelector('button');if(first)first.focus()}
 function closeDialog(){$('overlay').hidden=true}
 function showCall(){if(state.rolls===0||state.rolls>=3||state.call||state.animating||state.finished)return;sfx('openCall');const hand=bestHand(state.dice);const options=categories.filter(c=>c[2]>hand[2]&&!qualifies(c[0],state.dice));const html=`<p>Declare a better hand before your final roll. Succeed and earn <strong>DOUBLE</strong> its payout. Fail and this turn scores zero. Once called, the wager cannot be canceled.</p><div class="choices" id="targetOptions"></div><p>Current hand: <strong>${hand[1]}</strong> (${fmt((scoreDetails(hand[0],state.dice)?.total||0)*repeatFactor(hand[0]))} pts). Rolls remaining: <strong>${3-state.rolls}</strong>.</p>`;openDialog('RISK AUTHORIZATION','CALL YOUR HAND',html,[{text:'CANCEL',fn:closeDialog}]);const box=$('targetOptions');options.forEach(c=>{const btn=document.createElement('button');btn.className='choice';btn.innerHTML=`<strong>${c[1]}</strong><span>×2 PAYOUT: ${scoreRange(c[0],2*repeatFactor(c[0]))} PTS</span>`;btn.addEventListener('click',()=>{state.call=c;sfx('call');window.LMTelemetry?.call?.();closeDialog();update()});box.appendChild(btn)});if(!options.length)box.textContent='Maximum hand already achieved. Bank it!'}
