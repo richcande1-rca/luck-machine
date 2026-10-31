@@ -554,11 +554,34 @@ header{padding-top:22px;margin-top:20px;border-color:#1b211a;border-top-color:#b
 .paytable tr.collected td:first-child{color:#b3e5bb}
 .collection-victory{color:#ffe0a0!important;font-weight:700;letter-spacing:.05em}
 .collection-summary{font-size:11px!important}
-.mulligan-action{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;margin-top:2px}
-.mulligan-action #mulliganBtn,.mulligan-action #modeBtn{min-height:27px;padding:4px 8px;font-size:11px;letter-spacing:.02em}
-.mulligan-action #mulliganBtn:disabled{opacity:.55}
+/* Secondary mission actuators: full-size steel controls, subordinate to LAUNCH. */
+.mulligan-action{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.13fr);gap:6px;margin-top:4px;align-items:stretch}
+.mulligan-action .metalbutton{
+  min-width:0;width:100%;min-height:47px;padding:6px 6px;
+  border:3px solid;border-bottom-width:6px;border-radius:3px;
+  font:800 clamp(15px,1.5vw,19px)/1.05 'Barlow Condensed',sans-serif;
+  letter-spacing:.035em;white-space:normal;overflow-wrap:normal;
+  text-shadow:0 1px 2px #0a140fc7;
+}
+.mulligan-action #modeBtn{
+  color:#efffe9;border-color:#476650;border-top-color:#b4d7b4;border-bottom-color:#162b1d;
+  background:linear-gradient(180deg,#9cb69c 0%,#4c8064 18%,#28563e 68%,#1c3e2d 100%);
+  box-shadow:inset 0 2px #d4eac385,inset 0 -3px 5px #0c2313bc,0 3px 0 #101e15;
+}
+.mulligan-action #mulliganBtn{
+  color:#fff0c8;border-color:#79542f;border-top-color:#e5be78;border-bottom-color:#332111;
+  background:linear-gradient(180deg,#d9b270 0%,#a97737 19%,#795124 67%,#513519 100%);
+  box-shadow:inset 0 2px #fff0c17d,inset 0 -3px 5px #3b210fb7,0 3px 0 #241709;
+}
+.mulligan-action #mulliganBtn:disabled{opacity:.68;filter:saturate(.55) brightness(.83)}
+.mulligan-action .metalbutton:not(:disabled):hover{filter:brightness(1.14)}
+.mulligan-action .metalbutton:not(:disabled):active{transform:translateY(3px);border-bottom-width:3px}
 body[data-mode="backwards"] #callBtn{opacity:.5}
-@media(max-width:700px){.mulligan-action{margin-top:3px}.mulligan-action #mulliganBtn,.mulligan-action #modeBtn{min-height:27px;padding:3px 7px;font-size:10px}}
+@media(max-width:700px){
+  .mulligan-action{gap:5px;margin-top:3px}
+  .mulligan-action .metalbutton{min-height:45px;padding:5px 3px;font-size:clamp(13px,3.5vw,17px);letter-spacing:0}
+}
+@media(max-width:360px){.mulligan-action .metalbutton{font-size:13px}}
 .dialogfoot{flex-wrap:wrap}
 .mobile-progress,.mobile-only{display:none}
 </style>
@@ -623,7 +646,7 @@ body[data-mode="backwards"] #callBtn{opacity:.5}
         <button class="metalbutton bank" id="bankBtn" disabled>BANK</button>
         <button class="metalbutton call" id="callBtn" disabled>CALL IT!</button>
       </div>
-      <div class="mulligan-action"><button id="modeBtn" class="smallbutton" type="button" title="Switch game mode and start a new session">PLAY BACKWARDS</button><button id="mulliganBtn" class="smallbutton" type="button" disabled title="Replay the current turn once, even after a failed CALL IT!">MULLIGAN · 1 AVAILABLE</button></div>
+      <div class="mulligan-action"><button id="modeBtn" class="metalbutton" type="button" title="Switch game mode and start a new session">PLAY BACKWARDS</button><button id="mulliganBtn" class="metalbutton" type="button" disabled title="Replay the current turn once, even after a failed CALL IT!">MULLIGAN · 1 AVAILABLE</button></div>
       <div class="rollnote" id="hint">SPACE LAUNCH · K KEEP · B BANK · C CALL</div>
     </section>
     <aside class="module sideinfo" aria-label="Instrument readouts">
@@ -639,13 +662,13 @@ body[data-mode="backwards"] #callBtn{opacity:.5}
     <div class="footleft"><button class="smallbutton" id="newBtn">NEW SESSION</button><button class="smallbutton" id="scoresBtn">TOP 10</button><button class="smallbutton mobile-only" id="payoutsMobile">PAYOUTS</button><button class="smallbutton mobile-only" id="moreMobile">MORE</button><button class="smallbutton" id="rulesBtn">MANUAL</button><button class="smallbutton" id="soundBtn" aria-pressed="true">SOUND: ON</button><button class="smallbutton" id="soundTestBtn" title="Play audio test and show playback status" aria-label="Test sound and diagnose audio">AUDIO TEST</button></div>
     <div class="footright"><span class="alertbar"><b>ПРИКАЗ №07:</b> РИСК — ДЕЛО ОПЕРАТОРА</span></div>
   </div>
-  <div class="build-plate" aria-label="Current game build"><span class="build-series">5Д–20 · СЕРИЯ 1984</span><strong>BUILD 1.13.2</strong></div>
+  <div class="build-plate" aria-label="Current game build"><span class="build-series">5Д–20 · СЕРИЯ 1984</span><strong>BUILD 1.13.3</strong></div>
 </main></div>
 <div class="shade" id="overlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><span class="overline" id="dialogOverline">MINISTRY BULLETIN</span><h2 id="dialogTitle"></h2><div id="dialogContent"></div><div class="dialogfoot" id="dialogFoot"></div></section></div>
 <script src="./audio.js?v=1.11.6"></script>
 <script src="./telemetry.js?v=1.11.2"></script>
 <script src="./scoring.js?v=1.10.0"></script>
-<script src="./world-board.js?v=1.13.2"></script>
+<script src="./world-board.js?v=1.13.3"></script>
 <script>
 (()=>{'use strict';
 const categories=[['five','FIVE OF A KIND',5000],['four','FOUR OF A KIND',2000],['full','FULL HOUSE',1000],['large','LARGE STRAIGHT',1500],['small','SMALL STRAIGHT',600],['three','THREE OF A KIND',400],['twoPair','TWO PAIR',200],['pair','PAIR',100]];
