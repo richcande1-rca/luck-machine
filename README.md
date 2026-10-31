@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.13.2 — Identical Collection Scoring in Both Modes.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.13.3 — Major Secondary Controls.**
 
 ## Play
 
@@ -18,6 +18,12 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 - **Classic WORLD TOP 10** still uses `face-v3-12`; **Backwards WORLD BOTTOM 10** uses a separate `face-v3-12-backwards` ruleset ranked from lowest score to highest. Zero is a valid Backwards result. Historic classic records are preserved. To enable the Backwards online board, publish updated `worker/src/index.js` in Cloudflare; no D1 migration or score reset is necessary.
 
 Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call, **M** = mulligan (confirmation).
+
+## Full-Size Mode and Mulligan Controls (v1.13.3)
+
+- **PLAY BACKWARDS / PLAY CLASSIC** and **MULLIGAN** are now full-size, beveled industrial pushbuttons beneath the main control bank: green for the mode selector and amber for the mulligan. Both have a substantial recessed-metal finish and appropriately sized, responsive labels; LAUNCH remains the unmistakable primary actuator.
+- Their desktop and phone layout uses a balanced two-column row rather than small utility buttons at opposing edges. An unavailable/used mulligan remains visibly disabled.
+- **Cosmetic only:** same game modes, banked-hand scoring, collection bonuses, repeat multipliers, CALL IT! restriction in Backwards, mulligan availability/confirmation, secure RNG, audio, and leaderboard logic. No Cloudflare Worker changes.
 
 ## Backwards Scoring Parity (v1.13.2)
 
