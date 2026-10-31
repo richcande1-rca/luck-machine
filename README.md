@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.11.9 — Animation/Outcome Isolation.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.12.0 — Nine-Hand Collection & Mulligan.**
 
 ## Play
 
@@ -13,11 +13,19 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 - Five illuminated dice with individual HOLD controls and a **KEEP IT!** button to hold all matching dice at once.
 - Three rolls per turn, **12 turns per game**.
 - Score poker-style dice combinations. Repeatedly banking any category earns escalating payouts: first 1×, second 3×, third 5×, fourth 7×, etc. A large straight pays **1,500 points** before repeat multipliers.
-- Bank all eight distinct scoring categories during one session for an **immediate one-time 25,000-point collection bonus**. Successful called hands count; failed calls do not. The paytable marks collected hands.
-- Bank your hand for points, or **CALL YOUR HAND** before your final roll to attempt a better combination for double the payout (including any repeat bonus); a failed call scores zero and does not increase repetition.
+- Bank all eight original scoring categories for an immediate **50,000-point collection bonus**, then bank **NO COMBINATION** too for another **50,000** on completing all nine. Failed calls cannot collect NO COMBINATION.
+- Bank your hand for points, or **CALL YOUR HAND** before your final roll to attempt a better combination for double the payout (including any repeat bonus); a failed call scores zero and does not increase repetition. Use your **one mulligan per game** to erase and replay any unbanked turn, even a failed CALL IT!.
 - The **twelve-turn WORLD TOP 10** is the only scoreboard offered in the game. The new `face-v3-12` ruleset separates repeat-hand scores from earlier formats. Existing Cloudflare D1 scores are retained as archives, but are not shown in-game. The Cloudflare Worker must support `face-v3-12` for worldwide scores. Deploy the latest `worker/src/index.js` to allow the increased score ceiling; no database reset is needed.
 
-Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call.
+Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call, **M** = mulligan (confirmation).
+
+## Nine-Hand Collection and One Mulligan (v1.12.0)
+
+- **All eight original scoring hands:** an immediate **+50,000** bonus once per game.
+- **All nine categories including NO COMBINATION:** a separate **+50,000** bonus once per game; completing both milestones earns **100,000** collection points total. An authentic uncalled NO COMBINATION bank counts even at zero points; a missed CALL IT! does not.
+- **MULLIGAN:** one per 12-turn session, after a roll and before BANK/RESOLVE. After confirmation, replay the same turn with three fresh rolls, clearing holds and even an unsuccessful CALL IT! wager; previously banked points and collections persist. Banked turns cannot be reversed.
+- Desktop and phone include a mulligan button; the paytable, mobile hands-won ledger, progress readout and endgame display include the ninth category.
+- Preserve the live `face-v3-12` World Top 10 and all existing records; new posts use build `1.12.0`. The existing 1,612,800-point score cap remains above every possible twelve-turn total, even with the larger collection bonuses. **No Cloudflare deployment is necessary.**
 
 ## Animation/Outcome Isolation (v1.11.9)
 
