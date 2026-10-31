@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.13.1 — Backwards Collection Checkmarks.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.13.2 — Identical Collection Scoring in Both Modes.**
 
 ## Play
 
@@ -19,10 +19,16 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 
 Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call, **M** = mulligan (confirmation).
 
+## Backwards Scoring Parity (v1.13.2)
+
+- **Classic and Backwards now calculate every bank, repeat-hand multiplier, and 8/9-hand collection bonus identically.** Collect all eight scoring categories to earn **+100,000**, then all nine including a genuine banked NO COMBINATION to earn **+50,000 more**. Both bonuses pay once per game, in either mode. Those bonuses *increase* a Backwards total, even though the lowest final score wins.
+- Both modes show the same collection checkmarks, 0–9 counter, payouts and milestone notifications, including at game over. **CALL IT! is disabled in Backwards**; the mulligan remains available.
+- Backwards retains its separate **World Bottom 10** (ascending order), Classic its **World Top 10** (descending order). The secure dice RNG, roll engine, face-aware scoring, repeat factors, dice holds, turn count, and Cloudflare Worker are unchanged. Client submissions carry build `1.13.2`; no new Worker deployment is required for this scoring correction.
+
 ## Backwards Collection Checkmarks (v1.13.1)
 
 - Backwards now **checks off banked hands** in the desktop paytable, restores the phone's **HANDS WON** ledger, and keeps the 0–9 category counter visible. Repeat counts, including genuine zero-point NO COMBINATION banks, appear just as they do in Classic.
-- The collection prize label clearly says **NO BONUS** in Backwards. Completing eight or nine categories does not award extra points; Classic keeps its +100,000/+50,000 milestones.
+- *Historical v1.13.1 behavior (superseded by v1.13.2):* The collection prize label said **NO BONUS** in Backwards. The 8/9-category bonuses are now paid identically in both modes.
 - Hand scoring, face bonuses, 1×/3×/5× repeat payouts, holds, RNG, mulligan and leaderboards are unchanged; CALL IT! remains disabled in Backwards. Build stamp becomes `1.13.1`. No additional Cloudflare Worker changes required for this display correction.
 
 ## Backwards Mode (v1.13.0)
@@ -30,8 +36,8 @@ Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** 
 Select **PLAY BACKWARDS** next to the MULLIGAN control (on phone or desktop); **PLAY CLASSIC** returns to the original game. Switching modes starts a separate session and asks for confirmation before abandoning an active one.
 
 - **Goal: finish 12 turns with the *lowest* possible score.** Three launches per turn, normal held-die mechanics, original face-aware hand payouts and escalating repeat multipliers are retained. Players can bank early rather than taking all three launches.
-- **NO COMBINATION** is the best outcome and banks **zero points**. Each banked category is checked off, but the eight- and nine-hand collection bonuses remain disabled in Backwards.
-- **CALL IT!** is disabled to prevent intentionally forfeiting a turn for zero points. A single MULLIGAN remains available to replay an unbanked turn.
+- **NO COMBINATION** banks **zero points** and is tracked in both modes. As of v1.13.2, collecting eight or nine categories pays the same bonuses in Backwards as Classic (+100,000 and +50,000).
+- **CALL IT!** is disabled to prevent intentionally forfeiting a turn for zero points. Other scoring and collection mechanics match Classic. A single MULLIGAN remains available to replay an unbanked turn.
 - **WORLD BOTTOM 10** uses its own Cloudflare/D1 ruleset, `face-v3-12-backwards`, ranks scores **ascending** and accepts zero-point game totals. The original classic `face-v3-12` Top 10 continues unchanged. The worker's GET/POST routes and pruning are isolated by ruleset; previously posted classic scores are not modified.
 - **Deployment:** The game itself is published through GitHub Pages when the PR is merged, but **Backwards score posting requires manually publishing the updated `worker/src/index.js` to the existing Cloudflare Worker**. Until then the mode is playable but its world Bottom 10 will report that a Worker update is required. No schema change or D1 reset is needed.
 - **D1 compatibility:** The original table requires stored scores greater than zero. The Worker stores Backwards totals as **score + 1**, then subtracts one when returning them, so an actual **0** is supported without modifying the existing database. Classic scores are never offset.
