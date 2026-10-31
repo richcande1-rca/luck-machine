@@ -3,6 +3,8 @@
  * Independent of Miami Nights and all other arcade scores.
  * Public anonymous scores are browser-reported, not cryptographically attested.
  */
+// The existing D1 table has CHECK(score > 0). Backwards scores are stored as score + 1
+// and decoded before display; this keeps genuine zero-point records without a migration.
 const LIMIT=10,MAX_SCORE=1612800,RULESET='face-v3-12',BACKWARDS_RULESET='face-v3-12-backwards',ARCHIVE_RULESET_12='face-v2-12',ARCHIVE_RULESET_10='face-v1-10',ARCHIVE_RULESET_20='face-v1';
 const ORIGINS=new Set(['https://richcande1-rca.github.io','http://localhost:8787','http://127.0.0.1:8787','http://localhost:8000','http://127.0.0.1:8000']);
 function headers(request){
@@ -34,7 +36,7 @@ async function rows(env,ruleset=RULESET){
  const order=ruleset===BACKWARDS_RULESET?'ASC':'DESC';
  const r=await env.DB.prepare('SELECT initials, score, build, created_at AS createdAt FROM luck_machine_entries WHERE ruleset = ? ORDER BY score '+order+', created_at ASC, id ASC LIMIT ?')
   .bind(ruleset,LIMIT).all();
- return r.results||[];
+ return (r.results||[]).map(item=>ruleset===BACKWARDS_RULESET?{...item,score:item.score-1}:item);
 }
 async function getBoard(req,env,ruleset=RULESET){return respond(req,{ok:true,game:'luck-machine',ruleset,limit:LIMIT,entries:await rows(env,ruleset)})}
 async function submit(req,env){
@@ -47,15 +49,16 @@ async function submit(req,env){
  const p=normalized(raw);
  if(p.error)return respond(req,{ok:false,error:p.error},400);
  const backwards=p.ruleset===BACKWARDS_RULESET;
+ const storedScore=backwards?p.score+1:p.score;
  const existing=await rows(env,p.ruleset);
  if(existing.length>=LIMIT&&(backwards?p.score>=Number(existing[LIMIT-1].score):p.score<=Number(existing[LIMIT-1].score)))
   return respond(req,{ok:false,error:'Score does not qualify for the world '+(backwards?'Bottom':'Top')+' 10.',entries:existing},409);
  // Avoid accidental retries creating duplicate entries.
  const dupe=await env.DB.prepare("SELECT id FROM luck_machine_entries WHERE ruleset=? AND initials=? AND score=? AND created_at >= datetime('now','-5 minutes') LIMIT 1")
-   .bind(p.ruleset,p.initials,p.score).first();
+   .bind(p.ruleset,p.initials,storedScore).first();
  if(!dupe){
   await env.DB.prepare("INSERT INTO luck_machine_entries (initials,score,build,ruleset) VALUES (?,?,?,?)")
-   .bind(p.initials,p.score,p.build,p.ruleset).run();
+   .bind(p.initials,storedScore,p.build,p.ruleset).run();
   // Keep only the best ten within this *game-specific* table.
   const order=backwards?'ASC':'DESC';
   await env.DB.prepare("DELETE FROM luck_machine_entries WHERE id IN (SELECT id FROM luck_machine_entries WHERE ruleset=? ORDER BY score "+order+",created_at ASC,id ASC LIMIT -1 OFFSET ?)")
