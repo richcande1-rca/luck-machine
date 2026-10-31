@@ -820,7 +820,7 @@ function bank(){
  const genuineNone=!state.call&&key==='none';
  const newHand=!isBackwards()&&!state.collected.has(key)&&(points>0||genuineNone);
  if(newHand)state.collected.add(key);
- if(points>0)state.handCounts[key]=(state.handCounts[key]||0)+1;
+ if(points>0||(!isBackwards()&&genuineNone))state.handCounts[key]=(state.handCounts[key]||0)+1;
  const eightComplete=categories.every(([cat])=>state.collected.has(cat));
  const eightBonus=!isBackwards()&&!state.collectionAwarded&&eightComplete?COLLECTION_BONUS:0;
  if(eightBonus)state.collectionAwarded=true;
@@ -885,7 +885,7 @@ async function refreshWorldDisplay(){
  }catch(error){
   if($('worldStatus')!==status)return;
   status.textContent=String(error?.message||'').includes('Worker update required')?
-   'TWELVE-TURN WORKER UPDATE REQUIRED · USE THE CLOUDFLARE DASHBOARD':
+   'PUBLISH CLOUDFLARE WORKER 1.13.0 TO ENABLE BACKWARDS BOARD':
    'TWELVE-TURN WORLD LEADERBOARD OFFLINE';
   status.dataset.offline='true';
   list.innerHTML='<p>Worldwide rankings are unavailable. Select REFRESH to try again.</p>'; 
@@ -948,7 +948,7 @@ function showMoreMobile(){
   [{text:'MANUAL',fn:showRules},{text:state.sound?'SOUND: ON':'SOUND: OFF',fn:()=>{$('soundBtn').click();showMoreMobile()}},
    {text:'AUDIO TEST',fn:showAudioCheck},{text:'CLOSE',fn:closeDialog}]);
 }
-function showRules(){openDialog('OPERATOR HANDBOOK','OPERATIONAL PROCEDURE',`<p><b>1.</b> Each game lasts 12 turns. You get up to three launches per turn (LAUNCH first, then RELAUNCH). Tap a die to HOLD or release it before the next roll.</p><p><b>2.</b> KEEP IT! holds all dice in matching groups with one click; it does not consume a roll. BANK after rolling to claim your best combination. Every successfully banked repeat of the same category earns a larger payout.</p><p><b>REPEATS:</b> Every scoring category qualifies. The first bank pays normally; the second pays 3×, third 5×, fourth 7×, and so on. Successful CALL IT! still doubles the hand payout, including its repeat multiplier. Failed calls earn zero and do not advance a repeat count.</p><p><b>COLLECTION:</b> Bank all eight distinct scoring hands for <b>100,000 POINTS</b> immediately. Bank a genuine <b>NO COMBINATION</b> as a ninth category; collecting all nine grants another <b>50,000 POINTS</b>. Each milestone pays only once. A failed CALL IT! cannot collect NO COMBINATION. The paytable marks collected categories.</p><p><b>SCORING:</b> Large straight pays <b>1,500</b> (small straight: 600). Pair: base + 10 × face; two pair: base + 10 × paired faces; three of a kind: base + 20 × face; full house: base + 20 × triple face + 10 × pair face; four of a kind: base + 50 × face; five of a kind: base + 100 × face. The panel shows ranges.</p><p><b>3.</b> CALL IT! after launch one or two to declare a better target. Score DOUBLE its actual payout (including any repeat multiplier) if successful or ZERO if not. The call cannot be canceled except by the one mulligan. Collection bonuses are never doubled.</p><p><b>MULLIGAN:</b> After any launch but before BANK or RESOLVE, use your single mulligan to discard the current turn (even a failed CALL IT!) and replay it with three fresh launches. Banked score and previous hands stay.</p><p><b>4.</b> After 12 turns, qualifying scores may be posted to the twelve-turn worldwide Top 10. Earlier game formats remain archived in Cloudflare but are not shown on this machine.</p><p><b>KEYS:</b> Space or Enter = LAUNCH / RELAUNCH; 1–5 = hold dice; K = auto-hold matching dice; B = bank/end turn/resolve; C = call; M = mulligan; Esc = close menu.</p><p><b>BACKWARDS MODE:</b> Select PLAY BACKWARDS to start a separate twelve-turn low-score session. BANK the smallest possible combinations, ideally NO COMBINATION for zero points. CALL IT! and collection bonuses are disabled; repeats still multiply payouts and the one mulligan remains. A separate world BOTTOM 10 ranks the lowest totals (zero is valid). Switching modes abandons the current session.</p>`,[{text:'ACKNOWLEDGED',fn:closeDialog}])}
+function showRules(){openDialog('OPERATOR HANDBOOK','OPERATIONAL PROCEDURE',`<p><b>1.</b> Each game lasts 12 turns. You get up to three launches per turn (LAUNCH first, then RELAUNCH). Tap a die to HOLD or release it before the next roll.</p><p><b>2.</b> KEEP IT! holds all dice in matching groups with one click; it does not consume a roll. BANK after rolling to claim your best combination. Every successfully banked repeat of the same category earns a larger payout.</p><p><b>REPEATS:</b> Every scoring category qualifies. The first bank pays normally; the second pays 3×, third 5×, fourth 7×, and so on. Successful CALL IT! still doubles the hand payout, including its repeat multiplier. Failed calls earn zero and do not advance a repeat count.</p><p><b>COLLECTION:</b> Bank all eight distinct scoring hands for <b>100,000 POINTS</b> immediately. Bank a genuine <b>NO COMBINATION</b> as a ninth category; collecting all nine grants another <b>50,000 POINTS</b>. Each milestone pays only once. A failed CALL IT! cannot collect NO COMBINATION. The paytable marks collected categories.</p><p><b>SCORING:</b> Large straight pays <b>1,500</b> (small straight: 600). Pair: base + 10 × face; two pair: base + 10 × paired faces; three of a kind: base + 20 × face; full house: base + 20 × triple face + 10 × pair face; four of a kind: base + 50 × face; five of a kind: base + 100 × face. The panel shows ranges.</p><p><b>3.</b> CALL IT! after launch one or two to declare a better target. Score DOUBLE its actual payout (including any repeat multiplier) if successful or ZERO if not. The call cannot be canceled except by the one mulligan. Collection bonuses are never doubled.</p><p><b>MULLIGAN:</b> After any launch but before BANK or RESOLVE, use your single mulligan to discard the current turn (even a failed CALL IT!) and replay it with three fresh launches. Banked score and previous hands stay.</p><p><b>4.</b> After 12 turns, qualifying scores may be posted to the worldwide Top 10 (classic) or Bottom 10 (backwards). Earlier formats remain archived in Cloudflare.</p><p><b>KEYS:</b> Space or Enter = LAUNCH / RELAUNCH; 1–5 = hold dice; K = auto-hold matching dice; B = bank/end turn/resolve; C = call; M = mulligan; Esc = close menu.</p><p><b>BACKWARDS MODE:</b> Select PLAY BACKWARDS to start a separate twelve-turn low-score session. BANK the smallest possible combinations, ideally NO COMBINATION for zero points. CALL IT! and collection bonuses are disabled; repeats still multiply payouts and the one mulligan remains. A separate world BOTTOM 10 ranks the lowest totals (zero is valid). Switching modes abandons the current session.</p>`,[{text:'ACKNOWLEDGED',fn:closeDialog}])}
 let postedThisSession=false,postingWorldScore=false;
 function validPlayerInitials(){
  const name=window.LMWorldBoard.cleanInitials($('initials')?.value||'');
@@ -977,7 +977,7 @@ function showEndGameBoard(){
  openDialog('СЕАНС ЗАВЕРШЁН / GAME OVER',isBackwards()?'12-TURN WORLD BOTTOM 10':'12-TURN WORLD TOP 10',
   '<div id="endgameBoard" class="endgame-board" data-final-score="'+state.total+'">'+
   '<div class="endgame-score"><span>FINAL SCORE / ИТОГ</span><strong>'+fmt(state.total)+'</strong></div>'+ (isBackwards()?'<p class="collection-victory">BACKWARDS · LOWEST SCORE WINS · NO BONUSES</p>':state.nineCollectionAwarded?'<p class="collection-victory">ALL NINE HANDS COLLECTED · +150,000 BONUS AWARDED</p>':state.collectionAwarded?'<p class="collection-victory">ALL EIGHT SCORING HANDS · +100,000 BONUS AWARDED</p>':'<p class="collection-summary">HAND COLLECTION: '+state.collected.size+' / 9</p>')+
-  '<p id="worldStatus" class="world-status" aria-live="polite">CONTACTING WORLD TOP 10...</p>'+
+  '<p id="worldStatus" class="world-status" aria-live="polite">CONTACTING WORLD BOARD...</p>'+
   '<div id="worldScoreList">'+scoreTable([])+'</div>'+
   '<div id="endgameEntry" class="endgame-entry" hidden>'+
   '<label class="label" for="initials">OPERATOR INITIALS (1–5)</label>'+
@@ -992,7 +992,7 @@ async function refreshEndGameBoard(){
  if(!panel||postingWorldScore)return;
  const status=$('worldStatus'),list=$('worldScoreList'),entry=$('endgameEntry');
  const finalScore=Number(panel.dataset.finalScore);
- status.textContent='CONTACTING WORLD TOP 10...';
+ status.textContent='CONTACTING WORLD BOARD...';
  endGameButtons();
  let qualifiesWorld=false;
  try{
@@ -1004,12 +1004,12 @@ async function refreshEndGameBoard(){
  }catch(error){
   if($('endgameBoard')!==panel||!state.finished)return;
   status.textContent=String(error?.message||'').includes('Worker update required')?
-   'CLOUDFLARE WORKER UPDATE REQUIRED · WORLD BOARD UNAVAILABLE':
+   'PUBLISH CLOUDFLARE WORKER 1.13.0 TO ENABLE BACKWARDS BOARD':
    'TWELVE-TURN WORLD LEADERBOARD OFFLINE · SCORE NOT SAVED';
   list.innerHTML='<p>Only worldwide scores are accepted. Select REFRESH to reconnect.</p>';
  }
  entry.hidden=!qualifiesWorld;
- $('submitStatus').textContent=qualifiesWorld?'WORLD TOP 10 QUALIFIED · ENTER INITIALS TO POST':'';
+ $('submitStatus').textContent=qualifiesWorld?(isBackwards()?'WORLD BOTTOM 10 QUALIFIED · ENTER INITIALS TO POST':'WORLD TOP 10 QUALIFIED · ENTER INITIALS TO POST'):'';
  if(qualifiesWorld){
   const input=$('initials');
   input.onkeydown=e=>{
@@ -1028,7 +1028,7 @@ async function submitWorldScore(){
  const finalScore=Number(panel.dataset.finalScore);
  postingWorldScore=true;
  const status=$('submitStatus');
- if(status)status.textContent='TRANSMITTING TO WORLD TOP 10...';
+ if(status)status.textContent=isBackwards()?'TRANSMITTING TO WORLD BOTTOM 10...':'TRANSMITTING TO WORLD TOP 10...';
  [...$('dialogFoot').querySelectorAll('button')].forEach(btn=>btn.disabled=true);
  try{
   const rows=await window.LMWorldBoard.submit(name,finalScore,MODE);
@@ -1036,7 +1036,7 @@ async function submitWorldScore(){
   
   if($('endgameBoard')!==panel)return;
   $('worldScoreList').innerHTML=scoreTable(rows);
-  $('worldStatus').textContent='SCORE POSTED TO WORLD TOP 10';
+  $('worldStatus').textContent=isBackwards()?'SCORE POSTED TO WORLD BOTTOM 10':'SCORE POSTED TO WORLD TOP 10';
   $('worldStatus').dataset.offline='false';
   $('endgameEntry').hidden=true;
   endGameButtons();
