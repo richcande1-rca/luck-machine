@@ -1,8 +1,8 @@
-/* LUCK MACHINE 1.12.0 — only the active twelve-turn worldwide board is accessible from the game. Historical records remain in Cloudflare. */
+/* LUCK MACHINE 1.12.1 — only the active twelve-turn worldwide board is accessible from the game. Historical records remain in Cloudflare. */
 (()=>{
  'use strict';
  const ENDPOINT='https://luck-machine-board.rich-gothic.workers.dev/api/board';
- const RULESET='face-v3-12',LIMIT=10,BUILD='1.12.0';
+ const RULESET='face-v3-12',LIMIT=10,BUILD='1.12.1';
  let entries=[],online=false,lastError='',busy=null;
  function cleanInitials(value){return String(value||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,5)}
  function scoreQualifies(n,board=entries){
