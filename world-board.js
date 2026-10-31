@@ -21,6 +21,7 @@
    const url=method==='GET'&&modeKey(mode)==='backwards'?ENDPOINT+'?ruleset='+encodeURIComponent(ruleset):ENDPOINT;
    const res=await fetch(url,{method,cache:'no-store',headers:{Accept:'application/json',...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{}),signal:controller.signal});
    const result=await res.json().catch(()=>({}));
+   if(!res.ok&&modeKey(mode)==='backwards'&&result.error==='Unknown scoring ruleset.')throw new Error('Cloudflare Worker update required: backwards leaderboard not deployed');
    const expected=ruleset;
    if(res.ok&&result.ok&&result.game==='luck-machine'&&Array.isArray(result.entries)&&result.ruleset!==expected){
     throw new Error('Cloudflare Worker update required: expected '+expected+', received '+String(result.ruleset));
