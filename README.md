@@ -1,6 +1,6 @@
 # LUCK MACHINE — Model 5D-20
 
-A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.12.1 — Eight-Hand Collection Rebalance.**
+A retro-industrial browser dice game styled as a fictional Soviet-era long-range command console. **Version 1.13.0 — Backwards Mode.**
 
 ## Play
 
@@ -10,14 +10,25 @@ Or download `index.html`, `audio.js`, `hardware.css`, `field.css`, `telemetry.cs
 
 ## Rules
 
-- Five illuminated dice with individual HOLD controls and a **KEEP IT!** button to hold all matching dice at once.
+- Two selectable modes: **CLASSIC** (highest score wins) and **BACKWARDS** (lowest score wins). Both use five illuminated dice with individual HOLD controls and a **KEEP IT!** button.
 - Three rolls per turn, **12 turns per game**.
 - Score poker-style dice combinations. Repeatedly banking any category earns escalating payouts: first 1×, second 3×, third 5×, fourth 7×, etc. A large straight pays **1,500 points** before repeat multipliers.
 - Bank all eight original scoring categories for an immediate **100,000-point collection bonus**, then bank **NO COMBINATION** too for another **50,000** on completing all nine. Failed calls cannot collect NO COMBINATION.
 - Bank your hand for points, or **CALL YOUR HAND** before your final roll to attempt a better combination for double the payout (including any repeat bonus); a failed call scores zero and does not increase repetition. Use your **one mulligan per game** to erase and replay any unbanked turn, even a failed CALL IT!.
-- The **twelve-turn WORLD TOP 10** is the only scoreboard offered in the game. The new `face-v3-12` ruleset separates repeat-hand scores from earlier formats. Existing Cloudflare D1 scores are retained as archives, but are not shown in-game. The Cloudflare Worker must support `face-v3-12` for worldwide scores. Deploy the latest `worker/src/index.js` to allow the increased score ceiling; no database reset is needed.
+- **Classic WORLD TOP 10** still uses `face-v3-12`; **Backwards WORLD BOTTOM 10** uses a separate `face-v3-12-backwards` ruleset ranked from lowest score to highest. Zero is a valid Backwards result. Historic classic records are preserved. To enable the Backwards online board, publish updated `worker/src/index.js` in Cloudflare; no D1 migration or score reset is necessary.
 
 Keyboard: **Space / Enter** = roll, **1–5** = toggle corresponding die, **K** = auto-hold matches, **B** = bank/end turn/resolve, **C** = call, **M** = mulligan (confirmation).
+
+## Backwards Mode (v1.13.0)
+
+Select **PLAY BACKWARDS** next to the MULLIGAN control (on phone or desktop); **PLAY CLASSIC** returns to the original game. Switching modes starts a separate session and asks for confirmation before abandoning an active one.
+
+- **Goal: finish 12 turns with the *lowest* possible score.** Three launches per turn, normal held-die mechanics, original face-aware hand payouts and escalating repeat multipliers are retained. Players can bank early rather than taking all three launches.
+- **NO COMBINATION** is the best outcome and banks **zero points**. No bonus is granted for collecting any hands; the eight- and nine-hand collection rewards are completely disabled.
+- **CALL IT!** is disabled to prevent intentionally forfeiting a turn for zero points. A single MULLIGAN remains available to replay an unbanked turn.
+- **WORLD BOTTOM 10** uses its own Cloudflare/D1 ruleset, `face-v3-12-backwards`, ranks scores **ascending** and accepts zero-point game totals. The original classic `face-v3-12` Top 10 continues unchanged. The worker's GET/POST routes and pruning are isolated by ruleset; previously posted classic scores are not modified.
+- **Deployment:** The game itself is published through GitHub Pages when the PR is merged, but **Backwards score posting requires manually publishing the updated `worker/src/index.js` to the existing Cloudflare Worker**. Until then the mode is playable but its world Bottom 10 will report that a Worker update is required. No schema change or D1 reset is needed.
+- **D1 compatibility:** The original table requires stored scores greater than zero. The Worker stores Backwards totals as **score + 1**, then subtracts one when returning them, so an actual **0** is supported without modifying the existing database. Classic scores are never offset.
 
 ## Eight-Hand Collection Rebalance (v1.12.1)
 
