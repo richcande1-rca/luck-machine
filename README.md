@@ -28,6 +28,7 @@ Select **PLAY BACKWARDS** next to the MULLIGAN control (on phone or desktop); **
 - **CALL IT!** is disabled to prevent intentionally forfeiting a turn for zero points. A single MULLIGAN remains available to replay an unbanked turn.
 - **WORLD BOTTOM 10** uses its own Cloudflare/D1 ruleset, `face-v3-12-backwards`, ranks scores **ascending** and accepts zero-point game totals. The original classic `face-v3-12` Top 10 continues unchanged. The worker's GET/POST routes and pruning are isolated by ruleset; previously posted classic scores are not modified.
 - **Deployment:** The game itself is published through GitHub Pages when the PR is merged, but **Backwards score posting requires manually publishing the updated `worker/src/index.js` to the existing Cloudflare Worker**. Until then the mode is playable but its world Bottom 10 will report that a Worker update is required. No schema change or D1 reset is needed.
+- **D1 compatibility:** The original table requires stored scores greater than zero. The Worker stores Backwards totals as **score + 1**, then subtracts one when returning them, so an actual **0** is supported without modifying the existing database. Classic scores are never offset.
 
 ## Eight-Hand Collection Rebalance (v1.12.1)
 
